@@ -26,11 +26,11 @@ When the server is up and the game has started you can run the program (`client/
 ### For a fake client
 
 A fake client is provided under `client/Fake` so that you can try exchanging messages with your robot. In order to use it you have
-to add or replace a team in the team file that will correspond to the fake client. You have to specify a type of `3` and give the
+to add or replace a team in the team file that will correspond to the fake client. You have to specify a type of `2` and give the
 IP address from which the fake client will connect (`127.0.0.1` if it will be running on the same computer as the server):
 
 ```
-3 127.0.0.1 Fake
+2 127.0.0.1 Fake
 ```
 
 Once a game is started, you can run the fake client by giving it the IP address of the server (`127.0.0.1` if it is running on the
@@ -40,7 +40,7 @@ same computer as the fake client) and the ID of the team corresponding to the fa
 $ ./client 127.0.0.1 0
 ```
 
-You can run multiple client from the same IP address but the server will consider that the first to connect is the one with the
+You can run multiple clients from the same IP address but the server will consider that the first to connect is the one with the
 smallest ID. So you'll want to be careful about the order in which the clients are started.
 
 
@@ -54,8 +54,8 @@ Run the server with an appropriate team file. Each line of the team file - provi
 [TYPE] [ADDR] [NAME]
 ```
 where:
-* `[TYPE]` : `1` for NXT, `2` for EV3
-* `[ADDR]` : in the form `aa:bb:cc:dd:ee:ff` is the bluetooth address
+* `[TYPE]` : `1` for bluetooth, `2` for network
+* `[ADDR]` : in the form `aa:bb:cc:dd:ee:ff` is the bluetooth address if type is 1, or in the form `aaa.bbb.ccc.ddd` for IP address if type is 2
 * `[NAME]` : is the name of the team
 
 You can then run the server as
@@ -70,14 +70,11 @@ if you wish to log the session.
 
 ## Protocol
 
-To communicate between each other, NXT and EV3 must comply with the specified protocol. Invalid messages will be discarded by the
+To communicate between each other, EV3 must comply with the specified protocol. Invalid messages will be discarded by the
 server so robots can always consider that received messages are well formatted (except for `CUSTOM` messages, whose structure is
 not pre-determined).
 
 Each message consists of a header and a body. Note that all numbers are unsigned integers whose formats are **little-endian**.
-
-An example trace for a standard exchange is provided in the following sequence diagram:
-![Sequence Diagram](robotseq.png)
 
 The protocol may evolve according to needs and proposals.
 
@@ -100,21 +97,6 @@ Fields description:
 
 ### Body
 
-#### ACTION
-
-ACTION messages are used to advertise an intended movement. They are 10-bytes long:
-```
-    0       1       2       3       4       5       6       7       8       9
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-|      ID       |  src  |  dst  |   0   |     angle     | dist  |     speed     |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-```
-
-Fields description:
-* `angle` is a 2-byte number representing the planned direction (in degree). Values over 360 have undefined meaning. This angle is given in an absolute value, that is, the difference between the intended angle and the angle measured at the begining of the game. As previously said, 2-byte numbers must be sent in little-endian coding. With the little endian coding, an angle of 350 gives `0x5E | 0x01`, or in binary format: `01011110 | 00000001`. 
-* `dist` is a 1-byte number representing the planned distance (in cm).
-* `speed` is a 2-byte number representing the planned speed (in mm/s).
-
 #### ACK
 
 ACK messages are used to acknowledge the reception of messages. They are 8-byte long:
@@ -131,9 +113,9 @@ Fields description:
 
 START and STOP messages should not be acknowledged.
 
-#### LEAD
+#### NEXT
 
-LEAD messages should only be used by the current leader in order to transfer leadership to the next robot. They are 5-byte long:
+NEXT messages should only be used by the currently moving robot in order to notify that it reached the destination area. They are 5-byte long:
 ```
     0       1       2       3       4
 +-------+-------+-------+-------+-------+
@@ -143,20 +125,19 @@ LEAD messages should only be used by the current leader in order to transfer lea
 
 #### START
 
-START messages can only be used by the server. One is sent to each team when the game starts. If the robot disconnect and reconnect
-during the game, another START message will be sent to it right after it connects to the server. They are 9-byte long:
+START messages can only be used by the server. One is sent to each team when the game starts. If the robot disconnects and reconnects
+during the game, another START message will be sent to it right after it connects to the server. They are 7-byte long:
 ```
-    0       1       2       3       4       5       6       7       8
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-|      ID       |  src  |  dst  |   3   | rank  | size  | prev  | next  |
-+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+    0       1       2       3       4       5       6       7
++-------+-------+-------+-------+-------+-------+-------+-------+
+|      ID       |  src  |  dst  |   3   | role  | side  | ally  |
++-------+-------+-------+-------+-------+-------+-------+-------+
 ```
 
 Fields description:
-* `rank` is the rank of the robot in the snake. It can be anything from `0` for the leader to `size-1` for the last robot.
-* `size` is the length of the snake, that is, how many robots are participating in this game.
-* `prev` is the ID of the previous robot in the snake. If there is no previous robot it will be `0xFF`.
-* `next` is the ID of the next robot in the snake. If there is no next robot it will be `0xFF`.
+* `role` is the role of the robot in the snake. It can be `0` for beginner or `1` for finisher.
+* `side` is the side in which the robot starts. `0` is for right side (x>0) and `1` is for left side (x<0). This is always `0` in the small stadium.
+* `ally` is the id of the robot in the same team as the target of the START message.
 
 #### STOP
 
@@ -167,20 +148,6 @@ STOP messages are sent by server to every robot when the game ends. They are 5-b
 |      ID       |  src  |  dst  |   4   |
 +-------+-------+-------+-------+-------+
 ```
-
-#### WAIT
-
-WAIT messages can be sent to the robot in front to request for a halt. It is up to the receiving robot to answer or ignore them.
-WAIT messages are 6-bytes long.
-```
-    0       1       2       3       4       5
-+-------+-------+-------+-------+-------+-------+
-|      ID       |  src  |  dst  |   5   | delay |
-+-------+-------+-------+-------+-------+-------+
-```
-
-Fields description:
-* `delay` is the reqested halt time (in s).
 
 #### CUSTOM
 
@@ -195,29 +162,14 @@ a size greater than 58 bytes (header included).
 
 #### KICK
 
-KICK messages can only be used by the server. This message is used to advertise that a robot got kicked out of the game. It is sent
-to every robot in the game. The message is 8-bytes long:
-```
-    0       1       2       3       4       5       6       7
-+-------+-------+-------+-------+-------+-------+-------+-------+
-|      ID       |  src  |  dst  |   7   | rank  | prev  | next  |
-+-------+-------+-------+-------+-------+-------+-------+-------+
-```
-
-Fields description:
-* `rank` is the rank of the robot that was kicked. It is the rank the robot was granted at the begining of the game, and not its current actual rank.
-* `prev` is the ID of the previous robot in the snake. If there is no previous robot it will be `0xFF`.
-* `next` is the ID of the next robot in the snake. If there is no next robot it will be `0xFF`.
-
-#### CANCEL
-
-CANCEL messages are used to notify that the previous advertised movement has been aborted. They are 6-bytes long:
+KICK messages can only be sent by the server. This message is used to advertise that a robot got kicked out of the game. It is sent
+to every robot in the game. The message is 6-bytes long:
 ```
     0       1       2       3       4       5
 +-------+-------+-------+-------+-------+-------+
-|      ID       |  src  |  dst  |   8   | dist  |
+|      ID       |  src  |  dst  |   7   |  id   |
 +-------+-------+-------+-------+-------+-------+
 ```
 
 Fields description:
-* `dist` is a 1-byte number representing the distance (in cm) crossed since the aborted movement was advertised. A value of `0xFF` is used if this distance is unknown.
+* `id` is the id of the robot that was kicked.
