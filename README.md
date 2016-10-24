@@ -173,3 +173,18 @@ to every robot in the game. The message is 6-bytes long:
 
 Fields description:
 * `id` is the id of the robot that was kicked.
+
+#### POSITION
+
+POSITION messages must be sent by robots every 2 seconds. This message is used to advertise the expected position of the robot.
+The message is 9-bytes long:
+```
+    0       1       2       3       4       5       6       7       8
++-------+-------+-------+-------+-------+-------+-------+-------+-------+
+|      ID       |  src  |  0XFF |   6   |       x       |       y       |
++-------+-------+-------+-------+-------+-------+-------+-------+-------+
+```
+
+Fields description:
+* `x` is the x coordinate of the robot.
+* `y` is the y coordinate of the robot.

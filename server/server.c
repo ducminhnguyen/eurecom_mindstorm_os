@@ -340,6 +340,32 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 log (KRED, "*** Tried to KICK a player ***\n");
                 return;
             }
+        case MSG_POSITION:
+            {
+                /* POSITION */
+                int16_t x, y;
+
+                if (nbbytes < 9) {
+                    log (KRED, "*** POSITION message is too short (%d bytes) ***\n", nbbytes);
+                    return;
+                }
+
+                if (buf[3] != 0xFF) {
+                    log (KRED, "*** Can't send POSITION message to team ");
+                    log (COL(buf[3]), "%s", game.teams[buf[3]].name);
+                    log (KRED, " ***\n");
+                    return;
+                }
+
+                x = *((int16_t *) &buf[5]);
+                y = *((int16_t *) &buf[7]);
+
+                log (KNRM, "id=%d", id);
+                log (KNRM, alinea);
+                log (KNRM, "          POSITION x=%d y=%d\n", x, y);
+
+                break;
+            }
         default:
             {
                 log (KRED, "*** unkown message type 0x%02X ***\n", (unsigned char) buf[4]);

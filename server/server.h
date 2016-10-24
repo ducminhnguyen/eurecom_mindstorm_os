@@ -22,6 +22,7 @@
 #define MSG_STOP            3
 #define MSG_CUSTOM          4
 #define MSG_KICK            5
+#define MSG_POSITION        6
 
 struct team {
     int sock;
