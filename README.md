@@ -103,7 +103,7 @@ ACK messages are used to acknowledge the reception of messages. They are 8-byte 
 ```
     0       1       2       3       4       5       6       7
 +-------+-------+-------+-------+-------+-------+-------+-------+
-|      ID       |  src  |  dst  |   1   |    ID ack     | state |
+|      ID       |  src  |  dst  |   0   |    ID ack     | state |
 +-------+-------+-------+-------+-------+-------+-------+-------+
 ```
 
@@ -119,7 +119,7 @@ NEXT messages should only be used by the currently moving robot in order to noti
 ```
     0       1       2       3       4
 +-------+-------+-------+-------+-------+
-|      ID       |  src  |  dst  |   2   |
+|      ID       |  src  |  dst  |   1   |
 +-------+-------+-------+-------+-------+
 ```
 
@@ -130,7 +130,7 @@ during the game, another START message will be sent to it right after it connect
 ```
     0       1       2       3       4       5       6       7
 +-------+-------+-------+-------+-------+-------+-------+-------+
-|      ID       |  src  |  dst  |   3   | role  | side  | ally  |
+|      ID       |  src  |  dst  |   2   | role  | side  | ally  |
 +-------+-------+-------+-------+-------+-------+-------+-------+
 ```
 
@@ -145,7 +145,7 @@ STOP messages are sent by server to every robot when the game ends. They are 5-b
 ```
     0       1       2       3       4
 +-------+-------+-------+-------+-------+
-|      ID       |  src  |  dst  |   4   |
+|      ID       |  src  |  dst  |   3   |
 +-------+-------+-------+-------+-------+
 ```
 
@@ -156,7 +156,7 @@ a size greater than 58 bytes (header included).
 ```
     0       1       2       3       4        5      . . .
 +-------+-------+-------+-------+-------+-----------------
-|      ID       |  src  |  dst  |   6   |   payload . . .
+|      ID       |  src  |  dst  |   4   |   payload . . .
 +-------+-------+-------+-------+-------+-----------------
 ```
 
@@ -167,7 +167,7 @@ to every robot in the game. The message is 6-bytes long:
 ```
     0       1       2       3       4       5
 +-------+-------+-------+-------+-------+-------+
-|      ID       |  src  |  dst  |   7   |  id   |
+|      ID       |  src  |  dst  |   5   |  id   |
 +-------+-------+-------+-------+-------+-------+
 ```
 

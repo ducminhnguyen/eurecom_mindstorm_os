@@ -1,0 +1,6 @@
+# Format is [TYPE] [ADDR] [NAME]
+# where [TYPE] : 1 for bluetooth, 2 for network (or for fake client)
+#       [ADDR] : aa:bb:cc:dd:ee:ff is the bluetooth address if type is 1
+#                aaa.bbb.ccc.ddd is the IP address if type is 2
+#       [NAME] : is the name of the team
+
