@@ -1,6 +1,12 @@
 # EURECOM OS Contest Server
 # Main website: http://soc.eurecom.fr/OS/projects_fall2016.html
 
+***THIS SERVER IS STILL UNDER DEVELOPMENT. IF YOU NEED TO DEBUG THE CONNECTION WITH YOUR ROBOT, PLEASE USE INET AND RUN THE FOLLOWING COMMAND ON YOUR LAPTOP:***
+```
+$ stdbuf -oL xxd -r -p | nc -l -p 8888 | xxd -c 1
+```
+
+
 A simple server that enables bluetooth communication between a set EV3 Lego Mindstorm.
 
 It is first intended to be used in the OS course of EURECOM but part or all of it can be freely reused by anyone.
