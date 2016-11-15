@@ -51,6 +51,13 @@ int teamFromRank [MAXTEAM];
 
 int colWidth;
 
+const char * rankAsString[] = {
+    "R B",
+    "R F",
+    "L B",
+    "L F"
+};
+
 void curses_notify () {
     int i, max=0;
 
@@ -77,25 +84,24 @@ void curses_notify () {
             wattron (teamwin, COLOR_PAIR (bgCol+0));
             wmove (teamwin, rankFromActiveTeam(&game.teams[i]), 0);
             teamFromRank [rankFromActiveTeam(&game.teams[i])] = i;
-            wprintw (teamwin, " %2d ", rankFromActiveTeam(&game.teams[i])+1);
+            wprintw (teamwin, " %s ", rankAsString[rankFromActiveTeam(&game.teams[i])]);
         } else {
             if (max == rankSelect)
                 bgCol = 10;
             wattron (teamwin, COLOR_PAIR (bgCol+0));
             teamFromRank [max] = i;
             wmove (teamwin, max++, 0);
-            wprintw (teamwin, "    ");
+            wprintw (teamwin, "     ");
         }
 
         wattron (teamwin, COLOR_PAIR (bgCol+COL(i)));
         wprintw (teamwin, "%s", game.teams[i].name);
 
-        l = colWidth - strlen (game.teams[i].name) - 15;
+        l = colWidth - strlen (game.teams[i].name) - 16;
         for (j=0; j<l; j++)
             wprintw (teamwin, " ");
 
         wattron (teamwin, COLOR_PAIR (bgCol+0));
-        /* TODO: replace by L/R B/F */
         wprintw (teamwin, "     ");
 
         if (game.teams[i].kicked)
@@ -124,10 +130,10 @@ char curses_init () {
 
     start_color();
 
-    colWidth = 15+MAXNAMESIZE;
+    colWidth = 16+MAXNAMESIZE;
     colWidth = colWidth > 45 ? colWidth : 45;
 
-    if (LINES < game.nbTeams+8 || COLS < MAXNAMESIZE+15 + colWidth) {
+    if (LINES < game.nbTeams+8 || COLS < MAXNAMESIZE+16 + colWidth) {
         endwin ();
         fprintf (stderr, "Window is too small! (%dx%d)\n", LINES, COLS);
         return 0;
