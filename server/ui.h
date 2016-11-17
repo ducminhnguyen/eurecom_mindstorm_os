@@ -30,7 +30,7 @@ struct observerMethods {
 
 char init_gui (char curses, struct observerMethods *GUI);
 
-void __log (int color, const char *fmt, ...);
+void __mylog (int color, const char *fmt, ...);
 void debug (int lvl, int color, const char *fmt, ...);
 
 #define LOGLINESIZE         150

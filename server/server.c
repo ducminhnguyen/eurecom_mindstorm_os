@@ -6,9 +6,11 @@
 #include <time.h>
 #include <sys/socket.h>
 #include <sys/select.h>
+#include <arpa/inet.h>
 
 #include "server.h"
 #include "ui.h"
+#include "graphics.h"
 
 #define CONNECT_DELAY       155
 #define SELECT_TO           200
@@ -21,7 +23,7 @@ struct observerMethods GUI;
 FILE *logFile = NULL;
 char debugLvl = 0;
 
-#define log     __log
+#define log     __mylog
 
 int read_from_client (struct team *t, char *buffer, int maxSize) {
     int nbytes;
@@ -121,8 +123,7 @@ int load_teams_file (const char *filename) {
         if (game.teams[i].robotType != RBT_EV3_IN)
             str2ba (buf+2, &game.teams[i].address.bt);
         else
-            /* FIXME: inet_aton is deprecated */
-            if (inet_aton (buf+2, &game.teams[i].address.in) == 0) {
+            if (inet_pton (AF_INET, buf+2, &game.teams[i].address.in) == 0) {
                 printf ("[" "\x1B[31m" "KO" RESET "]\n");
                 fprintf (stderr, "Error in team file %s (l.%d)\n", filename, j);
                 exit (EXIT_FAILURE);
@@ -177,7 +178,7 @@ void sendKick (int teamID) {
     log (KRED, " has been kicked!\n");
 
     if (game.leaders[game.teams[teamID].side] == teamID) {
-        char ally = game.teams[game.teams[teamID].side].ally;
+        unsigned char ally = game.teams[game.teams[teamID].side].ally;
         game.leaders[game.teams[teamID].side] = ally;
         if (game.teams[ally].connected) {
             log (KNRM, alinea);
@@ -508,6 +509,11 @@ int main (int argc, char **argv) {
         exit (EXIT_FAILURE);
     }
 
+    if (graphicsInit () < 0) {
+        fprintf (stderr, "Couln't init graphics...\n");
+        exit (EXIT_FAILURE);
+    }
+
     for (c=0; c<MAXNAMESIZE+3; c++)
         alinea[c] = ' ';
 
@@ -557,6 +563,15 @@ int main (int argc, char **argv) {
         game.state = GAM_CONNECTING;
 
         (*GUI.monitorMaster) ();
+        if (graphicsInitWindow (
+                    game.leaders[0],
+                    game.teams[game.leaders[0]].ally,
+                    rankCmp == 4 ? game.leaders[1] : -1,
+                    rankCmp == 4 ? game.teams[game.leaders[1]].ally : -1
+                    ) < 0) {
+            log (KNRM, alinea);
+            log (KRED, "Failed to init graphics window...\n");
+        }
 
         while (game.state == GAM_CONNECTING || game.state == GAM_RUNNING) {
             int selectRet, everyoneConnected;
@@ -764,6 +779,8 @@ int main (int argc, char **argv) {
             }
         }
 
+        graphicsDestroyWindow ();
+
         log (KNRM, "\n");
         log (KNRM, alinea);
         log (KRED, "End of this game.\n\n");
@@ -792,6 +809,7 @@ int main (int argc, char **argv) {
     log (KRED, "End of the contest.\n");
 
     (*GUI.destroyUI) ();
+    graphicsQuit ();
 
     if (logFile)
         fclose (logFile);

@@ -10,7 +10,7 @@ int const playerColors [] = {
     KCYN
 };
 
-inline void __log (int color, const char *fmt, ...) {
+inline void __mylog (int color, const char *fmt, ...) {
     va_list argp;
 
     va_start (argp, fmt);

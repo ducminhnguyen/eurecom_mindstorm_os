@@ -58,6 +58,12 @@ const char * rankAsString[] = {
     "L F"
 };
 
+int rankFromActiveTeam(struct team *team) {
+    if (!team->active && !team->kicked && !team->ended)
+        return -1;
+    return team->side*2 + (&game.teams[game.leaders[team->side]] != team);
+}
+
 void curses_notify () {
     int i, max=0;
 
@@ -256,12 +262,6 @@ void curses_log (FILE *out, int color, const char *fmt, va_list argp) {
     pthread_mutex_unlock (&ui_lock);
 }
 
-int rankFromActiveTeam(struct team *team) {
-    if (!team->active && !team->kicked && !team->ended)
-        return -1;
-    return team->side*2 + (&game.teams[game.leaders[team->side]] != team);
-}
-
 void setActiveTeamFromRank(unsigned char teamRank, int rank) {
     struct team *team = &game.teams[teamRank];
     team->side = rank/2;
@@ -443,17 +443,19 @@ void * threadMonitor (void * __dummy) {
                 break;
         }
     }
+
+    return NULL;
 }
 
 void curses_monitorMaster () {
     if (pthread_create (&tid, NULL, &threadMonitor, NULL) != 0) {
-        __log (KRED, "Failed to create thread!\n");
+        __mylog (KRED, "Failed to create thread!\n");
         game.state = GAM_END;
         return;
     }
 
     if (pthread_mutex_init(&game.lock, NULL) != 0) {
-        __log (KRED, "Failed to init lock!\n");
+        __mylog (KRED, "Failed to init lock!\n");
         game.state = GAM_END;
         return;
     }
