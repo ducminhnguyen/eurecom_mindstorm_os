@@ -66,7 +66,9 @@ void beginner () {
     	string[3] = 0xFF;
     	string[4] = MSG_POSITION;
     	string[5] = i;          /* x */
+		string[6] = 0x00;
     	string[7] = i;		/* y */
+		string[8]= 0x00;
 		write(s, string, 9);
     }
     *((uint16_t *) string) = msgId++;
@@ -97,7 +99,9 @@ void finisher () {
     		    string[3] = 0xFF;
     		    string[4] = MSG_POSITION;
     		    string[5] = 0x00;          /* x */
+				string[6]= 0x00;
     		    string[7] = 0x00;	    /* y */
+				string[8] = 0x00;
  	   		 	write(s, string, 9);
         	    break;
         	default:
