@@ -229,7 +229,7 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
         return;
     }
 
-    if (!game.teams[buf[3]].connected) {
+    if (buf[3] != 0xFF && !game.teams[buf[3]].connected) {
         log (KRED, "*** Team ");
         log (COL(buf[3]), "%s", game.teams[buf[3]].name);
         log (KRED, " is not connected. Message discarded ***\n");

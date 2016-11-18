@@ -518,6 +518,8 @@ void * userMonitor (void * __dummy) {
                     if (key == MSG_ACK) {
                         fields[1] = lastMsgID;
                         fields[0] = lastSender;
+                    } else if (key == MSG_POSITION) {
+                        fields[0] = 0xFF;
                     }
                 }
             } else {
