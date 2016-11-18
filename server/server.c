@@ -224,7 +224,7 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
         return;
     }
 
-    if (buf[3] >= game.nbTeams || !game.teams[buf[3]].active) {
+    if (buf[3] != 0xFF && (buf[3] >= game.nbTeams || !game.teams[buf[3]].active)) {
         log (KRED, "*** unkown or inactive receiver (%d) ***\n", buf[3]);
         return;
     }
