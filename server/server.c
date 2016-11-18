@@ -380,6 +380,7 @@ void usage (const char *execName) {
     fprintf (stderr, "             -h: print this message\n");
     fprintf (stderr, "             -v: verbose mode\n");
     fprintf (stderr, "             -x: use terminal instead of curses\n");
+    fprintf (stderr, "             -d: display robot's advertised path\n");
     fprintf (stderr, "  -o outputFile: log session into file\n");
 }
 
@@ -392,6 +393,7 @@ int main (int argc, char **argv) {
     socklen_t opt_in = sizeof(rem_addr_in);
     fd_set read_fd_set;
     char curses = 1;
+    char displayPath = 0;
     int c;
 
     char buf[MAXMSG+1] = { 0 };
@@ -400,10 +402,13 @@ int main (int argc, char **argv) {
 
     opterr = 0;
 
-    while ((c = getopt (argc, argv, "hxvo:")) != -1)
+    while ((c = getopt (argc, argv, "hxdvo:")) != -1)
         switch (c) {
             case 'x':
                 curses = 0;
+                break;
+            case 'd':
+                displayPath = 1;
                 break;
             case 'v':
                 debugLvl = 1;
@@ -509,7 +514,7 @@ int main (int argc, char **argv) {
         exit (EXIT_FAILURE);
     }
 
-    if (graphicsInit () < 0) {
+    if (displayPath && graphicsInit () < 0) {
         fprintf (stderr, "Couln't init graphics...\n");
         exit (EXIT_FAILURE);
     }
@@ -563,7 +568,7 @@ int main (int argc, char **argv) {
         game.state = GAM_CONNECTING;
 
         (*GUI.monitorMaster) ();
-        if (graphicsInitWindow (
+        if (displayPath && graphicsInitWindow (
                     game.leaders[0],
                     game.teams[game.leaders[0]].ally,
                     rankCmp == 4 ? game.leaders[1] : -1,
@@ -779,7 +784,8 @@ int main (int argc, char **argv) {
             }
         }
 
-        graphicsDestroyWindow ();
+        if (displayPath)
+            graphicsDestroyWindow ();
 
         log (KNRM, "\n");
         log (KNRM, alinea);
@@ -809,7 +815,8 @@ int main (int argc, char **argv) {
     log (KRED, "End of the contest.\n");
 
     (*GUI.destroyUI) ();
-    graphicsQuit ();
+    if (displayPath)
+        graphicsQuit ();
 
     if (logFile)
         fclose (logFile);
