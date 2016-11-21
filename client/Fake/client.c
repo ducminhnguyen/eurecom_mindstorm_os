@@ -546,7 +546,7 @@ int main(int argc, char **argv) {
         usage (argv[0]);
 
     teamID = atoi (argv[2]);
-    if (teamID > 254 || teamID < 0)
+    if (teamID > 254 || teamID <= 0)
         usage (argv[0]);
 
     /* allocate a socket */
