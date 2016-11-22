@@ -14,6 +14,7 @@
 #define MSG_CUSTOM          4
 #define MSG_KICK            5
 #define MSG_POSITION        6
+#define MSG_BALL            7
 
 #define INET_PORT   8888
 
@@ -199,6 +200,7 @@ int s;
 int teamID;
 
 uint16_t msgId = 0;
+uint16_t servMsgId = 0;
 
 int read_from_server (int sock, char *buffer, size_t maxSize) {
     int bytes_read = read (sock, buffer, maxSize);
@@ -323,6 +325,18 @@ void parseMessage (const unsigned char *buf, int nbbytes) {
 
                 return;
             }
+        case MSG_BALL:
+            {
+                /* BALL */
+                int16_t x, y;
+
+                x = *((int16_t *) &buf[6]);
+                y = *((int16_t *) &buf[8]);
+
+                curses_log (KRED, "BALL     %s x=%d y=%d\n", buf[5] ? "PICK" : "DROP", x, y);
+
+                break;
+            }
         default:
             {
                 curses_log (KRED, "*** unkown message type 0x%02X ***\n", buf[4]);
@@ -401,13 +415,21 @@ struct {
                    {NULL, 0},
                    {NULL, 0}
                }
+    },
+    {"BALL", {
+                   {"dst", 1},
+                   {"act", 1},
+                   {"x", 2},
+                   {"y", 2},
+                   {NULL, 0}
+               }
     }
 };
 
 void monitor_com () {
     int i;
     wbkgd(comwin,COLOR_PAIR(1));
-    for (i=1; i<=8; i++)
+    for (i=1; i<=9; i++)
         mvwprintw (comwin, i,  1, "                                            ");
 
     curs_set(0);
@@ -416,7 +438,7 @@ void monitor_com () {
         if (actionSelected == -1) {
             rankSelect = 0;
             mvwprintw (comwin, 1,  1, "Send message:");
-            for (i=0; i<7; i++)
+            for (i=0; i<8; i++)
                 if (protocol[i].name != NULL)
                     mvwprintw (comwin, 2+i,  1, "     %d: %s", i, protocol[i].name);
         } else {
@@ -447,7 +469,11 @@ void sendMessage () {
     int index = 5;
     int i;
 
-    *((uint16_t *) string) = msgId++;
+    if (actionSelected == MSG_POSITION) {
+        *((uint16_t *) string) = servMsgId++;
+    } else {
+        *((uint16_t *) string) = msgId++;
+    }
     string[2] = teamID;
     string[3] = fields[0];
     string[4] = actionSelected;
@@ -510,7 +536,7 @@ void * userMonitor (void * __dummy) {
             key -= '0';
 
             if (actionSelected == -1) {
-                if (key < 7 && key != MSG_CUSTOM) {
+                if (key < 8 && key != MSG_CUSTOM) {
                     actionSelected = key;
                     fields[0] = ally;
                     for (i=1; i<MAXPARAM; i++)

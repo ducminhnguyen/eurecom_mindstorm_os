@@ -230,13 +230,6 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
         return;
     }
 
-    if (buf[3] != 0xFF && !game.teams[buf[3]-1].connected) {
-        log (KRED, "*** Team ");
-        log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
-        log (KRED, " is not connected. Message discarded ***\n");
-        return;
-    }
-
     id = *((uint16_t *) buf);
 
     switch (buf[4]) {
@@ -264,7 +257,16 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 log (KNRM, alinea);
                 log (KNRM, "          ACK      idAck=%d status=%d\n", idAck, buf[7]);
 
-                write_to_client (&game.teams[buf[3]-1], (char *) buf, 8);
+                if (buf[3] != 0xFF && !game.teams[buf[3]-1].connected) {
+                    log (KRED, "*** Team ");
+                    log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
+                    log (KRED, " is not connected. Message discarded ***\n");
+                    return;
+                }
+
+                if (buf[3] != 0xFF) {
+                    write_to_client (&game.teams[buf[3]-1], (char *) buf, 8);
+                }
 
                 break;
             }
@@ -273,6 +275,11 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 /* NEXT */
                 if (game.leaders[game.teams[sendingTeam].side] != sendingTeam) {
                     log (KRED, "*** Tried to send NEXT message while not being the leader ***\n");
+                    return;
+                }
+
+                if (buf[3] == 0xFF) {
+                    log (KRED, "*** Can't send NEXT message to server ***\n");
                     return;
                 }
 
@@ -288,11 +295,18 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 log (KNRM, alinea);
                 log (KNRM, "          NEXT\n");
 
-                write_to_client (&game.teams[buf[3]-1], (char *) buf, 5);
-
                 game.leaders[game.teams[sendingTeam].side] = game.teams[sendingTeam].ally;
 
                 (*GUI.notify) ();
+
+                if (!game.teams[buf[3]-1].connected) {
+                    log (KRED, "*** Team ");
+                    log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
+                    log (KRED, " is not connected. Message discarded ***\n");
+                    return;
+                }
+
+                write_to_client (&game.teams[buf[3]-1], (char *) buf, 5);
 
                 break;
             }
@@ -313,6 +327,11 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 /* CUSTOM */
                 int i;
 
+                if (buf[3] == 0xFF) {
+                    log (KRED, "*** Can't send CUSTOM message to server ***\n");
+                    return;
+                }
+
                 if (buf[3]-1 != game.teams[sendingTeam].ally) {
                     log (KRED, "*** Can't send CUSTOM message to team ");
                     log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
@@ -331,6 +350,13 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 }
                 log (KNRM, "\n");
 
+                if (!game.teams[buf[3]-1].connected) {
+                    log (KRED, "*** Team ");
+                    log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
+                    log (KRED, " is not connected. Message discarded ***\n");
+                    return;
+                }
+
                 write_to_client (&game.teams[buf[3]-1], (char *) buf, nbbytes);
 
                 break;
@@ -345,6 +371,10 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
             {
                 /* POSITION */
                 int16_t x, y;
+                if (game.leaders[game.teams[sendingTeam].side] != sendingTeam) {
+                    log (KRED, "*** Tried to send POSITION message while not being the leader ***\n");
+                    return;
+                }
 
                 if (nbbytes < 9) {
                     log (KRED, "*** POSITION message is too short (%d bytes) ***\n", nbbytes);
@@ -366,6 +396,59 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 log (KNRM, "          POSITION x=%d y=%d\n", x, y);
 
                 addCoordinate (sendingTeam, x, y);
+
+                break;
+            }
+        case MSG_BALL:
+            {
+                /* BALL */
+                int16_t x, y;
+                if (game.leaders[game.teams[sendingTeam].side] != sendingTeam) {
+                    log (KRED, "*** Tried to send BALL message while not being the leader ***\n");
+                    return;
+                }
+
+                if (nbbytes < 10) {
+                    log (KRED, "*** BALL message is too short (%d bytes) ***\n", nbbytes);
+                    return;
+                }
+
+                if (buf[3] == 0xFF) {
+                    log (KRED, "*** Can't send BALL message to server ***\n");
+                    return;
+                }
+
+                if (buf[3]-1 != game.teams[sendingTeam].ally) {
+                    log (KRED, "*** Can't send BALL message to team ");
+                    log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
+                    log (KRED, " ***\n");
+                    return;
+                }
+
+                if (buf[5] > 1) {
+                    log (KRED, "*** Illegal BALL action (%d) ***\n", buf[5]);
+                    return;
+                }
+
+                /* TODO: prevent the same team to send a BALL message twice */
+
+                x = *((int16_t *) &buf[6]);
+                y = *((int16_t *) &buf[8]);
+
+                log (KNRM, "id=%d", id);
+                log (KNRM, alinea);
+                log (KNRM, "          BALL %s x=%d y=%d\n", buf[5] ? "PICK" : "DROP", x, y);
+
+                ballAction (buf[5] ? sendingTeam : game.teams[sendingTeam].ally, x, y);
+
+                if (!game.teams[buf[3]-1].connected) {
+                    log (KRED, "*** Team ");
+                    log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
+                    log (KRED, " is not connected. Message discarded ***\n");
+                    return;
+                }
+
+                write_to_client (&game.teams[buf[3]-1], (char *) buf, 10);
 
                 break;
             }

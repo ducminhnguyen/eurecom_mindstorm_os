@@ -194,3 +194,19 @@ The message is 9-bytes long:
 Fields description:
 * `x` is the x coordinate of the robot.
 * `y` is the y coordinate of the robot.
+
+#### BALL
+
+BALL messages should only be used by the currently moving robot in order to notify to its ally that it dropped or picked up the ball. Along with this message, the robot advertises the expected position of the ball.
+The message is 10-bytes long:
+```
+    0       1       2       3       4       5       6       7       8       9
++-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+|      ID       |  src  |  dst  |   7   |  act  |       x       |       y       |
++-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+```
+
+Fields description:
+* `act` is `0` if the robot dropped the ball or `1` if it picked it up.
+* `x` is the x coordinate of the ball.
+* `y` is the y coordinate of the ball.

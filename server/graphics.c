@@ -67,6 +67,7 @@ SDL_Window *window = NULL;
 SDL_GLContext openGLContext;
 struct coordinate * coordinates = NULL;
 struct coordinate * newCoordinates[4];
+struct coordinate ballCoordinates[4];
 unsigned char teamIndex[15];
 int nbPlayers;
 pthread_mutex_t lock;
@@ -82,8 +83,30 @@ void drawCurrentPos (int x, int y) {
     glEnd ();
 }
 
+void drawBalls () {
+    int i;
+
+    pthread_mutex_lock (&lock);
+
+    for (i=0; i<4; i++) {
+        if (ballCoordinates[i].y >= 0) {
+            glColor3f (.2,.2,.2);
+            glBegin(GL_QUADS);
+                glVertex2f(ballCoordinates[i].x-3, ballCoordinates[i].y-3);
+                glVertex2f(ballCoordinates[i].x-3, ballCoordinates[i].y+3);
+                glVertex2f(ballCoordinates[i].x+3, ballCoordinates[i].y+3);
+                glVertex2f(ballCoordinates[i].x+3, ballCoordinates[i].y-3);
+            glEnd();
+        }
+    }
+
+    pthread_mutex_unlock (&lock);
+}
+
 void drawPath () {
     int team;
+
+    pthread_mutex_lock (&lock);
 
     for (team=0; team<15; team++) {
         if (teamIndex[team] != 255) {
@@ -107,6 +130,8 @@ void drawPath () {
             }
         }
     }
+
+    pthread_mutex_unlock (&lock);
 }
 
 void drawStartDestArea (int x, int y) {
@@ -199,8 +224,18 @@ void drawArena () {
 
 void glLoop () {
     while (window) {
-        pthread_mutex_lock (&lock);
+        SDL_Event event;
+
         if (!window) break;
+
+        while (SDL_PollEvent(&event)) {
+            switch(event.type) {
+                case SDL_QUIT:
+                    graphicsDestroyWindow ();
+                    return;
+            }
+        }
+
 
         /* Clear buffer */
         glClear (GL_COLOR_BUFFER_BIT);
@@ -210,9 +245,9 @@ void glLoop () {
 
         drawArena ();
 
-        drawPath ();
+        drawBalls ();
 
-        pthread_mutex_unlock (&lock);
+        drawPath ();
 
         SDL_GL_SwapWindow (window);
 
@@ -313,12 +348,36 @@ int graphicsInitWindow (int team1, int team2, int team3, int team4) {
             teamIndex[((int *) teams)[i]] = i;
         }
     }
+    for (i=0; i<4; i++) {
+        ballCoordinates[i].y = -1;
+    }
 
     if (pthread_create (&tid, NULL, &graphicsInitWindowAux, teams) != 0) {
         return -1;
     }
 
     return 0;
+}
+
+void ballAction (int team, int x, int y) {
+    if (!window)
+        return;
+    if (teamIndex[team] == 255)
+        return;
+
+    if (ballCoordinates[teamIndex[team]].y < 0) {
+        if (x > 120 || x < -120 || (x < 0 && nbPlayers == 2) || y < 0 || y > 100 * nbPlayers)
+            return;
+
+        pthread_mutex_lock (&lock);
+        ballCoordinates[teamIndex[team]].x = x;
+        ballCoordinates[teamIndex[team]].y = y;
+        pthread_mutex_unlock (&lock);
+    } else {
+        pthread_mutex_lock (&lock);
+        ballCoordinates[teamIndex[team]].y = -1;
+        pthread_mutex_unlock (&lock);
+    }
 }
 
 void addCoordinate (int team, int x, int y) {

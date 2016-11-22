@@ -23,6 +23,7 @@
 #define MSG_CUSTOM          4
 #define MSG_KICK            5
 #define MSG_POSITION        6
+#define MSG_BALL            7
 
 struct team {
     int sock;
