@@ -55,6 +55,7 @@ struct game {
     pthread_mutex_t lock;
     char state;
     unsigned char leaders[2];
+    unsigned char ballStatus[2];
 };
 
 extern struct game game;

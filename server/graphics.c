@@ -14,7 +14,7 @@
 
 #define CMTOPXRATIO         1.5
 #define PXBORDER            20
-#define COORD_PER_PLAYER    100
+#define COORD_PER_PLAYER    300
 #define PX(v)               ((int) (v*CMTOPXRATIO))
 
 #define OBSTACLE_WIDTH      15

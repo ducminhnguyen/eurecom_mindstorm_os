@@ -430,7 +430,17 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                     return;
                 }
 
-                /* TODO: prevent the same team to send a BALL message twice */
+                if (buf[5] == 0 && game.ballStatus[game.teams[sendingTeam].side] == 1) {
+                    log (KRED, "*** Can't drop a ball that has already been dropped... ***\n", buf[5]);
+                    return;
+                }
+
+                if (buf[5] == 1 && game.ballStatus[game.teams[sendingTeam].side] == 0) {
+                    log (KRED, "*** Can't pick up a ball that has already been picked up... ***\n", buf[5]);
+                    return;
+                }
+
+                game.ballStatus[game.teams[sendingTeam].side] = 1-game.ballStatus[game.teams[sendingTeam].side];
 
                 x = *((int16_t *) &buf[6]);
                 y = *((int16_t *) &buf[8]);
@@ -620,6 +630,9 @@ int main (int argc, char **argv) {
             game.teams[i].kicked = 0;
             game.teams[i].ended = 0;
         }
+
+        game.ballStatus[0] = 0;
+        game.ballStatus[1] = 0;
 
         game.state = GAM_TEAM_SELECT;
         rankCmp = (*GUI.getTeamsForGame) ();
