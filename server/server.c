@@ -226,7 +226,7 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
     }
 
     if (buf[3] >= game.nbTeams || !game.teams[buf[3]].active) {
-        log (KRED, "*** unkown or inactive receiver (%d) ***\n", buf[3]);
+        log (KRED, "*** unknown or inactive receiver (%d) ***\n", buf[3]);
         return;
     }
 
@@ -364,6 +364,8 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 log (KNRM, "id=%d", id);
                 log (KNRM, alinea);
                 log (KNRM, "          POSITION x=%d y=%d\n", x, y);
+
+                addCoordinate (sendingTeam, x, y);
 
                 break;
             }
@@ -576,6 +578,18 @@ int main (int argc, char **argv) {
                     ) < 0) {
             log (KNRM, alinea);
             log (KRED, "Failed to init graphics window...\n");
+        }
+
+        if (displayPath) {
+            if (rankCmp == 4) {
+                addCoordinate (game.leaders[0], 30, 30);
+                addCoordinate (game.teams[game.leaders[0]].ally, 90, 370);
+                addCoordinate (game.leaders[1], -30, 30);
+                addCoordinate (game.teams[game.leaders[1]].ally, -90, 370);
+            } else {
+                addCoordinate (game.leaders[0], 90, 30);
+                addCoordinate (game.teams[game.leaders[0]].ally, 30, 170);
+            }
         }
 
         while (game.state == GAM_CONNECTING || game.state == GAM_RUNNING) {

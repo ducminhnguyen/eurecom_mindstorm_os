@@ -1,6 +1,6 @@
 CC 		= gcc
 CFLAGS 		= -Wall -Werror -pedantic -std=gnu89 -g $(shell sdl2-config --cflags)
-LFLAGS 		= -lbluetooth -lcurses -lpthread $(shell sdl2-config --libs) -lGL -lGLEW -lGLU
+LFLAGS 		= -lbluetooth -lcurses -lpthread $(shell sdl2-config --libs) -lGL -lGLEW -lGLU -lm
 SRC_FILES 	= $(wildcard *.c)
 OBJ_FILES	= $(SRC_FILES:%.c=%.o)
 EXEC		= server
