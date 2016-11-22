@@ -43,7 +43,7 @@ Once a game is started, you can run the fake client by giving it the IP address 
 same computer as the fake client) and the ID of the team corresponding to the fake client:
 
 ```
-$ ./client 127.0.0.1 0
+$ ./client 127.0.0.1 1
 ```
 
 You can run multiple clients from the same IP address but the server will consider that the first to connect is the one with the

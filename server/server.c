@@ -155,11 +155,11 @@ void sendKick (int teamID) {
 
     buf[2] = -1;                        /* server ID is 0xFF */
     buf[4] = MSG_KICK;                  /* This is a KICK message */
-    buf[5] = teamID;
+    buf[5] = (teamID+1);
 
     for (i=0; i < game.nbTeams; i++)
         if (game.teams[i].connected) {
-            buf[3] = (char) (0xFF & i);             /* receiver */
+            buf[3] = (char) (0xFF & (i+1));             /* receiver */
             buf[0] = game.teams[i].idServMsg % 0xFF;
             buf[1] = game.teams[i].idServMsg >> 8;
             game.teams[i].idServMsg ++;
@@ -190,7 +190,7 @@ void sendKick (int teamID) {
             buf[1] = game.teams[ally].idServMsg >> 8;
             game.teams[ally].idServMsg ++;
             buf[2] = -1;                        /* server ID is 0xFF */
-            buf[3] = ally;
+            buf[3] = ally+1;
             buf[4] = MSG_NEXT;                  /* This is a NEXT message */
 
             write_to_client (&game.teams[ally], buf, 5);
@@ -220,19 +220,19 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
         return;
     }
 
-    if (buf[2] != sendingTeam) {
+    if (buf[2]-1 != sendingTeam) {
         log (KRED, "*** mediocre spoofing attempt detected ***\n");
         return;
     }
 
-    if (buf[3] >= game.nbTeams || !game.teams[buf[3]].active) {
-        log (KRED, "*** unknown or inactive receiver (%d) ***\n", buf[3]);
+    if (buf[3] != 0xFF && (buf[3] == 0 || buf[3] > game.nbTeams || !game.teams[buf[3]-1].active)) {
+        log (KRED, "*** unknown or inactive receiver (%d) ***\n", buf[3]-1);
         return;
     }
 
-    if (!game.teams[buf[3]].connected) {
+    if (buf[3] != 0xFF && !game.teams[buf[3]-1].connected) {
         log (KRED, "*** Team ");
-        log (COL(buf[3]), "%s", game.teams[buf[3]].name);
+        log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
         log (KRED, " is not connected. Message discarded ***\n");
         return;
     }
@@ -252,7 +252,7 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
 
                 if (buf[3] != game.teams[sendingTeam].ally) {
                     log (KRED, "*** Can't send ACK message to team ");
-                    log (COL(buf[3]), "%s", game.teams[buf[3]].name);
+                    log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
                     log (KRED, " ***\n");
                     return;
                 }
@@ -260,11 +260,11 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 idAck = *((uint16_t *) &buf[5]);
 
                 log (KNRM, "id=%d dest=", id);
-                log (COL(buf[3]), "%s\n", game.teams[buf[3]].name);
+                log (COL(buf[3]-1), "%s\n", game.teams[buf[3]-1].name);
                 log (KNRM, alinea);
                 log (KNRM, "          ACK      idAck=%d status=%d\n", idAck, buf[7]);
 
-                write_to_client (&game.teams[buf[3]], (char *) buf, 8);
+                write_to_client (&game.teams[buf[3]-1], (char *) buf, 8);
 
                 break;
             }
@@ -276,19 +276,19 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                     return;
                 }
 
-                if (buf[3] != game.teams[sendingTeam].ally) {
+                if (buf[3]-1 != game.teams[sendingTeam].ally) {
                     log (KRED, "*** Can't send NEXT message to team ");
-                    log (COL(buf[3]), "%s", game.teams[buf[3]].name);
+                    log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
                     log (KRED, " ***\n");
                     return;
                 }
 
                 log (KNRM, "id=%d dest=", id);
-                log (COL(buf[3]), "%s\n", game.teams[buf[3]].name);
+                log (COL(buf[3]-1), "%s\n", game.teams[buf[3]-1].name);
                 log (KNRM, alinea);
                 log (KNRM, "          NEXT\n");
 
-                write_to_client (&game.teams[buf[3]], (char *) buf, 5);
+                write_to_client (&game.teams[buf[3]-1], (char *) buf, 5);
 
                 game.leaders[game.teams[sendingTeam].side] = game.teams[sendingTeam].ally;
 
@@ -313,15 +313,15 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 /* CUSTOM */
                 int i;
 
-                if (buf[3] != game.teams[sendingTeam].ally) {
+                if (buf[3]-1 != game.teams[sendingTeam].ally) {
                     log (KRED, "*** Can't send CUSTOM message to team ");
-                    log (COL(buf[3]), "%s", game.teams[buf[3]].name);
+                    log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
                     log (KRED, " ***\n");
                     return;
                 }
 
                 log (KNRM, "id=%d dest=", id);
-                log (COL(buf[3]), "%s\n", game.teams[buf[3]].name);
+                log (COL(buf[3]-1), "%s\n", game.teams[buf[3]-1].name);
                 log (KNRM, alinea);
                 log (KNRM, "          CUSTOM   content=");
                 for (i=5; i<nbbytes; i++) {
@@ -331,7 +331,7 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 }
                 log (KNRM, "\n");
 
-                write_to_client (&game.teams[buf[3]], (char *) buf, nbbytes);
+                write_to_client (&game.teams[buf[3]-1], (char *) buf, nbbytes);
 
                 break;
             }
@@ -353,7 +353,7 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
 
                 if (buf[3] != 0xFF) {
                     log (KRED, "*** Can't send POSITION message to team ");
-                    log (COL(buf[3]), "%s", game.teams[buf[3]].name);
+                    log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
                     log (KRED, " ***\n");
                     return;
                 }
@@ -628,10 +628,10 @@ int main (int argc, char **argv) {
                         if (game.teams[i].connected) {
                             game.teams[i].idServMsg = 1;
 
-                            buf[3] = (char) (0xFF & i);                         /* receiver */
+                            buf[3] = (char) (0xFF & (i+1));                     /* receiver */
                             buf[5] = (game.leaders[game.teams[i].side] != i);   /* role */
                             buf[6] = game.teams[i].side;                        /* side */
-                            buf[7] = game.teams[i].ally;                        /* ally */
+                            buf[7] = game.teams[i].ally+1;                      /* ally */
 
                             write_to_client (&game.teams[i], buf, 8);
                         } else {
@@ -690,7 +690,7 @@ int main (int argc, char **argv) {
                                     buf[0] = 0x00;                          /* ID of start message      */
                                     buf[1] = 0x00;                          /*   is 0000                */
                                     buf[2] = -1;                            /* server ID is 0xFF        */
-                                    buf[3] = (char) (0xFF & i);             /* receiver                 */
+                                    buf[3] = (char) (0xFF & (i+1));             /* receiver                 */
                                     buf[4] = MSG_START;                     /* This is a START message  */
                                     buf[5] = (game.leaders[game.teams[i].side] != i);   /* role */
                                     buf[6] = game.teams[i].side;            /* side */
@@ -744,7 +744,7 @@ int main (int argc, char **argv) {
                                     buf[0] = 0x00;                          /* ID of start message      */
                                     buf[1] = 0x00;                          /*   is 0000                */
                                     buf[2] = -1;                            /* server ID is 0xFF        */
-                                    buf[3] = (char) (0xFF & i);             /* receiver                 */
+                                    buf[3] = (char) (0xFF & (i+1));             /* receiver                 */
                                     buf[4] = MSG_START;                     /* This is a START message  */
                                     buf[5] = (game.leaders[game.teams[i].side] != i);   /* role */
                                     buf[6] = game.teams[i].side;            /* side */
@@ -812,7 +812,7 @@ int main (int argc, char **argv) {
             if (game.teams[i].connected) {
                 buf[0] = game.teams[i].idServMsg % 0xFF;    /* ID of stop message */
                 buf[1] = game.teams[i].idServMsg >> 8;
-                buf[3] = (char) (0xFF & i);                 /* receiver */
+                buf[3] = (char) (0xFF & (i+1));                 /* receiver */
                 write_to_client (&game.teams[i], buf, 5);
 
                 close (game.teams[i].sock);

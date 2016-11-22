@@ -518,6 +518,8 @@ void * userMonitor (void * __dummy) {
                     if (key == MSG_ACK) {
                         fields[1] = lastMsgID;
                         fields[0] = lastSender;
+                    } else if (key == MSG_POSITION) {
+                        fields[0] = 0xFF;
                     }
                 }
             } else {
@@ -544,7 +546,7 @@ int main(int argc, char **argv) {
         usage (argv[0]);
 
     teamID = atoi (argv[2]);
-    if (teamID > 254 || teamID < 0)
+    if (teamID > 254 || teamID <= 0)
         usage (argv[0]);
 
     /* allocate a socket */
