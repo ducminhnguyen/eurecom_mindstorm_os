@@ -159,10 +159,21 @@ void printLine (int color, const char *content, char newLine) {
     }
 }
 
+size_t outputLineLength (struct outputLine *l) {
+    struct linePart *part;
+    size_t count = 0;
+
+    for (part = l->firstPart; part != NULL; part = part->next) {
+        count += strlen (part->content);
+    }
+
+    return count;
+}
+
 void curses_log (int color, const char *fmt, ...) {
     char *p1, *p2;
     char buffer[LOGLINESIZE];
-    int i;
+    int curLine, curOutputLine;
     struct outputLine *l;
 
     va_list argp;
@@ -178,13 +189,37 @@ void curses_log (int color, const char *fmt, ...) {
     printLine (curses_colors[color], p1, 0);
 
     werase (logwin);
-    for (i=LINES-2, l=first; i>=0 && i>=LINES-1-TOTLINES && i>=LINES-1-nbLines; i--, l=l->next) {
-        /* FIXME: what happens if it overflows? */
+    for (curOutputLine=0, curLine=LINES-2, l=first; curLine>=0 && curOutputLine<TOTLINES && curOutputLine<nbLines; curOutputLine++, l=l->next) {
         struct linePart *part;
-        wmove (logwin, i, 1);
-        for (part = l->firstPart; part != NULL; part = part->next) {
-            wattron (logwin, COLOR_PAIR(1+part->color));
-            wprintw (logwin, "%s", part->content);
+        size_t lineLength;
+        int curCol = 0;
+
+        lineLength = outputLineLength (l);
+        if (lineLength == 0) {
+            curLine--;
+            continue;
+        }
+        lineLength = (lineLength-1)/(COLS-45)+1;
+        curLine -= lineLength;
+        lineLength = curLine+1;
+
+        part = l->firstPart;
+        while (part != NULL) {
+            wmove (logwin, lineLength, curCol);
+
+            /* FIXME: for the top line, if first part is split, last part will not show */
+            if (lineLength >= 0) {
+                wattron (logwin, COLOR_PAIR(1+part->color));
+                wprintw (logwin, "%s", part->content);
+            }
+
+            if (strlen (part->content) <= COLS-45-curCol) {
+                curCol += strlen (part->content);
+            } else {
+                curCol = strlen (part->content) - (COLS-45-curCol);
+                lineLength++;
+            }
+            part = part->next;
         }
     }
     wrefresh(logwin);

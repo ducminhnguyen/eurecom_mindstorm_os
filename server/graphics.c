@@ -1,3 +1,14 @@
+#ifndef GRAPHICS
+
+int graphicsInit () { return 0; }
+int graphicsInitWindow (int team1, int team2, int team3, int team4) { return 0; }
+void addCoordinate (int team, int x, int y) {}
+void ballAction (int team, int x, int y) {}
+void graphicsDestroyWindow () {}
+void graphicsQuit () {}
+
+#else
+
 #include <SDL2/SDL.h>
 
 #include <GL/glew.h>
@@ -414,3 +425,5 @@ void graphicsDestroyWindow () {
 void graphicsQuit () {
     SDL_Quit ();
 }
+
+#endif

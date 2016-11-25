@@ -1,11 +1,6 @@
 # EURECOM OS Contest Server
 # Main website: http://soc.eurecom.fr/OS/projects_fall2016.html
 
-***THIS SERVER IS STILL UNDER DEVELOPMENT. IF YOU NEED TO DEBUG THE CONNECTION WITH YOUR ROBOT, PLEASE USE INET AND RUN THE FOLLOWING COMMAND ON YOUR LAPTOP:***
-```
-$ stdbuf -oL xxd -r -p | nc -l -p 8888 | xxd -c 1
-```
-
 
 A simple server that enables bluetooth communication between a set EV3 Lego Mindstorm.
 
@@ -26,7 +21,7 @@ $ hcitool scan
 
 should show the connection.
 
-When the server is up and the game has started you can run the program (`client/NXT/client.c` for instance).
+When the server is up and the game has started you can run the program (`client/EV3/btclient.c` for instance).
 
 
 ### For a fake client
@@ -80,7 +75,7 @@ To communicate between each other, EV3 must comply with the specified protocol. 
 server so robots can always consider that received messages are well formatted (except for `CUSTOM` messages, whose structure is
 not pre-determined).
 
-Each message consists of a header and a body. Note that all numbers are unsigned integers whose formats are **little-endian**.
+Each message consists of a header and a body. Note that all numbers, unless explicitly stated otherwise, are unsigned integers whose formats are **little-endian**.
 
 The protocol may evolve according to needs and proposals.
 
@@ -99,7 +94,7 @@ Fields description:
 * `ID` is a 2-byte number identifying the message (kind of like a sequence number). It is used when acknowledging messages.
 * `src` is a 1-byte number identifying the team who sent the message (it is unique for the whole contest).
 * `dst` is a 1-byte number identifying the team who should receive the message (it is unique for the whole contest).
-* `type` is a 1-byte code that identify the kind of message that is sent.
+* `type` is a 1-byte code that identifies the kind of message that is sent.
 
 ### Body
 
@@ -192,8 +187,8 @@ The message is 9-bytes long:
 ```
 
 Fields description:
-* `x` is the x coordinate of the robot.
-* `y` is the y coordinate of the robot.
+* `x` is the x coordinate of the robot. This field is a **signed** 16-bits little-endian integer.
+* `y` is the y coordinate of the robot. This field is a **signed** 16-bits little-endian integer.
 
 #### BALL
 
@@ -208,5 +203,5 @@ The message is 10-bytes long:
 
 Fields description:
 * `act` is `0` if the robot dropped the ball or `1` if it picked it up.
-* `x` is the x coordinate of the ball.
-* `y` is the y coordinate of the ball.
+* `x` is the x coordinate of the ball. This field is a **signed** 16-bits little-endian integer.
+* `y` is the y coordinate of the ball. This field is a **signed** 16-bits little-endian integer.
