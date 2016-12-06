@@ -7,7 +7,7 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
-#include "../libs/header/config.h
+#include "../libs/header/config.h"
 #include "../libs/header/motorControl.h"
 
 // WIN32 /////////////////////////////////////////
@@ -23,6 +23,7 @@
 int main( void ){
 
     int i;
+    char s[256];
 
 #ifndef __ARM_ARCH_4T__
     /* Disable auto-detection of the brick (you have to set the correct address below) */
