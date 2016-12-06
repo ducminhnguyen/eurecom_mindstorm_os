@@ -2,9 +2,7 @@
 // Created by parallels on 12/4/16.
 //
 #include "../header/motorControl.h"
-#include "../header/config.h"
-
-#define Sleep( msec ) usleep(( msec ) * 1000 )
+#include "../header/config.h" 
 
 void runStraight(){
     uint8 snl, snr;
