@@ -19,6 +19,7 @@
 #else
 
 #include <unistd.h>
+#define Sleep( msec ) usleep(( msec ) * 1000 )
 
 #endif
 int main( void ){
