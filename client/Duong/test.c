@@ -97,7 +97,7 @@ void runStraight(){
     }
 }
 
-void initTachoData(uint8 sn,int max_speed){
+void initTachoData(uint8_t sn,int max_speed){
     set_tacho_stop_action_inx( sn, TACHO_COAST );
     set_tacho_speed_sp( sn, max_speed * 2 / 3 );
     set_tacho_time_sp( sn, 5000 );
