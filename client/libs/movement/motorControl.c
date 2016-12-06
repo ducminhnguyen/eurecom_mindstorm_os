@@ -2,7 +2,7 @@
 // Created by parallels on 12/4/16.
 //
 #include "../header/motorControl.h"
-#include "../header/config.h
+#include "../header/config.h"
 
 #define Sleep( msec ) usleep(( msec ) * 1000 )
 
