@@ -64,7 +64,7 @@ int main( void ){
 } 
 
 void runStraight(){
-    uint8 snl, snr;
+    uint8_t snl, snr;
     FLAGS_T state;
     if ( ev3_search_tacho_plugged_in(PORT_LEFT_W,0, &snl, 0 ) &&
             ev3_search_tacho_plugged_in(PORT_RIGHT_W,0, &snr, 0 )) {
