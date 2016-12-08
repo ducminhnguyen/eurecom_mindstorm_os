@@ -65,6 +65,7 @@ int main( void ){
 
 void runStraight(){
     uint8_t snl, snr;
+    uint8_t *lp = &snl, *rp = &snr 
     FLAGS_T state;
     if ( ev3_search_tacho_plugged_in(PORT_LEFT_W,0, &snl, 0 ) &&
             ev3_search_tacho_plugged_in(PORT_RIGHT_W,0, &snr, 0 )) {
@@ -73,10 +74,10 @@ void runStraight(){
         printf( "TESTING GOING STRAIGHT , run for 5 sec...\n" );
         get_tacho_max_speed( snr, &max_speed );
         printf("  max speed = %d\n", max_speed );
-        initTachoData(&snr, max_speed);
-        initTachoData(&snl, max_speed);
-        set_tacho_command_inx(snr, TACHO_RUN_TIMED );
+        initTachoData(lp, max_speed);
+        initTachoData(rp, max_speed);
         set_tacho_command_inx(snl, TACHO_RUN_TIMED );
+        set_tacho_command_inx(snr, TACHO_RUN_TIMED );
         /* Wait tacho stop */
         Sleep( 100 );
         do {
