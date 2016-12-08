@@ -75,8 +75,8 @@ void runStraight(){
         printf("  max speed = %d\n", max_speed );
         initTachoData(snr, max_speed);
         initTachoData(snl, max_speed);
-        set_tacho_command_inx( snr, TACHO_RUN_TIMED );
-        set_tacho_command_inx( snl, TACHO_RUN_TIMED );
+        set_tacho_command_inx(&snr, TACHO_RUN_TIMED );
+        set_tacho_command_inx(&snl, TACHO_RUN_TIMED );
         /* Wait tacho stop */
         Sleep( 100 );
         do {
@@ -97,10 +97,10 @@ void runStraight(){
     }
 }
 
-void initTachoData(uint8_t &sn,int max_speed){
-    set_tacho_stop_action_inx( sn, TACHO_COAST );
-    set_tacho_speed_sp( sn, max_speed * 2 / 3 );
-    set_tacho_time_sp( sn, 5000 );
-    set_tacho_ramp_up_sp( sn, 2000 );
-    set_tacho_ramp_down_sp( sn, 2000 );
+void initTachoData(uint8_t* sn,int max_speed){
+    set_tacho_stop_action_inx(*sn, TACHO_COAST );
+    set_tacho_speed_sp(*sn, max_speed * 2 / 3 );
+    set_tacho_time_sp(*sn, 5000 );
+    set_tacho_ramp_up_sp(*sn, 2000 );
+    set_tacho_ramp_down_sp(*sn, 2000 );
 }
