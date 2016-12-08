@@ -73,10 +73,10 @@ void runStraight(){
         printf( "TESTING GOING STRAIGHT , run for 5 sec...\n" );
         get_tacho_max_speed( snr, &max_speed );
         printf("  max speed = %d\n", max_speed );
-        initTachoData(snr, max_speed);
-        initTachoData(snl, max_speed);
-        set_tacho_command_inx(&snr, TACHO_RUN_TIMED );
-        set_tacho_command_inx(&snl, TACHO_RUN_TIMED );
+        initTachoData(&snr, max_speed);
+        initTachoData(&snl, max_speed);
+        set_tacho_command_inx(snr, TACHO_RUN_TIMED );
+        set_tacho_command_inx(snl, TACHO_RUN_TIMED );
         /* Wait tacho stop */
         Sleep( 100 );
         do {
