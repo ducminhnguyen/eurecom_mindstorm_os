@@ -91,6 +91,8 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) {
 
 void StartRunning(struct MotorInfo motorInfo) {
     int speed = motorInfo.speed;
+    set_tacho_command_inx(motorInfo.leftMotor, TACHO_RESET);
+    set_tacho_command_inx(motorInfo.rightMotor, TACHO_RESET);
     set_tacho_speed_sp(motorInfo.leftMotor, speed - 20);
     set_tacho_speed_sp(motorInfo.rightMotor, speed - 20);
     set_tacho_time_sp(motorInfo.leftMotor, motorInfo.time);
