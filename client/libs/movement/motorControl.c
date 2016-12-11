@@ -72,13 +72,13 @@ void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo) {
     int left_motor_speed, right_motor_speed;
     get_tacho_speed(motorInfo.leftMotor, &left_motor_speed);
     get_tacho_speed(motorInfo.rightMotor, &right_motor_speed);
-    if (sensorInfo.diffGyro > 1) {// && left_motor_speed < right_motor_speed + 30) { // left tilt
+    if (sensorInfo.diffGyro > 0) {// && left_motor_speed < right_motor_speed + 30) { // left tilt
         //set_tacho_speed_sp(motorInfo.rightMotor, left_motor_speed);
         //set_tacho_speed_sp(motorInfo.leftMotor, right_motor_speed);
         set_tacho_speed_sp(motorInfo.rightMotor, motorInfo.speed - 30*abs(sensorInfo.diffGyro));
         set_tacho_speed_sp(motorInfo.leftMotor, motorInfo.speed);
         printf("Left tilt: %f \n", sensorInfo.diffGyro);
-    } else if (sensorInfo.diffGyro < -1) {// && left_motor_speed + 30 > right_motor_speed) { // right tilt
+    } else if (sensorInfo.diffGyro < 0) {// && left_motor_speed + 30 > right_motor_speed) { // right tilt
         //set_tacho_speed_sp(motorInfo.leftMotor, right_motor_speed);
         //set_tacho_speed_sp(motorInfo.rightMotor, left_motor_speed);
         set_tacho_speed_sp(motorInfo.rightMotor, motorInfo.speed);

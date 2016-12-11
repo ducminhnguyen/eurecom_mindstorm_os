@@ -51,9 +51,9 @@ float getInitialGyroValue() {
             if (!get_sensor_value0(sn_gyro, &value)) {
                 value = 0;
             }
+            return value;
         }
     }
-    return value;
 }
 
 uint8_t getTacho(int portNum) {
@@ -78,7 +78,7 @@ void UpdateSensorInfo(struct SensorInfo* info) {
                 value = 0;
             }
             info->currentGyro = value;
-            info->diffGyro = info->initialGyro - value;
+            info->diffGyro = info->initialGyro - info->currentGyro;
         }
     }
     return;
@@ -87,6 +87,10 @@ void UpdateSensorInfo(struct SensorInfo* info) {
 void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) {
     runStraightLine(motorInfo, sensorInfo);
     return;
+}
+
+void ResetSensors(struct SensorInfo sensorInfo) {
+
 }
 
 void StartRunning(struct MotorInfo motorInfo) {
