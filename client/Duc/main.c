@@ -93,8 +93,8 @@ void StartRunning(struct MotorInfo motorInfo) {
     int speed = motorInfo.speed;
     set_tacho_command_inx(motorInfo.leftMotor, TACHO_RESET);
     set_tacho_command_inx(motorInfo.rightMotor, TACHO_RESET);
-    set_tacho_speed_sp(motorInfo.leftMotor, speed - 20);
-    set_tacho_speed_sp(motorInfo.rightMotor, speed - 20);
+    set_tacho_speed_sp(motorInfo.leftMotor, speed);
+    set_tacho_speed_sp(motorInfo.rightMotor, speed);
     set_tacho_time_sp(motorInfo.leftMotor, motorInfo.time);
     set_tacho_time_sp(motorInfo.rightMotor, motorInfo.time);
     set_tacho_command_inx(motorInfo.leftMotor, motorInfo.command);
@@ -139,7 +139,7 @@ int main( void ) {
     struct MotorInfo motorInfo;
     motorInfo.leftMotor = tacho_left_motor;
     motorInfo.rightMotor = tacho_right_motor;
-    motorInfo.speed = 1000;
+    motorInfo.speed = 500;
     motorInfo.time = 5000;
     motorInfo.command = TACHO_RUN_TIMED;
 
