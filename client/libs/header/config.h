@@ -5,9 +5,16 @@
 #ifndef ROBOT_BUNBO_CONFIG_H
 #define ROBOT_BUNBO_CONFIG_H
 
+
+#define PORT_A 65           // port A
+#define PORT_B 66           // port B
+#define PORT_C 67           // port C
+#define PORT_D 68           // port D
+
+
 #define PORT_GRABBER 66
-#define PORT_LEFT_W 67
-#define PORT_RIGHT_W 68
+#define PORT_LEFT_W 67      // port C
+#define PORT_RIGHT_W 68     // port D
 
 #define MSG_ACK             0
 #define MSG_NEXT            1
