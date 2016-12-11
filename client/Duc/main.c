@@ -11,7 +11,7 @@
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/rfcomm.h>
 #include <ncurses.h>
-#include <unistd>
+#include <unistd.h>
 
 
 #include "../libs/header/config.h"
