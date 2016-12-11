@@ -105,7 +105,7 @@ int main( void ) {
 //        }
         if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0 )) {
             printf("GYRO value");
-            if (!get_sensor_value0(sn_compass, &value)) {
+            if (!get_sensor_value0(sn_gyro, &value)) {
                 value = 0;
             }
             printf( "\r(%f) \n", value);
