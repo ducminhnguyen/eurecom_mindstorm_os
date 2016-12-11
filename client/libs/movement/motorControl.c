@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <math.h>
 
 
 void initTachoData(uint8_t sn,int max_speed){
@@ -67,4 +68,23 @@ void turnRight(double degree) {
 
 }
 
+void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo) {
+    int left_motor_speed, right_motor_speed;
+    get_tacho_speed(motorInfo.leftMotor, &left_motor_speed);
+    get_tacho_speed(motorInfo.rightMotor, &right_motor_speed);
+    if (sensorInfo.diffGyro > 4) { // left tilt
+        set_tacho_speed_sp(motorInfo.rightMotor, right_motor_speed - abs(sensorInfo.diffGyro));
+    } else if (sensorInfo.diffGyro < -4) { // right tilt
+        set_tacho_speed_sp(motorInfo.leftMotor, left_motor_speed - abs(sensorInfo.diffGyro));
+    } else {
+        set_tacho_speed_sp(motorInfo.leftMotor, motorInfo.speed);
+        set_tacho_speed_sp(motorInfo.rightMotor, motorInfo.speed);
+    }
+    set_tacho_command_inx(motorInfo.leftMotor, motorInfo.command);
+    set_tacho_command_inx(motorInfo.leftMotor, motorInfo.command);
+}
 
+void stopRobot(struct MotorInfo motorInfo) {
+    set_tacho_command_inx(motorInfo.leftMotor, TACHO_RESET);
+    set_tacho_command_inx(motorInfo.leftMotor, TACHO_RESET);
+}

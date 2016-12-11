@@ -67,7 +67,7 @@ uint8_t getTacho(int portNum) {
 }
 
 
-void UpdateSensorInfo(SensorInfo* info) {
+void UpdateSensorInfo(struct SensorInfo* info) {
     uint8_t sn_gyro;
     bool stop = false;
     float value = 0;
@@ -81,17 +81,20 @@ void UpdateSensorInfo(SensorInfo* info) {
             info->diffGyro = info->initialGyro - value;
         }
     }
-
     return;
 }
 
-void SteerRobot(SensorInfo info, MotorInfo motorInfo) {
-
-
+void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) {
+    runStraightLine(motorInfo, sensorInfo);
     return;
 }
 
-void StartRunning(MotorInfo motorInfo) {
+void StartRunning(struct MotorInfo motorInfo) {
+    int speed = motorInfo.speed;
+    set_tacho_speed_sp(motorInfo.leftMotor, speed);
+    set_tacho_speed_sp(motorInfo.rightMotor, speed);
+    set_tacho_command_inx(motorInfo.leftMotor, motorInfo.command);
+    set_tacho_command_inx(motorInfo.rightMotor, motorInfo.command);
 
     return;
 }
@@ -129,15 +132,17 @@ int main( void ) {
 
     uint8_t tacho_left_motor = getTacho(PORT_B);    // left  wheel id
     uint8_t tacho_right_motor = getTacho(PORT_C);   // right wheel id
-    MotorInfo motorInfo;
+    struct MotorInfo motorInfo;
     motorInfo.leftMotor = tacho_left_motor;
     motorInfo.rightMotor = tacho_right_motor;
+    motorInfo.speed = 1000;
+    motorInfo.command = TACHO_RUN_FOREVER;
 
     float initialGyro = getInitialGyroValue();      // initial value of gyro
-    SensorInfo info;
+    struct SensorInfo info;
     info.initialGyro = initialGyro;
     info.diffGyro = initialGyro;
-    StartRunning(tacho_left_motor, tacho_right_motor);
+    StartRunning(motorInfo);
 
     while (true) {
         UpdateSensorInfo(&info);

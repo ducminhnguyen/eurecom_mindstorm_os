@@ -10,4 +10,4 @@ LFLAGS 		= -lbluetooth -lcurses -lpthread
 
 all:
 	mkdir -p bin
-	$(CC) $(CFLAGS) -I./ev3dev-c/source/ev3 -o ./bin/libmotorcontrol.o -c ./movement/motorControl.c
+	$(CC) $(CFLAGS) -I ~/libs/ev3dev-c/source/ev3 -o ./bin/libmotorcontrol.o -c ./movement/motorControl.c
