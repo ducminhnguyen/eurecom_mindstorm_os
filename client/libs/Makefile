@@ -9,4 +9,5 @@ CFLAGS 		= -Werror -pedantic -std=gnu99 -g
 LFLAGS 		= -lbluetooth -lcurses -lpthread
 
 all:
+	mkdir -p bin
 	$(CC) $(CFLAGS) -I./ev3dev-c/source/ev3 -o ./bin/libmotorcontrol.o -c ./movement/motorControl.c
