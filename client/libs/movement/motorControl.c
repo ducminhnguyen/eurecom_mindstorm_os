@@ -68,4 +68,3 @@ void turnRight(double degree) {
 }
 
 
-void
