@@ -9,4 +9,28 @@
 #define PORT_LEFT_W 67
 #define PORT_RIGHT_W 68
 
+#define MSG_ACK             0
+#define MSG_NEXT            1
+#define MSG_START           2
+#define MSG_STOP            3
+#define MSG_CUSTOM          4
+#define MSG_KICK            5
+#define MSG_POSITION        6
+#define MSG_BALL            7
+
+#define INET_PORT   8888
+
+#define LOGLINESIZE    200
+
+#define KNRM            0
+#define KRED            1
+#define KGRN            2
+#define KYEL            3
+#define KBLU            4
+#define KMAG            5
+#define KCYN            6
+#define KWHT            7
+
+
+
 #endif //ROBOT_BUNBO_CONFIG_H
