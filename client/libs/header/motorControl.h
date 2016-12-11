@@ -21,6 +21,7 @@ struct MotorInfo {
     uint8_t leftMotor, rightMotor, graberMotor;
     int speed;
     int command;
+    int time;
 };
 
 void runStraight();
