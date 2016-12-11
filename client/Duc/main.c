@@ -41,7 +41,20 @@ static bool _check_pressed( uint8_t sn )
     return ( get_sensor_value( 0, sn, &val ) && ( val != 0 ));
 }
 
-
+float getInitialGyroValue() {
+    uint8_t sn_gyro;
+    bool stop = false;
+    float value = 0;
+    while (!stop) {
+        if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0)) {
+            stop = true;
+            if (!get_sensor_value0(sn_gyro, &value)) {
+                value = 0;
+            }
+        }
+    }
+    return value;
+}
 
 int main( void ) {
 
@@ -74,27 +87,18 @@ int main( void ) {
     float value;
     uint32_t n, ii;
 
-
-    printf( "Found sensors:\n" );
-    for ( i = 0; i < DESC_LIMIT; i++ ) {
-        if (ev3_sensor[ i ].type_inx != SENSOR_TYPE__NONE_ ) {
-            printf( "  type = %s\n", ev3_sensor_type( ev3_sensor[ i ].type_inx ));
-            printf( "  port = %s\n", ev3_sensor_port_name( i, s ));
-            if ( get_sensor_mode( i, s, sizeof( s ))) {
-                printf( "  mode = %s\n", s );
-            }
-            if ( get_sensor_num_values( i, &n )) {
-                for ( ii = 0; ii < n; ii++ ) {
-                    if ( get_sensor_value( ii, i, &val )) {
-                        printf( "  value%d = %d\n", ii, val );
-                    }
-                }
-            }
-        }
-    }
-
+    float initialGyro = getInitialGyroValue();
 
     for ( ; ; ){
+
+        if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0 )) {
+            printf("GYRO value");
+            if (!get_sensor_value0(sn_gyro, &value)) {
+                value = 0;
+            }
+            printf( "\r(%f) \n", initialGyro - value);
+            fflush( stdout );
+        }
 //        if ( ev3_search_sensor( LEGO_EV3_COLOR, &sn_color, 0 )) {
 //            printf( "COLOR sensor is found, reading COLOR...\n" );
 //            if ( !get_sensor_value( 0, sn_color, &val ) || ( val < 0 ) || ( val >= COLOR_COUNT )) {
@@ -103,15 +107,6 @@ int main( void ) {
 //            printf( "\r(%s) \n", color[ val ]);
 //            fflush( stdout );
 //        }
-        if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0 )) {
-            printf("GYRO value");
-            if (!get_sensor_value0(sn_gyro, &value)) {
-                value = 0;
-            }
-            printf( "\r(%f) \n", value);
-            fflush( stdout );
-        }
-
 //        if (ev3_search_sensor(HT_NXT_COMPASS, &sn_compass,0)){
 //            printf("COMPASS found, reading compass...\n");
 //            if ( !get_sensor_value0(sn_compass, &value )) {
