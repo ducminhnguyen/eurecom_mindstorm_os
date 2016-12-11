@@ -28,8 +28,8 @@ void initTachoData(uint8_t sn,int max_speed){
 void runStraight(){
     uint8_t snl, snr;
     FLAGS_T state;
-    if ( ev3_search_tacho_plugged_in(PORT_LEFT_W,0, &snl, 0 ) &&
-            ev3_search_tacho_plugged_in(PORT_RIGHT_W,0, &snr, 0 )) {
+    if ( ev3_search_tacho_plugged_in(PORT_B, 0, &snl, 0 ) &&
+            ev3_search_tacho_plugged_in(PORT_C, 0, &snr, 0 )) {
         int max_speed;
 
         printf( "TESTING GOING STRAIGHT , run for 5 sec...\n" );

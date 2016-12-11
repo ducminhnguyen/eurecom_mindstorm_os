@@ -36,7 +36,7 @@ static bool _check_pressed( uint8_t sn )
     int val;
 
     if ( sn == SENSOR__NONE_ ) {
-        return ( ev3_read_keys(( uint8_t *) &val ) && ( val & EV3_KEY_UP ));
+        return ( ev3_read_keys((uint8_t*) &val ) && ( val & EV3_KEY_UP ));
     }
     return ( get_sensor_value( 0, sn, &val ) && ( val != 0 ));
 }
@@ -54,6 +54,46 @@ float getInitialGyroValue() {
         }
     }
     return value;
+}
+
+uint8_t getTacho(int portNum) {
+    uint8_t tachoSeqNum;
+    bool stop = false;
+    while (!stop) {
+        if (ev3_search_tacho_plugged_in(portNum, 0, &tachoSeqNum, 0)) {
+            return tachoSeqNum;
+        }
+    }
+}
+
+
+void UpdateSensorInfo(SensorInfo* info) {
+    uint8_t sn_gyro;
+    bool stop = false;
+    float value = 0;
+    while (!stop) {
+        if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0)) {
+            stop = true;
+            if (!get_sensor_value0(sn_gyro, &value)) {
+                value = 0;
+            }
+            info->currentGyro = value;
+            info->diffGyro = info->initialGyro - value;
+        }
+    }
+
+    return;
+}
+
+void SteerRobot(SensorInfo info, MotorInfo motorInfo) {
+
+
+    return;
+}
+
+void StartRunning(MotorInfo motorInfo) {
+
+    return;
 }
 
 int main( void ) {
@@ -87,18 +127,66 @@ int main( void ) {
     float value;
     uint32_t n, ii;
 
-    float initialGyro = getInitialGyroValue();
+    uint8_t tacho_left_motor = getTacho(PORT_B);    // left  wheel id
+    uint8_t tacho_right_motor = getTacho(PORT_C);   // right wheel id
+    MotorInfo motorInfo;
+    motorInfo.leftMotor = tacho_left_motor;
+    motorInfo.rightMotor = tacho_right_motor;
 
-    for ( ; ; ){
+    float initialGyro = getInitialGyroValue();      // initial value of gyro
+    SensorInfo info;
+    info.initialGyro = initialGyro;
+    info.diffGyro = initialGyro;
+    StartRunning(tacho_left_motor, tacho_right_motor);
 
-        if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0 )) {
-            printf("GYRO value");
-            if (!get_sensor_value0(sn_gyro, &value)) {
-                value = 0;
-            }
-            printf( "\r(%f) \n", initialGyro - value);
-            fflush( stdout );
-        }
+    while (true) {
+        UpdateSensorInfo(&info);
+        SteerRobot(info, motorInfo);
+    }
+//    int port=65;
+//    for (port=65; port<69; port++){
+//        if ( ev3_search_tacho_plugged_in(port,0, &sn, 0 )) {
+//            int max_speed;
+//
+//            printf( "LEGO_EV3_M_MOTOR 1 is found, run for 5 sec...\n" );
+//            get_tacho_max_speed( sn, &max_speed );
+//            printf("  max speed = %d\n", max_speed );
+//            set_tacho_stop_action_inx( sn, TACHO_COAST );
+//            set_tacho_speed_sp( sn, max_speed * 2 / 3 );
+//            set_tacho_time_sp( sn, 5000 );
+//            set_tacho_ramp_up_sp( sn, 2000 );
+//            set_tacho_ramp_down_sp( sn, 2000 );
+//            set_tacho_command_inx( sn, TACHO_RUN_TIMED );
+//            /* Wait tacho stop */
+//            Sleep( 100 );
+//            do {
+//                get_tacho_state_flags( sn, &state );
+//            } while ( state );
+//            printf( "run to relative position...\n" );
+//            set_tacho_speed_sp( sn, max_speed / 2 );
+//            set_tacho_ramp_up_sp( sn, 0 );
+//            set_tacho_ramp_down_sp( sn, 0 );
+//            set_tacho_position_sp( sn, 90 );
+//            for ( i = 0; i < 8; i++ ) {
+//                set_tacho_command_inx( sn, TACHO_RUN_TO_REL_POS );
+//                Sleep( 500 );
+//            }
+//
+//        } else {
+//            printf( "LEGO_EV3_M_MOTOR 1 is NOT found\n" );
+//        }
+//    }
+
+//    for ( ; ; ){
+//
+//        if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0 )) {
+//            printf("GYRO value");
+//            if (!get_sensor_value0(sn_gyro, &value)) {
+//                value = 0;
+//            }
+//            printf( "\r(%f) \n", initialGyro - value);
+//            fflush( stdout );
+//        }
 //        if ( ev3_search_sensor( LEGO_EV3_COLOR, &sn_color, 0 )) {
 //            printf( "COLOR sensor is found, reading COLOR...\n" );
 //            if ( !get_sensor_value( 0, sn_color, &val ) || ( val < 0 ) || ( val >= COLOR_COUNT )) {
@@ -132,13 +220,13 @@ int main( void ) {
 //            fflush( stdout );
 //        }
 
-        if ( _check_pressed( sn_touch )) break;
-        Sleep( 200 );
-        printf( "\r        " );
-        fflush( stdout );
-        if ( _check_pressed( sn_touch )) break;
-        Sleep( 200 );
-    }
+//        if ( _check_pressed( sn_touch )) break;
+//        Sleep( 200 );
+//        printf( "\r        " );
+//        fflush( stdout );
+//        if ( _check_pressed( sn_touch )) break;
+//        Sleep( 200 );
+//    }
 
     ev3_uninit();
     printf( "*** ( EV3 ) Bye! ***\n" );
