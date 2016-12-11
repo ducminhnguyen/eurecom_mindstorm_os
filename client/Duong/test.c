@@ -61,7 +61,15 @@ int main( void ){
     ev3_uninit();
     printf( "*** ( EV3 ) Bye! ***\n" );
     return ( 0 );
-} 
+}
+
+void initTachoData(uint8_t* sn,int max_speed){
+    set_tacho_stop_action_inx(*sn, TACHO_COAST );
+    set_tacho_speed_sp(*sn, max_speed * 2 / 3 );
+    set_tacho_time_sp(*sn, 5000 );
+    set_tacho_ramp_up_sp(*sn, 2000 );
+    set_tacho_ramp_down_sp(*sn, 2000 );
+}
 
 void runStraight(){
     uint8_t snl, snr;
@@ -98,10 +106,4 @@ void runStraight(){
     }
 }
 
-void initTachoData(uint8_t* sn,int max_speed){
-    set_tacho_stop_action_inx(*sn, TACHO_COAST );
-    set_tacho_speed_sp(*sn, max_speed * 2 / 3 );
-    set_tacho_time_sp(*sn, 5000 );
-    set_tacho_ramp_up_sp(*sn, 2000 );
-    set_tacho_ramp_down_sp(*sn, 2000 );
-}
+
