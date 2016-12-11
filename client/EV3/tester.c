@@ -111,7 +111,7 @@ int main( void )
 	
 	printf( "Found sensors:\n" );
 	for ( i = 0; i < DESC_LIMIT; i++ ) {
-		if ( ev3_sensor[ i ].type_inx != SENSOR_TYPE__NONE_ ) {
+		if (ev3_sensor[ i ].type_inx != SENSOR_TYPE__NONE_ ) {
 			printf( "  type = %s\n", ev3_sensor_type( ev3_sensor[ i ].type_inx ));
 			printf( "  port = %s\n", ev3_sensor_port_name( i, s ));
 			if ( get_sensor_mode( i, s, sizeof( s ))) {
