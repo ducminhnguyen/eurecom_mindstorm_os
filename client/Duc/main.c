@@ -72,18 +72,15 @@ uint8_t getTacho(int portNum) {
 void UpdateSensorInfo(struct SensorInfo* info) { // update
     //printf("Update\n");
     uint8_t sn_gyro;
-    bool stop = false;
     float value = 0;
-    while (!stop) {
-        if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0)) {
-            stop = true;
-            if (!get_sensor_value0(sn_gyro, &value)) {
-                value = 0;
-            }
-            info->currentGyro = value;
-            info->diffGyro = info->initialGyro - info->currentGyro;
+    if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0)) {
+        if (!get_sensor_value0(sn_gyro, &value)) {
+            value = 0;
         }
+        info->currentGyro = value;
+        info->diffGyro = info->initialGyro - info->currentGyro;
     }
+
     info->currentColor = getColorSensorValue(*info);
     return;
 }
