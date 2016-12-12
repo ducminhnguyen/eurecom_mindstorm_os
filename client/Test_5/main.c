@@ -183,6 +183,7 @@ int main( void ) {
     struct MotorInfo motorInfo;
     motorInfo.leftMotor = tacho_left_motor;
     motorInfo.rightMotor = tacho_right_motor;
+    motorInfo.graberMotor = tacho_graber_motor;
     motorInfo.speed = 500;
     motorInfo.time = 2500;
     motorInfo.command = TACHO_RUN_TIMED;
