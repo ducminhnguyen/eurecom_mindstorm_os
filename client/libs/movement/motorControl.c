@@ -123,7 +123,7 @@ int getColorSensorValue(struct SensorInfo sensorInfo) {
         if ( ! get_sensor_value( 0, sn_color, &val )) {
             val = 0;
         } else {
-            //printf("sn_color: %d \n %d", sn_color, val);
+            printf("sn_color: %d  %d \n", sn_color, val);
             return val;
         }
     }
