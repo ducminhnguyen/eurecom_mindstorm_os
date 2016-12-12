@@ -70,7 +70,7 @@ uint8_t getTacho(int portNum) {
 
 
 void UpdateSensorInfo(struct SensorInfo* info) { // update
-    //printf("Update\n");
+    printf("Update\n");
     uint8_t sn_gyro;
     float value = 0;
     if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0)) {
@@ -87,8 +87,9 @@ void UpdateSensorInfo(struct SensorInfo* info) { // update
 
 void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // draw
     //runStraightLine(motorInfo, sensorInfo);
-    //printf("Steering\n");
+    printf("Steering\n");
     if (robotState == ROBOT_TURN_LEFT) {
+        printf("Turnleft \n");
         turnLeft(motorInfo, motorInfo.turnDegree);
         robotState = ROBOT_IDLE;
     } else if (robotState == ROBOT_STOP) {
