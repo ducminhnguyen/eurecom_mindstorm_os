@@ -160,6 +160,7 @@ int main( void ) {
     motorInfo.speed = 500;
     motorInfo.time = 5000;
     motorInfo.command = TACHO_RUN_TIMED;
+    motorInfo.turnDegree = 90;
 
     float initialGyro = getInitialGyroValue();      // initial value of gyro
     struct SensorInfo info;
