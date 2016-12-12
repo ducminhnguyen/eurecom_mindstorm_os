@@ -197,11 +197,13 @@ int main( void ) {
     while (true) { // run until see black
         if (getColorSensorValue(info) < 25) 
             break;
+        runStraightLine(motorInfo, info);
         sleep(10);
     }
     // release object
     runStraightLine(motorInfo, info);
     sleep(200);
+    stopRobot(motorInfo);
     releaseObject(motorInfo);
 
     // run backward
