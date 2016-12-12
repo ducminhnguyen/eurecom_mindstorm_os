@@ -21,7 +21,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include <stdint.h>
-#define Sleep( msec ) usleep(( msec ) * 1000 )
+#define sleep( msec ) usleep(( msec ) * 1000 )
 
 Robot_State robotState = ROBOT_STOP;
 
@@ -187,93 +187,33 @@ int main( void ) {
         UpdateSensorInfo(&info);
         SteerRobot(info, motorInfo);
     }
-//    int port=65;
-//    for (port=65; port<69; port++){
-//        if ( ev3_search_tacho_plugged_in(port,0, &sn, 0 )) {
-//            int max_speed;
-//
-//            printf( "LEGO_EV3_M_MOTOR 1 is found, run for 5 sec...\n" );
-//            get_tacho_max_speed( sn, &max_speed );
-//            printf("  max speed = %d\n", max_speed );
-//            set_tacho_stop_action_inx( sn, TACHO_COAST );
-//            set_tacho_speed_sp( sn, max_speed * 2 / 3 );
-//            set_tacho_time_sp( sn, 5000 );
-//            set_tacho_ramp_up_sp( sn, 2000 );
-//            set_tacho_ramp_down_sp( sn, 2000 );
-//            set_tacho_command_inx( sn, TACHO_RUN_TIMED );
-//            /* Wait tacho stop */
-//            Sleep( 100 );
-//            do {
-//                get_tacho_state_flags( sn, &state );
-//            } while ( state );
-//            printf( "run to relative position...\n" );
-//            set_tacho_speed_sp( sn, max_speed / 2 );
-//            set_tacho_ramp_up_sp( sn, 0 );
-//            set_tacho_ramp_down_sp( sn, 0 );
-//            set_tacho_position_sp( sn, 90 );
-//            for ( i = 0; i < 8; i++ ) {
-//                set_tacho_command_inx( sn, TACHO_RUN_TO_REL_POS );
-//                Sleep( 500 );
-//            }
-//
-//        } else {
-//            printf( "LEGO_EV3_M_MOTOR 1 is NOT found\n" );
-//        }
-//    }
 
-//    for ( ; ; ){
-//
-//        if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0 )) {
-//            printf("GYRO value");
-//            if (!get_sensor_value0(sn_gyro, &value)) {
-//                value = 0;
-//            }
-//            printf( "\r(%f) \n", initialGyro - value);
-//            fflush( stdout );
-//        }
-//        if ( ev3_search_sensor( LEGO_EV3_COLOR, &sn_color, 0 )) {
-//            printf( "COLOR sensor is found, reading COLOR...\n" );
-//            if ( !get_sensor_value( 0, sn_color, &val ) || ( val < 0 ) || ( val >= COLOR_COUNT )) {
-//                val = 0;
-//            }
-//            printf( "\r(%s) \n", color[ val ]);
-//            fflush( stdout );
-//        }
-//        if (ev3_search_sensor(HT_NXT_COMPASS, &sn_compass,0)){
-//            printf("COMPASS found, reading compass...\n");
-//            if ( !get_sensor_value0(sn_compass, &value )) {
-//                value = 0;
-//            }
-//            printf( "\r(%f) \n", value);
-//            fflush( stdout );
-//        }
-//        if (ev3_search_sensor(LEGO_EV3_US, &sn_sonar,0)){
-//            printf("SONAR found, reading sonar...\n");
-//            if ( !get_sensor_value0(sn_sonar, &value )) {
-//                value = 0;
-//            }
-//            printf( "\r(%f) \n", value);
-//            fflush( stdout );
-//        }
-//        if (ev3_search_sensor(NXT_ANALOG, &sn_mag,0)){
-//            printf("Magnetic sensor found, reading magnet...\n");
-//            if ( !get_sensor_value0(sn_mag, &value )) {
-//                value = 0;
-//            }
-//            printf( "\r(%f) \n", value);
-//            fflush( stdout );
-//        }
+    // run straight for a second, to running out of starting position
+    StartRunning(motorInfo);
+    runStraightLine(motorInfo, info);
+    sleep(1000);
+    stopRobot();
 
-//        if ( _check_pressed( sn_touch )) break;
-//        Sleep( 200 );
-//        printf( "\r        " );
-//        fflush( stdout );
-//        if ( _check_pressed( sn_touch )) break;
-//        Sleep( 200 );
-//    }
+    while (true) { // run until see black
+        if (getColorSensorValue == Color.BLACK) 
+            break;
+        sleep(100);
+    }
+    // release object
+    runStraightLine(motorInfo, info);
+    sleep(200);
+    releaseObject(motorInfo);
 
-    ev3_uninit();
-    printf( "*** ( EV3 ) Bye! ***\n" );
+    // run backward
+    MotorInfo b_motor_info = motorInfo;
+    b_motor_info.speed = - b_motor_info.speed;
+    runStraightLine(b_motor_info, info);
+    sleep(1000);
+    stopRobot(b_motor_info);
+
+    // exit
     return 0;
 }
+
+
 
