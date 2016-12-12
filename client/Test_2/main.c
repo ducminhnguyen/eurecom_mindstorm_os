@@ -190,10 +190,12 @@ int main( void ) {
 //    }
 
     // run straight for a second, to running out of starting position
+    printf("start running\n");
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(1000);
+    Sleep(1000);
     stopRobot(motorInfo);
+    printf("change state of robot to check color until get black\n");
 
     color_val = getColorSensorValue(info);
     while (true) { // run until see black
@@ -202,11 +204,11 @@ int main( void ) {
             break; 
         } 
         runStraightLine(motorInfo, info);
-        sleep(10);
+        Sleep(10);
     }
     // release object
     runStraightLine(motorInfo, info);
-    sleep(200);
+    Sleep(200);
     stopRobot(motorInfo);
     releaseObject(motorInfo);
 
@@ -214,7 +216,7 @@ int main( void ) {
     struct MotorInfo b_motor_info = motorInfo;
     b_motor_info.speed = - b_motor_info.speed;
     runStraightLine(b_motor_info, info);
-    sleep(1000);
+    Sleep(1000);
     stopRobot(b_motor_info);
 
     // exit
