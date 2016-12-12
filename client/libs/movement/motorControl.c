@@ -113,6 +113,7 @@ void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo) {
 void stopRobot(struct MotorInfo motorInfo) {
     set_tacho_command_inx(motorInfo.leftMotor, TACHO_RESET);
     set_tacho_command_inx(motorInfo.rightMotor, TACHO_RESET);
+    set_tacho_command_inx(motorInfo.graberMotor, TACHO_RESET);
 }
 
 void grabObject(struct MotorInfo motorInfo) {
@@ -120,14 +121,16 @@ void grabObject(struct MotorInfo motorInfo) {
     set_tacho_speed_sp(motorInfo.graberMotor, -100);
     set_tacho_time_sp(motorInfo.graberMotor, 500);
     set_tacho_command_inx(motorInfo.graberMotor, TACHO_RUN_TIMED);
-    usleep(20000);
+    usleep(2000);
     stopRobot(motorInfo);
 }
 
 void releaseObject(struct MotorInfo motorInfo) {
     stopRobot(motorInfo);
     set_tacho_speed_sp(motorInfo.graberMotor, 100);
-    usleep(200000);
+    set_tacho_time_sp(motorInfo.graberMotor, 500);
+    set_tacho_command_inx(motorInfo.graberMotor, TACHO_RUN_TIMED);
+    usleep(2000);
     stopRobot(motorInfo);
 }
 

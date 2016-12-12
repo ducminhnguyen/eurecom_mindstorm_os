@@ -10,7 +10,7 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "ev3_sensor.h"
-
+#include "config.h"
 
 struct SensorInfo {
     float currentGyro, initialGyro, diffGyro;
@@ -25,6 +25,12 @@ struct MotorInfo {
     double turnDegree;
 };
 
+struct CommandInfo {
+    Robot_State cmdState;
+    struct SensorInfo sensorInfo;
+    struct MotorInfo motorInfo;
+};
+
 //////////////////////////// motor function declaration /////////////////////
 void runStraight();
 void turnLeft(struct MotorInfo motorInfo, double degree);
@@ -33,6 +39,8 @@ void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo);
 void stopRobot(struct MotorInfo motorInfo);
 void grabObject(struct MotorInfo motorInfo);
 void releaseObject(struct MotorInfo motorInfo);
+
+
 
 /////////////////////////// sensor function declaration ///////////////////
 int getColorSensorValue(struct SensorInfo sensorInfo);
