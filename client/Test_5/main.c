@@ -166,11 +166,12 @@ int main( void ) {
 
     uint8_t tacho_left_motor = getTacho(PORT_B);    // left  wheel id
     uint8_t tacho_right_motor = getTacho(PORT_C);   // right wheel id
+    uint8_t tacho_graber_motor = getTacho(PORT_D);  // graber id
     struct MotorInfo motorInfo;
     motorInfo.leftMotor = tacho_left_motor;
     motorInfo.rightMotor = tacho_right_motor;
     motorInfo.speed = 500;
-    motorInfo.time = 2800;
+    motorInfo.time = 2700;
     motorInfo.command = TACHO_RUN_TIMED;
     motorInfo.turnDegree = 90;
 
