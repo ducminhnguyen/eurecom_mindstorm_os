@@ -112,6 +112,9 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // d
     } else if (robotState == ROBOT_SCAN) {
 
     }
+    FLAGS_T flag;
+    get_tacho_state_flags(motorInfo.leftMotor, &flag);
+    printf("%d\n", flag);
     return;
 }
 
