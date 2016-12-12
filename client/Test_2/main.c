@@ -29,7 +29,7 @@ const char const *color[] = { "?", "BLACK", "BLUE", "GREEN", "YELLOW", "RED", "W
 #define COLOR_COUNT  (( int )( sizeof( color ) / sizeof( color[ 0 ])))
 
 void initRobot() {
-    while (ev3_tacho_init() < 1 ) Sleep( 1000 );
+    while (ev3_tacho_init() < 1 ) sleep( 1000 );
     ev3_sensor_init();
 }
 
