@@ -92,7 +92,7 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) {
     //printf("Steering\n");
     if (robotState == ROBOT_TURN_LEFT) {
         turnLeft(motorInfo, 45);
-        robotState == ROBOT_STOP;
+        robotState = ROBOT_STOP;
     }
     return;
 }
