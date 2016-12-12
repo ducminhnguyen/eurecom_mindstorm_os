@@ -16,8 +16,8 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <sys/socket.h>
-#include <bluetooth/bluetooth.h>
-#include <bluetooth/rfcomm.h>
+//#include <bluetooth/bluetooth.h>
+//#include <bluetooth/rfcomm.h>
 #include <ncurses.h>
 #include <unistd.h>
 #include <stdint.h>
@@ -192,10 +192,10 @@ int main( void ) {
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
     sleep(1000);
-    stopRobot();
+    stopRobot(motorInfo);
 
     while (true) { // run until see black
-        if (getColorSensorValue == Color.BLACK) 
+        if (getColorSensorValue(info) == BLACK) 
             break;
         sleep(100);
     }
@@ -205,7 +205,7 @@ int main( void ) {
     releaseObject(motorInfo);
 
     // run backward
-    MotorInfo b_motor_info = motorInfo;
+    struct MotorInfo b_motor_info = motorInfo;
     b_motor_info.speed = - b_motor_info.speed;
     runStraightLine(b_motor_info, info);
     sleep(1000);
