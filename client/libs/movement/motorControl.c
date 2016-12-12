@@ -71,7 +71,7 @@ void turnLeft(struct MotorInfo motorInfo, double degree) {
     set_tacho_time_sp(motorInfo.rightMotor, turnTime);
     set_tacho_command_inx(motorInfo.leftMotor, TACHO_RUN_TIMED);
     set_tacho_command_inx(motorInfo.rightMotor, TACHO_RUN_TIMED);
-    usleep(turnTime * 5);
+    usleep(turnTime);
 }
 
 void turnRight(struct MotorInfo motorInfo, double degree) {

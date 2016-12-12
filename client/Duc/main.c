@@ -23,6 +23,8 @@
 #include <stdint.h>
 #define Sleep( msec ) usleep(( msec ) * 1000 )
 
+Robot_State robotState = ROBOT_STOP;
+
 const char const *color[] = { "?", "BLACK", "BLUE", "GREEN", "YELLOW", "RED", "WHITE", "BROWN" };
 #define COLOR_COUNT  (( int )( sizeof( color ) / sizeof( color[ 0 ])))
 
@@ -88,7 +90,9 @@ void UpdateSensorInfo(struct SensorInfo* info) {
 void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) {
     //runStraightLine(motorInfo, sensorInfo);
     //printf("Steering\n");
-    turnLeft(motorInfo, 45);
+    if (robotState == ROBOT_TURN_LEFT) {
+        turnLeft(motorInfo, 45);
+    }
     return;
 }
 
@@ -156,6 +160,8 @@ int main( void ) {
     info.initialGyro = initialGyro;
     info.diffGyro = initialGyro;
     StartRunning(motorInfo);
+
+    robotState = ROBOT_TURN_LEFT;
 
     while (true) {
         UpdateSensorInfo(&info);
