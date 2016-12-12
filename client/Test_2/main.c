@@ -164,6 +164,7 @@ int main( void ) {
     int val;
     float value;
     uint32_t n, ii;
+    int color_val = 255;
 
     uint8_t tacho_left_motor = getTacho(PORT_B);    // left  wheel id
     uint8_t tacho_right_motor = getTacho(PORT_C);   // right wheel id
@@ -189,20 +190,25 @@ int main( void ) {
 //    }
 
     // run straight for a second, to running out of starting position
+    printf("start running\n");
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(1000);
+    sleep(4);
     stopRobot(motorInfo);
+    printf("change state of robot to check color until get black\n");
 
+    color_val = getColorSensorValue(info);
     while (true) { // run until see black
-        if (getColorSensorValue(info) < 25) 
-            break;
+        printf("sensor color %d\n", color_val); 
+        if ( color_val = getColorSensorValue(info) < 25) {
+            break; 
+        } 
         runStraightLine(motorInfo, info);
-        sleep(10);
+        Sleep(30);
     }
     // release object
     runStraightLine(motorInfo, info);
-    sleep(200);
+    Sleep(200);
     stopRobot(motorInfo);
     releaseObject(motorInfo);
 
@@ -210,7 +216,7 @@ int main( void ) {
     struct MotorInfo b_motor_info = motorInfo;
     b_motor_info.speed = - b_motor_info.speed;
     runStraightLine(b_motor_info, info);
-    sleep(1000);
+    sleep(1);
     stopRobot(b_motor_info);
 
     // exit
