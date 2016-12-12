@@ -85,10 +85,6 @@ void UpdateSensorInfo(struct SensorInfo* info) { // update
         }
     }
     info->currentColor = getColorSensorValue(*info);
-    if (info->currentColor < 15 && info->currentColor > 0) {
-        sleep(1);
-        robotState = ROBOT_STOP;
-    }
     return;
 }
 
@@ -107,6 +103,10 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // d
         runStraightLine(motorInfo, sensorInfo);
     } else if (robotState == ROBOT_GO_TIMED) {
         // To be implement
+        motorInfo.time = 5900;
+        motorInfo.command = TACHO_RUN_TIMED;
+        runStraightLine(motorInfo, sensorInfo);
+        robotState = ROBOT_IDLE;
     } else if (robotState == ROBOT_GRAB) {
 
     } else if (robotState == ROBOT_SCAN) {
@@ -132,6 +132,12 @@ void StartRunning(struct MotorInfo motorInfo) {
 
     return;
 }
+
+void resetEngine(struct MotorInfo motorInfo) {
+    set_tacho_command_inx(motorInfo.leftMotor, TACHO_RESET);
+    set_tacho_command_inx(motorInfo.rightMotor, TACHO_RESET);
+}
+
 
 int main( void ) {
 
@@ -174,6 +180,7 @@ int main( void ) {
     motorInfo.time = 5000;
     motorInfo.command = TACHO_RUN_TIMED;
     motorInfo.turnDegree = 90;
+    resetEngine(motorInfo);
 
     float initialGyro = getInitialGyroValue();      // initial value of gyro
     struct SensorInfo info;
@@ -181,7 +188,7 @@ int main( void ) {
     info.diffGyro = initialGyro;
     StartRunning(motorInfo);
 
-    robotState = ROBOT_GO_STRAIGHT;
+    robotState = ROBOT_GO_TIMED;
 
     while (true) {
         UpdateSensorInfo(&info);
