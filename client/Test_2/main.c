@@ -164,7 +164,7 @@ int main( void ) {
     int val;
     float value;
     uint32_t n, ii;
-    int color_val = getColorSensorValue(info);
+    int color_val = 255;
 
     uint8_t tacho_left_motor = getTacho(PORT_B);    // left  wheel id
     uint8_t tacho_right_motor = getTacho(PORT_C);   // right wheel id
@@ -194,6 +194,8 @@ int main( void ) {
     runStraightLine(motorInfo, info);
     sleep(1000);
     stopRobot(motorInfo);
+
+    color_val = getColorSensorValue(info);
     while (true) { // run until see black
         printf("sensor color %d\n", val); 
         if ( color_val = getColorSensorValue(info) < 25) {
