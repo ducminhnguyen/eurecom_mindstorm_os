@@ -85,7 +85,10 @@ void UpdateSensorInfo(struct SensorInfo* info) { // update
         }
     }
     info->currentColor = getColorSensorValue(*info);
-    //printf("%d \n", info->currentColor);
+    if (info->currentColor < 15) {
+        usleep(2500);
+        robotState = ROBOT_STOP;
+    }
     return;
 }
 
@@ -178,7 +181,7 @@ int main( void ) {
     info.diffGyro = initialGyro;
     StartRunning(motorInfo);
 
-    robotState = ROBOT_STOP;
+    robotState = ROBOT_GO_STRAIGHT;
 
     while (true) {
         UpdateSensorInfo(&info);
