@@ -113,6 +113,20 @@ void stopRobot(struct MotorInfo motorInfo) {
     set_tacho_command_inx(motorInfo.rightMotor, TACHO_RESET);
 }
 
+void grabObject(struct MotorInfo motorInfo) {
+    stopRobot(motorInfo);
+    set_tacho_speed_sp(motorInfo.graberMotor, -100);
+    usleep(200000);
+    stopRobot(motorInfo);
+}
+
+void releaseObject(struct MotorInfo motorInfo) {
+    stopRobot(motorInfo);
+    set_tacho_speed_sp(motorInfo.graberMotor, 100);
+    usleep(200000);
+    stopRobot(motorInfo);
+}
+
 /////////////////////////////////sensor code/////////////////////////////////////////
 int getColorSensorValue(struct SensorInfo sensorInfo) {
     const char const *color[] = { "?", "BLACK", "BLUE", "GREEN", "YELLOW", "RED", "WHITE", "BROWN" };
