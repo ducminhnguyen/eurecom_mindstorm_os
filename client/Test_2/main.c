@@ -21,7 +21,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include <stdint.h>
-#define sleep( msec ) usleep(( msec ) * 1000 )
+#define Sleep( msec ) usleep(( msec ) * 1000 )
 
 Robot_State robotState = ROBOT_STOP;
 
@@ -29,7 +29,7 @@ const char const *color[] = { "?", "BLACK", "BLUE", "GREEN", "YELLOW", "RED", "W
 #define COLOR_COUNT  (( int )( sizeof( color ) / sizeof( color[ 0 ])))
 
 void initRobot() {
-    while (ev3_tacho_init() < 1 ) sleep( 1000 );
+    while (ev3_tacho_init() < 1 ) Sleep( 1000 );
     ev3_sensor_init();
 }
 
@@ -86,7 +86,7 @@ void UpdateSensorInfo(struct SensorInfo* info) { // update
     }
     info->currentColor = getColorSensorValue(*info);
     if (info->currentColor < 15 && info->currentColor > 0) {
-        sleep(1);
+        Sleep(1);
         robotState = ROBOT_STOP;
     }
     return;
