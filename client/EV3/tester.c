@@ -135,7 +135,7 @@ int main( void )
 			if ( !get_sensor_value( 0, sn_color, &val ) || ( val < 0 ) || ( val >= COLOR_COUNT )) {
 				val = 0;
 			}
-			printf( "\r(%s) \n", color[ val ]);
+			printf( "\r(%s) %d \n", color[ val ], val);
 			fflush( stdout );
 		}
 	    	if (ev3_search_sensor(HT_NXT_COMPASS, &sn_compass,0)){

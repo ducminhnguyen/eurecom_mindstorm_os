@@ -119,12 +119,13 @@ void stopRobot(struct MotorInfo motorInfo) {
 
 /////////////////////////////////sensor code/////////////////////////////////////////
 int getColorSensorValue(struct SensorInfo sensorInfo) {
-    int val;
+    int val = 0;
     uint8_t sn_color;
-    while (!ev3_search_sensor( LEGO_EV3_COLOR, &sn_color, 0 )) {
-        if ( !get_sensor_value( 0, sn_color, &val )) {
+    while (!ev3_search_sensor(LEGO_EV3_COLOR, &sn_color, 0 )) {
+        if ( ! get_sensor_value( 0, sn_color, &val )) {
             val = 0;
+        } else {
+            return val;
         }
-        return val;
     }
 }
