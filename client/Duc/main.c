@@ -181,7 +181,7 @@ int main( void ) {
     info.diffGyro = initialGyro;
     StartRunning(motorInfo);
 
-    robotState = ROBOT_GO_STRAIGHT;
+    robotState = ROBOT_TURN_LEFT;
 
     while (true) {
         UpdateSensorInfo(&info);
