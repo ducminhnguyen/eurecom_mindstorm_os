@@ -197,7 +197,7 @@ int main( void ) {
     while (true) { // run until see black
         if (getColorSensorValue(info) < 25) 
             break;
-        sleep(100);
+        sleep(10);
     }
     // release object
     runStraightLine(motorInfo, info);
