@@ -103,6 +103,10 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // d
         runStraightLine(motorInfo, sensorInfo);
     } else if (robotState == ROBOT_GO_TIMED) {
         // To be implement
+        motorInfo.time = 10000;
+        motorInfo.command = TACHO_RUN_TIMED;
+        runStraightLine(motorInfo, sensorInfo);
+        robotState = ROBOT_IDLE;
     } else if (robotState == ROBOT_GRAB) {
 
     } else if (robotState == ROBOT_SCAN) {
@@ -177,7 +181,7 @@ int main( void ) {
     info.diffGyro = initialGyro;
     StartRunning(motorInfo);
 
-    robotState = ROBOT_GO_STRAIGHT;
+    robotState = ROBOT_GO_TIMED;
 
     while (true) {
         UpdateSensorInfo(&info);

@@ -104,6 +104,8 @@ void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo) {
         set_tacho_speed_sp(motorInfo.rightMotor, motorInfo.speed);
     }
     //printf("%d %d \n", left_motor_speed, right_motor_speed);
+    set_tacho_time_sp(motorInfo.leftMotor, motorInfo.time);
+    set_tacho_time_sp(motorInfo.leftMotor, motorInfo.time);
     set_tacho_command_inx(motorInfo.leftMotor, motorInfo.command);
     set_tacho_command_inx(motorInfo.rightMotor, motorInfo.command);
 }
@@ -128,3 +130,4 @@ int getColorSensorValue(struct SensorInfo sensorInfo) {
         }
     }
 }
+
