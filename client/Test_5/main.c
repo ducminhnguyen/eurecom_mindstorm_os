@@ -85,6 +85,7 @@ void UpdateSensorInfo(struct SensorInfo* info) { // update
         }
     }
     info->currentColor = getColorSensorValue(*info);
+    printf("color: %d", info->currentColor);
     return;
 }
 
@@ -171,7 +172,7 @@ int main( void ) {
     motorInfo.leftMotor = tacho_left_motor;
     motorInfo.rightMotor = tacho_right_motor;
     motorInfo.speed = 500;
-    motorInfo.time = 2700;
+    motorInfo.time = 2500;
     motorInfo.command = TACHO_RUN_TIMED;
     motorInfo.turnDegree = 90;
 
