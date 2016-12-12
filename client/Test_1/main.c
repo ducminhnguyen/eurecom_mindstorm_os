@@ -133,6 +133,12 @@ void StartRunning(struct MotorInfo motorInfo) {
     return;
 }
 
+void resetEngine(struct MotorInfo motorInfo) {
+    set_tacho_command_inx(motorInfo.leftMotor, TACHO_RESET);
+    set_tacho_command_inx(motorInfo.rightMotor, TACHO_RESET);
+}
+
+
 int main( void ) {
 
 #ifndef __ARM_ARCH_4T__
@@ -174,6 +180,7 @@ int main( void ) {
     motorInfo.time = 5000;
     motorInfo.command = TACHO_RUN_TIMED;
     motorInfo.turnDegree = 90;
+    resetEngine(motorInfo);
 
     float initialGyro = getInitialGyroValue();      // initial value of gyro
     struct SensorInfo info;
