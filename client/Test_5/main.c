@@ -85,8 +85,14 @@ void UpdateSensorInfo(struct SensorInfo* info) { // update
         }
     }
     info->currentColor = getColorSensorValue(*info);
-    printf("color: %d", info->currentColor);
+    //printf("color: %d", info->currentColor);
     return;
+}
+
+int getTachoState(struct MotorInfo motorInfo) {
+    FLAGS_T flag;
+    get_tacho_state_flags(motorInfo.leftMotor, &flag);
+    return flag;
 }
 
 void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // draw
@@ -108,13 +114,15 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // d
         runStraightLine(motorInfo, sensorInfo);
         robotState = ROBOT_IDLE;
     } else if (robotState == ROBOT_GRAB) {
-
+        grabObject(motorInfo);
     } else if (robotState == ROBOT_SCAN) {
 
+    } else if (robotState == ROBOT_IDLE) {
+        int motorState = getTachoState(motorInfo);
+        if (motorState == 0) {
+            robotState = ROBOT_GRAB;
+        }
     }
-    FLAGS_T flag;
-    get_tacho_state_flags(motorInfo.leftMotor, &flag);
-    printf("%d\n", flag);
     return;
 }
 
