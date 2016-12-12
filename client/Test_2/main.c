@@ -195,7 +195,7 @@ int main( void ) {
     stopRobot(motorInfo);
 
     while (true) { // run until see black
-        if (getColorSensorValue(info) == BLACK) 
+        if (getColorSensorValue(info) < 25) 
             break;
         sleep(100);
     }
