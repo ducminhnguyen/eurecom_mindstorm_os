@@ -98,6 +98,14 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) {
     } else if (robotState == ROBOT_TURN_RIGHT) {
         turnRight(motorInfo, motorInfo.turnDegree);
         robotState = ROBOT_IDLE;
+    } else if (robotState == ROBOT_GO_STRAIGHT) {
+        runStraightLine(motorInfo, sensorInfo);
+    } else if (robotState == ROBOT_GO_TIMED) {
+        // To be implement
+    } else if (robotState == ROBOT_GRAB) {
+
+    } else if (robotState == ROBOT_SCAN) {
+
     }
     return;
 }
