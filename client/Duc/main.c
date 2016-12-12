@@ -68,7 +68,7 @@ uint8_t getTacho(int portNum) {
 
 
 void UpdateSensorInfo(struct SensorInfo* info) {
-    printf("Update\n");
+    //printf("Update\n");
     uint8_t sn_gyro;
     bool stop = false;
     float value = 0;
@@ -87,7 +87,7 @@ void UpdateSensorInfo(struct SensorInfo* info) {
 
 void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) {
     //runStraightLine(motorInfo, sensorInfo);
-    printf("Steering\n");
+    //printf("Steering\n");
     turnLeft(motorInfo, 45);
     return;
 }
