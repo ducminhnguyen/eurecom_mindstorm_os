@@ -85,7 +85,8 @@ void UpdateSensorInfo(struct SensorInfo* info) {
 }
 
 void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) {
-    runStraightLine(motorInfo, sensorInfo);
+    //runStraightLine(motorInfo, sensorInfo);
+    turnLeft(motorInfo, 45);
     return;
 }
 

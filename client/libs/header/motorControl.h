@@ -14,7 +14,7 @@
 
 struct SensorInfo {
     float currentGyro, initialGyro, diffGyro;
-
+    float currentColor, initialColor, diffColor;
 };
 
 struct MotorInfo {
@@ -24,9 +24,17 @@ struct MotorInfo {
     int time;
 };
 
+//////////////////////////// motor function declaration /////////////////////
 void runStraight();
-void turnLeft(double degree);
-void turnRight(double degree);
+void turnLeft(struct MotorInfo motorInfo, double degree);
+void turnRight(struct MotorInfo motorInfo, double degree);
 void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo);
 void stopRobot(struct MotorInfo motorInfo);
+void grabObject(struct MotorInfo motorInfo);
+void releaseObject(struct MotorInfo motorInfo);
+
+/////////////////////////// sensor function declaration ///////////////////
+int getColorSensorValue(struct SensorInfo sensorInfo);
+
+
 #endif //OS_ROBOT_PROJECT_FALL2016_MOTORCONTROL_H

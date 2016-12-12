@@ -60,12 +60,31 @@ void runStraight(){
     }
 }
 
-void turnLeft(double degree) {
 
+void turnLeft(struct MotorInfo motorInfo, double degree) {
+    stopRobot(motorInfo);
+    int turnSpeed = TURN_SPEED;
+    int turnTime = 100; // calculate based on degree
+    set_tacho_speed_sp(motorInfo.leftMotor, -turnSpeed);
+    set_tacho_speed_sp(motorInfo.rightMotor, turnSpeed);
+    set_tacho_time_sp(motorInfo.leftMotor, turnTime);
+    set_tacho_time_sp(motorInfo.rightMotor, turnTime);
+    set_tacho_command_inx(motorInfo.leftMotor, TACHO_RUN_TIMED);
+    set_tacho_command_inx(motorInfo.rightMotor, TACHO_RUN_TIMED);
+    usleep(turnTime);
 }
 
-void turnRight(double degree) {
-
+void turnRight(struct MotorInfo motorInfo, double degree) {
+    stopRobot(motorInfo);
+    int turnSpeed = TURN_SPEED;
+    int turnTime = 100; // calculate based on degree
+    set_tacho_speed_sp(motorInfo.leftMotor, turnSpeed);
+    set_tacho_speed_sp(motorInfo.rightMotor, -turnSpeed);
+    set_tacho_time_sp(motorInfo.leftMotor, turnTime);
+    set_tacho_time_sp(motorInfo.rightMotor, turnTime);
+    set_tacho_command_inx(motorInfo.leftMotor, TACHO_RUN_TIMED);
+    set_tacho_command_inx(motorInfo.rightMotor, TACHO_RUN_TIMED);
+    usleep(turnTime);
 }
 
 void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo) {
@@ -75,14 +94,14 @@ void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo) {
     if (sensorInfo.diffGyro > 0) {// && left_motor_speed < right_motor_speed + 30) { // left tilt
         //set_tacho_speed_sp(motorInfo.rightMotor, left_motor_speed);
         //set_tacho_speed_sp(motorInfo.leftMotor, right_motor_speed);
-        set_tacho_speed_sp(motorInfo.rightMotor, motorInfo.speed - 30*abs(sensorInfo.diffGyro));
+        set_tacho_speed_sp(motorInfo.rightMotor, motorInfo.speed - 40*abs(sensorInfo.diffGyro));
         set_tacho_speed_sp(motorInfo.leftMotor, motorInfo.speed);
         printf("Left tilt: %f \n", sensorInfo.diffGyro);
     } else if (sensorInfo.diffGyro < 0) {// && left_motor_speed + 30 > right_motor_speed) { // right tilt
         //set_tacho_speed_sp(motorInfo.leftMotor, right_motor_speed);
         //set_tacho_speed_sp(motorInfo.rightMotor, left_motor_speed);
         set_tacho_speed_sp(motorInfo.rightMotor, motorInfo.speed);
-        set_tacho_speed_sp(motorInfo.leftMotor, motorInfo.speed - 30*abs(sensorInfo.diffGyro));
+        set_tacho_speed_sp(motorInfo.leftMotor, motorInfo.speed - 40*abs(sensorInfo.diffGyro));
         printf("Right tilt: %f \n", sensorInfo.diffGyro);
     } else {
         set_tacho_speed_sp(motorInfo.leftMotor, motorInfo.speed);
@@ -96,4 +115,16 @@ void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo) {
 void stopRobot(struct MotorInfo motorInfo) {
     set_tacho_command_inx(motorInfo.leftMotor, TACHO_RESET);
     set_tacho_command_inx(motorInfo.rightMotor, TACHO_RESET);
+}
+
+/////////////////////////////////sensor code/////////////////////////////////////////
+int getColorSensorValue(struct SensorInfo sensorInfo) {
+    int val;
+    uint8_t sn_color;
+    while (!ev3_search_sensor( LEGO_EV3_COLOR, &sn_color, 0 )) {
+        if ( !get_sensor_value( 0, sn_color, &val )) {
+            val = 0;
+        }
+        return val;
+    }
 }
