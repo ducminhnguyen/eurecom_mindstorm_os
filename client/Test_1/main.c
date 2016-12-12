@@ -103,7 +103,7 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // d
         runStraightLine(motorInfo, sensorInfo);
     } else if (robotState == ROBOT_GO_TIMED) {
         // To be implement
-        motorInfo.time = 14000;
+        motorInfo.time = 25000;
         motorInfo.command = TACHO_RUN_TIMED;
         runStraightLine(motorInfo, sensorInfo);
         robotState = ROBOT_IDLE;
