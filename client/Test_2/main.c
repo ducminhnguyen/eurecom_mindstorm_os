@@ -193,7 +193,7 @@ int main( void ) {
     printf("start running\n");
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(1000);
+    sleep(1);
     stopRobot(motorInfo);
     printf("change state of robot to check color until get black\n");
 
@@ -204,7 +204,7 @@ int main( void ) {
             break; 
         } 
         runStraightLine(motorInfo, info);
-        Sleep(10);
+        Sleep(30);
     }
     // release object
     runStraightLine(motorInfo, info);
@@ -216,7 +216,7 @@ int main( void ) {
     struct MotorInfo b_motor_info = motorInfo;
     b_motor_info.speed = - b_motor_info.speed;
     runStraightLine(b_motor_info, info);
-    Sleep(1000);
+    sleep(1);
     stopRobot(b_motor_info);
 
     // exit
