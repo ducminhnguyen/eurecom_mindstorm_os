@@ -85,7 +85,7 @@ void UpdateSensorInfo(struct SensorInfo* info) { // update
         }
     }
     info->currentColor = getColorSensorValue(*info);
-    printf("%d \n", info->currentColor);
+    //printf("%d \n", info->currentColor);
     return;
 }
 
