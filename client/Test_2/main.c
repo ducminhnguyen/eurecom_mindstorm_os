@@ -193,7 +193,7 @@ int main( void ) {
     printf("start running\n");
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(1);
+    sleep(4);
     stopRobot(motorInfo);
     printf("change state of robot to check color until get black\n");
 
