@@ -199,7 +199,7 @@ int main( void ) {
 
     color_val = getColorSensorValue(info);
     while (true) { // run until see black
-        printf("sensor color %d\n", val); 
+        printf("sensor color %d\n", color_val); 
         if ( color_val = getColorSensorValue(info) < 25) {
             break; 
         } 
