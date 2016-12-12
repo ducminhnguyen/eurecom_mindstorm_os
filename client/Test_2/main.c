@@ -193,10 +193,12 @@ int main( void ) {
     runStraightLine(motorInfo, info);
     sleep(1000);
     stopRobot(motorInfo);
-
+    int val = getColorSensorValue(info);
     while (true) { // run until see black
-        if (getColorSensorValue(info) < 25) 
-            break;
+        printf("sensor color %d\n", val); 
+        if ( val = getColorSensorValue(info) < 25) {
+            break; 
+        } 
         runStraightLine(motorInfo, info);
         sleep(10);
     }
