@@ -69,7 +69,7 @@ uint8_t getTacho(int portNum) {
 }
 
 
-void UpdateSensorInfo(struct SensorInfo* info) {
+void UpdateSensorInfo(struct SensorInfo* info) { // update
     //printf("Update\n");
     uint8_t sn_gyro;
     bool stop = false;
@@ -84,10 +84,12 @@ void UpdateSensorInfo(struct SensorInfo* info) {
             info->diffGyro = info->initialGyro - info->currentGyro;
         }
     }
+    info->currentColor = getColorSensorValue(*info);
+    printf("%d", info->currentColor);
     return;
 }
 
-void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) {
+void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // draw
     //runStraightLine(motorInfo, sensorInfo);
     //printf("Steering\n");
     if (robotState == ROBOT_TURN_LEFT) {
@@ -176,7 +178,7 @@ int main( void ) {
     info.diffGyro = initialGyro;
     StartRunning(motorInfo);
 
-    robotState = ROBOT_TURN_LEFT;
+    robotState = ROBOT_STOP;
 
     while (true) {
         UpdateSensorInfo(&info);

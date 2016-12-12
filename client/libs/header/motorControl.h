@@ -14,7 +14,7 @@
 
 struct SensorInfo {
     float currentGyro, initialGyro, diffGyro;
-    float currentColor, initialColor, diffColor;
+    int currentColor, initialColor, diffColor;
 };
 
 struct MotorInfo {
