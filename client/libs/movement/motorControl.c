@@ -118,6 +118,8 @@ void stopRobot(struct MotorInfo motorInfo) {
 void grabObject(struct MotorInfo motorInfo) {
     stopRobot(motorInfo);
     set_tacho_speed_sp(motorInfo.graberMotor, -100);
+    set_tacho_time_sp(motorInfo.graberMotor, 500);
+    set_tacho_command_inx(motorInfo.graberMotor, TACHO_RUN_TIMED);
     usleep(20000);
     stopRobot(motorInfo);
 }
