@@ -86,7 +86,7 @@ void UpdateSensorInfo(struct SensorInfo* info) { // update
     }
     info->currentColor = getColorSensorValue(*info);
     if (info->currentColor < 15) {
-        usleep(2500);
+        sleep(10000);
         robotState = ROBOT_STOP;
     }
     return;
