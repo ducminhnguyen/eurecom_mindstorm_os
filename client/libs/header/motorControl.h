@@ -22,6 +22,7 @@ struct MotorInfo {
     int speed;
     int command;
     int time;
+    double turnDegree = 90;
 };
 
 //////////////////////////// motor function declaration /////////////////////
