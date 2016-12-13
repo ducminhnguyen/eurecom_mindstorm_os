@@ -70,12 +70,11 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
     while (true) {
         update_sensor_info(&nsensor);
         diff_degree = sensor.currentGyro - init_degree;
-        sign = diff_degree < 0 ? 1 : -1;
         if (abs(degree - diff_degree) <= 3) {
             stopRobot(motor_info);
             break;
         } else {
-            turn_speed = (int)((1.0 - abs(diff_degree)/degree) * turn_speed * sign);
+            turn_speed = (int)((1.0 - abs(diff_degree)/degree) * turn_speed);
         }
         printf("turn speed %d\n", turn_speed);
         set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
