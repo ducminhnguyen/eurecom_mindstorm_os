@@ -77,6 +77,7 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
         } else {
             turn_speed = (int)((1.0 - abs(diff_degree)/degree) * turn_speed * sign);
         }
+        printf("turn speed %d\n", turn_speed);
         set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
         set_tacho_speed_sp(motor_info.rightMotor, turn_speed);
         set_tacho_time_sp(motor_info.leftMotor, turn_time);
