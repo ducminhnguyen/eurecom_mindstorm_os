@@ -151,8 +151,8 @@ void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo) {
 }
 
 void stopRobot(struct MotorInfo motorInfo) {
-    set_tacho_command_inx(motorInfo.leftMotor, TACHO_RESET);
     set_tacho_command_inx(motorInfo.rightMotor, TACHO_RESET);
+    set_tacho_command_inx(motorInfo.leftMotor, TACHO_RESET);
     set_tacho_command_inx(motorInfo.graberMotor, TACHO_RESET);
 }
 
