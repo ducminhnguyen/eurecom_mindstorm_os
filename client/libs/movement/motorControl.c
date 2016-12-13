@@ -80,8 +80,8 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
         }
         printf("diff degree %f\n", diff_degree);
         printf("turn speed %d\n", turn_speed);
-        set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
-        set_tacho_speed_sp(motor_info.rightMotor, turn_speed);
+        set_tacho_speed_sp(motor_info.leftMotor, turn_speed);
+        set_tacho_speed_sp(motor_info.rightMotor, -turn_speed);
         set_tacho_time_sp(motor_info.leftMotor, turn_time);
         set_tacho_time_sp(motor_info.rightMotor, turn_time);
         set_tacho_command_inx(motor_info.leftMotor, TACHO_RUN_TIMED);
