@@ -188,7 +188,6 @@ int main( void ) {
     motorInfo.speed = 500;
     motorInfo.time = 1000;
     motorInfo.command = TACHO_RUN_TIMED;
-    motorInfo.turnDegree = 90;
 
     float initialGyro = getInitialGyroValue();      // initial value of gyro
     struct SensorInfo info;
@@ -210,9 +209,10 @@ int main( void ) {
     while (true) { // run until see black
         printf("sensor color %d\n", color_val); 
         if ( (color_val = getColorSensorValue(info)) < 25) {
+            printf("Get into black erea\n");
             break; 
         } 
-        motorInfo.command = TACHO_RUN_FOREVER;
+        motorInfo.command = TACHO_RUN_TIMED;
         runStraightLine(motorInfo, info);
         Sleep(30);
     }
