@@ -80,7 +80,7 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
             break;
         } 
         if (diff_degree < 0)
-        {
+        { // turn right
             set_tacho_speed_sp(motor_info.leftMotor, turn_speed);
             set_tacho_speed_sp(motor_info.rightMotor, -turn_speed);
             set_tacho_time_sp(motor_info.leftMotor, turn_time);
@@ -88,7 +88,7 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
             set_tacho_command_inx(motor_info.leftMotor, TACHO_RUN_TIMED);
             set_tacho_command_inx(motor_info.rightMotor, TACHO_RUN_TIMED); 
         }
-        else {
+        else { // turn left
             set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
             set_tacho_speed_sp(motor_info.rightMotor, turn_speed);
             set_tacho_time_sp(motor_info.leftMotor, turn_time);
