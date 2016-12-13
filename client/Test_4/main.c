@@ -251,7 +251,7 @@ int main( void ) {
         motorInfo.command = TACHO_RUN_TIMED;
         StartRunning(motorInfo);
         runStraightLine(motorInfo, info);
-        Sleep(30);
+        //Sleep(30);
     }
     // release object
     motorInfo.time = 200;
