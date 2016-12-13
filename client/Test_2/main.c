@@ -224,6 +224,7 @@ int main( void ) {
     runStraightLine(motorInfo, info);
     Sleep(200);
     stopRobot(motorInfo);
+    Sleep(1500);
     StartRunning(motorInfo);
     releaseObject(motorInfo);
     Sleep(1000);
@@ -234,9 +235,10 @@ int main( void ) {
     b_motor_info.speed = -500;
     b_motor_info.time = 1000;
     b_motor_info.command = TACHO_RUN_TIMED;
+    stopRobot(motorInfo);
     StartRunning(b_motor_info);
     runStraightLine(b_motor_info, info);
-    sleep(1);
+    Sleep(1000);
     stopRobot(b_motor_info);
 
     // exit
