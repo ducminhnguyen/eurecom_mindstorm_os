@@ -33,6 +33,7 @@ struct CommandInfo {
 
 //////////////////////////// motor function declaration /////////////////////
 void runStraight();
+void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double degree)
 void turnLeft(struct MotorInfo motorInfo, double degree);
 void turnRight(struct MotorInfo motorInfo, double degree);
 void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo);

@@ -60,6 +60,30 @@ void runStraight(){
     }
 }
 
+void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double degree) {
+    stopRobot(motorInfo);
+    int turn_speed = 450;
+    int turn_time = 200;
+    int diff_degree;
+    int init_degree = sensor.currentGyro;
+    struct SensorInfo sensor;
+    while (true) {
+        update_sensor_info(&sensor);
+        diff_degree = sensor.currentGyro - init_degree;
+        if (abs(diff_degree) <= 3) {
+            stopRobot(motor_info);
+            break;
+        } else {
+            turn_speed = 450 * ((int) ((degree - diff_degree)/degree));
+        }
+        set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
+        set_tacho_speed_sp(motor_info.rightMotor, turn_speed);
+        set_tacho_time_sp(motor_info.leftMotor, turn_time);
+        set_tacho_time_sp(motor_info.rightMotor, turn_time);
+        set_tacho_command_inx(motor_info.leftMotor, TACHO_RUN_TIMED);
+        set_tacho_command_inx(motor_info.rightMotor, TACHO_RUN_TIMED);
+    }
+}
 
 void turnLeft(struct MotorInfo motorInfo, double degree) {
     stopRobot(motorInfo);
@@ -148,3 +172,22 @@ int getColorSensorValue(struct SensorInfo sensorInfo) {
     }
 }
 
+void update_sensor_info(struct SensorInfo* info) { // update
+    //printf("Update\n");
+    uint8_t sn_gyro;
+    bool stop = false;
+    float value = 0;
+    while (!stop) {
+        if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0)) {
+            stop = true;
+            if (!get_sensor_value0(sn_gyro, &value)) {
+                value = 0;
+            }
+            info->currentGyro = value;
+            info->diffGyro = info->initialGyro - info->currentGyro;
+        }
+    }
+    info->currentColor = getColorSensorValue(*info);
+    //printf("color: %d", info->currentColor);
+    return;
+}
