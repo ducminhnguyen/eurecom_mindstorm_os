@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdio.h>
 
 #include "server.h"
 #include "ui.h"
@@ -245,10 +246,10 @@ void curses_log (FILE *out, int color, const char *fmt, va_list argp) {
     int curLine, curOutputLine;
     struct outputLine *l;
 
-    vsnprintf (buffer, LOGLINESIZE, fmt, argp);
+    int size = vsnprintf (buffer, LOGLINESIZE, fmt, argp);
 
     if (out != NULL)
-        fprintf (out, "%s", buffer);
+        write (fileno (out), buffer, size);
 
     for (p1 = buffer; (p2 = strchr (p1, '\n')) != NULL; p1 = p2+1) {
         *p2 = '\0';

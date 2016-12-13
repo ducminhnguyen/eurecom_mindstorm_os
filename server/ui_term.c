@@ -1,6 +1,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "server.h"
 #include "ui.h"
@@ -30,10 +31,10 @@ char term_init () {
 void term_log (FILE *out, int color, const char *fmt, va_list argp) {
     char buffer[LOGLINESIZE];
 
-    vsnprintf (buffer, LOGLINESIZE, fmt, argp);
+    int size = vsnprintf (buffer, LOGLINESIZE, fmt, argp);
 
     if (out != NULL)
-        fprintf (out, "%s", buffer);
+        write (fileno (out), buffer, size);
 
     printf ("%s%s", term_colors[color], buffer);
     printf (RESET);
