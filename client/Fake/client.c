@@ -386,7 +386,10 @@ int rankSelect;
 
 #define MAXPARAM        5
 
-unsigned int fields[MAXPARAM];
+struct field {
+    unsigned int value;
+    char sign;
+} fields[MAXPARAM];
 
 struct {
     char *name;
@@ -480,7 +483,7 @@ void monitor_com () {
             char dummy[6];
             mvwprintw (comwin, 1,  1, "%s", protocol[actionSelected].name);
             for (i=0; protocol[actionSelected].params[i].name != NULL; i++)
-                mvwprintw (comwin, 2+i,  1, "     %10s: %d", protocol[actionSelected].params[i].name, fields[i]);
+                mvwprintw (comwin, 2+i,  1, "     %10s: %c%d", protocol[actionSelected].params[i].name, fields[i].sign == 1 ? ' ' : '-', fields[i].value);
 
             if (i != 0) {
                 curs_set(1);
@@ -489,7 +492,7 @@ void monitor_com () {
                 else if (rankSelect >= i)
                     rankSelect -= i;
 
-                sprintf (dummy, "%d", fields[rankSelect]);
+                sprintf (dummy, "%c%d", fields[rankSelect].sign == 1 ? ' ' : '-', fields[rankSelect].value);
                 wmove (comwin, rankSelect+2, 18+strlen(dummy));
             }
         }
@@ -510,14 +513,14 @@ void sendMessage () {
         *((uint16_t *) string) = msgId++;
     }
     string[2] = teamID;
-    string[3] = fields[0];
+    string[3] = fields[0].value;
     string[4] = actionSelected;
 
     for (i=1; protocol[actionSelected].params[i].name != NULL; i++) {
         if (protocol[actionSelected].params[i].size == 2)
-            *((uint16_t *) (string+index)) = fields[i];
+            *((uint16_t *) (string+index)) = fields[i].value * fields[i].sign;
         else
-            string[index] = fields[i];
+            string[index] = fields[i].value * fields[i].sign;
 
         index += protocol[actionSelected].params[i].size;
     }
@@ -559,8 +562,18 @@ void * userMonitor (void * __dummy) {
         }
 
         else if (key == KEY_BACKSPACE) {
-            if (actionSelected != -1)
-                fields[rankSelect] /= 10;
+            if (actionSelected != -1) {
+                if (fields[rankSelect].value == 0 && fields[rankSelect].sign == -1)
+                    fields[rankSelect].sign = 1;
+                else
+                    fields[rankSelect].value /= 10;
+            }
+        }
+
+        else if (key == '-') {
+            if (actionSelected == MSG_POSITION && rankSelect != 0) {
+                fields[rankSelect].sign *= -1;
+            }
         }
 
         else if (key < '0' || key > '9')
@@ -573,20 +586,23 @@ void * userMonitor (void * __dummy) {
             if (actionSelected == -1) {
                 if (key < 8 && key != MSG_CUSTOM) {
                     actionSelected = key;
-                    fields[0] = ally;
-                    for (i=1; i<MAXPARAM; i++)
-                        fields[i] = 0;
+                    fields[0].value = ally;
+                    fields[0].sign = 1;
+                    for (i=1; i<MAXPARAM; i++) {
+                        fields[i].value = 0;
+                        fields[i].sign = 1;
+                    }
                     if (key == MSG_ACK) {
-                        fields[1] = lastMsgID;
-                        fields[0] = lastSender;
+                        fields[1].value = lastMsgID;
+                        fields[0].value = lastSender;
                     } else if (key == MSG_POSITION) {
-                        fields[0] = 0xFF;
+                        fields[0].value = 0xFF;
                     }
                 }
             } else {
-                int r = fields[rankSelect]*10 + key;
+                int r = fields[rankSelect].value*10 + key;
                 if (r < 1 << (8*protocol[actionSelected].params[rankSelect].size))
-                    fields[rankSelect] = r;
+                    fields[rankSelect].value = r;
             }
         }
 

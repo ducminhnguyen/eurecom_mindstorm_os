@@ -127,7 +127,7 @@ NEXT messages should only be used by the currently moving robot in order to noti
 #### START
 
 START messages can only be used by the server. One is sent to each team when the game starts. If the robot disconnects and reconnects
-during the game, another START message will be sent to it right after it connects to the server. They are 7-byte long:
+during the game, another START message will be sent to it right after it connects to the server. They are 8-byte long:
 ```
     0       1       2       3       4       5       6       7
 +-------+-------+-------+-------+-------+-------+-------+-------+
