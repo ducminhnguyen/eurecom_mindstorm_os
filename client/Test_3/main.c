@@ -231,7 +231,7 @@ int main( void ) {
     printf("turn left\n");
     StartRunning(motorInfo);
     //turnLeft(motorInfo, motorInfo.turnDegree);
-    turn_robot(motorInfo, info, motorInfo.turnDegree)
+    turn_robot(motorInfo, info, motorInfo.turnDegree);
     Sleep(500);
     stopRobot(motorInfo);
     sleep(2);
