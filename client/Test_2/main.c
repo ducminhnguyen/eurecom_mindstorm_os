@@ -198,11 +198,6 @@ int main( void ) {
 
     robotState = ROBOT_GO_TIMED;
 
-    while (true) {
-        UpdateSensorInfo(&info);
-        SteerRobot(info, motorInfo);
-    }
-
     // run straight for a second, to running out of starting position
     printf("start running\n");
     StartRunning(motorInfo);
