@@ -185,10 +185,10 @@ int main( void ) {
 
     // run straight for a second, to running out of starting position
     printf("start running\n");
-    motorInfo.time = 12000;
+    motorInfo.time = 4500;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(12000);
+    Sleep(5000);
     stopRobot(motorInfo);
     sleep(2);
 
@@ -202,10 +202,10 @@ int main( void ) {
 
     // run straight
     printf("run straight\n");
-    motorInfo.time = 5000;
+    motorInfo.time = 1800;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(5000);
+    Sleep(1800);
     stopRobot(motorInfo);
     sleep(2);
 
@@ -219,10 +219,10 @@ int main( void ) {
 
     //run straight
     printf("run straight\n");
-    motorInfo.time = 4000;
+    motorInfo.time = 1500;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(4000);
+    Sleep(1500);
     stopRobot(motorInfo);
     sleep(2);
 
@@ -236,10 +236,10 @@ int main( void ) {
 
     //run straight
     printf("run straight\n");
-    motorInfo.time = 5000;
+    motorInfo.time = 1800;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(5000);
+    Sleep(1800);
     stopRobot(motorInfo);
     sleep(2);
 
@@ -253,10 +253,10 @@ int main( void ) {
 
     //run straight
     printf("run straight\n");
-    motorInfo.time = 12000;
+    motorInfo.time = 4500;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(12000);
+    Sleep(5000);
     stopRobot(motorInfo);
     sleep(2);
 
