@@ -228,7 +228,7 @@ int main( void ) {
     StartRunning(motorInfo);
     releaseObject(motorInfo);
     Sleep(1000);
-
+    printf("Here 231");
     // run backward
     struct MotorInfo b_motor_info = motorInfo;
     b_motor_info.speed = - b_motor_info.speed;
@@ -238,7 +238,7 @@ int main( void ) {
     stopRobot(motorInfo);
     StartRunning(b_motor_info);
     runStraightLine(b_motor_info, info);
-    Sleep(1000);
+    Sleep(3000);
     stopRobot(b_motor_info);
 
     // exit
