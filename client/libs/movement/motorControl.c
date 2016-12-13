@@ -62,8 +62,8 @@ void runStraight(){
 
 void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double degree) {
     stopRobot(motor_info);
-    int turn_speed = 100;
-    int turn_time = 200;
+    int turn_speed = 70;
+    int turn_time = 100;
     float diff_degree, init_degree, sign, desire_degree;    
     struct SensorInfo nsensor;
 
@@ -75,7 +75,7 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
         update_sensor_info(&nsensor);
         diff_degree = nsensor.currentGyro - desire_degree;
 
-        if (abs(diff_degree) <= 3) {
+        if (abs(diff_degree) <= 5) {
             stopRobot(motor_info);
             break;
         } 
