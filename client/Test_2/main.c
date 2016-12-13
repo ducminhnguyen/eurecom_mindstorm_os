@@ -229,7 +229,7 @@ int main( void ) {
     releaseObject(motorInfo);
     Sleep(1000);
 
-    // run backward 
+    // run backward
     struct MotorInfo b_motor_info = motorInfo;
     b_motor_info.speed = - b_motor_info.speed;
     b_motor_info.speed = -500;
@@ -238,7 +238,7 @@ int main( void ) {
     stopRobot(motorInfo);
     StartRunning(b_motor_info);
     runStraightLine(b_motor_info, info);
-    Sleep(1);
+    Sleep(1000);
     stopRobot(b_motor_info);
 
     // exit
