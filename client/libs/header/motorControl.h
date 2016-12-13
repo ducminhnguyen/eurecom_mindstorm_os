@@ -33,7 +33,7 @@ struct CommandInfo {
 
 //////////////////////////// motor function declaration /////////////////////
 void runStraight();
-void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double degree)
+void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double degree);
 void turnLeft(struct MotorInfo motorInfo, double degree);
 void turnRight(struct MotorInfo motorInfo, double degree);
 void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo);
@@ -45,6 +45,7 @@ void releaseObject(struct MotorInfo motorInfo);
 
 /////////////////////////// sensor function declaration ///////////////////
 int getColorSensorValue(struct SensorInfo sensorInfo);
+void update_sensor_info(struct SensorInfo* info);
 
 
 #endif //OS_ROBOT_PROJECT_FALL2016_MOTORCONTROL_H
