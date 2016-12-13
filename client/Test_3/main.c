@@ -188,8 +188,9 @@ int main( void ) {
     motorInfo.time = 12000;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(500);
+    Sleep(12000);
     stopRobot(motorInfo);
+    sleep(2);
 
     //turn right
     printf("turn right\n");
@@ -197,14 +198,16 @@ int main( void ) {
     turnRight(motorInfo, motorInfo.turnDegree);
     Sleep(500);
     stopRobot(motorInfo);
+    sleep(2);
 
     // run straight
     printf("run straight\n");
     motorInfo.time = 5000;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(500);
+    Sleep(5000);
     stopRobot(motorInfo);
+    sleep(2);
 
     // turn left
     printf("turn left\n");
@@ -212,14 +215,16 @@ int main( void ) {
     turnLeft(motorInfo, motorInfo.turnDegree);
     Sleep(500);
     stopRobot(motorInfo);
+    sleep(2);
 
     //run straight
     printf("run straight\n");
     motorInfo.time = 4000;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(500);
+    Sleep(4000);
     stopRobot(motorInfo);
+    sleep(2);
 
     // turn left
     printf("turn left\n");
@@ -227,14 +232,16 @@ int main( void ) {
     turnLeft(motorInfo, motorInfo.turnDegree);
     Sleep(500);
     stopRobot(motorInfo);
+    sleep(2);
 
     //run straight
     printf("run straight\n");
     motorInfo.time = 5000;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(500);
+    Sleep(5000);
     stopRobot(motorInfo);
+    sleep(2);
 
     //turn right
     printf("turn right\n");
@@ -242,14 +249,16 @@ int main( void ) {
     turnRight(motorInfo, motorInfo.turnDegree);
     Sleep(500);
     stopRobot(motorInfo);
+    sleep(2);
 
     //run straight
     printf("run straight\n");
     motorInfo.time = 12000;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(500);
+    Sleep(12000);
     stopRobot(motorInfo);
+    sleep(2);
 
     //while (true) {
     //    UpdateSensorInfo(&info);
