@@ -74,7 +74,7 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
             stopRobot(motor_info);
             break;
         } else {
-            turn_speed = 450 * ((int) ((degree - diff_degree)/degree));
+            turn_speed = (int)((1 - diff_degree/degree) * turn_speed);
         }
         set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
         set_tacho_speed_sp(motor_info.rightMotor, turn_speed);
