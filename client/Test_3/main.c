@@ -185,16 +185,16 @@ int main( void ) {
 
     // run straight for a second, to running out of starting position
     printf("start running\n");
-    motorInfo.time = 4500;
+    motorInfo.time = 4400;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(4700);
+    Sleep(4600);
     stopRobot(motorInfo);
     sleep(2);
 
     //turn right
     printf("turn right\n");
-    motorInfo.turnDegree = 96;
+    motorInfo.turnDegree = 95;
     StartRunning(motorInfo);
     turnRight(motorInfo, motorInfo.turnDegree);
     //turn_robot(motorInfo, info, -90);
@@ -249,7 +249,7 @@ int main( void ) {
 
     //turn right
     printf("turn right\n");
-    motorInfo.turnDegree = 96;
+    motorInfo.turnDegree = 92;
     StartRunning(motorInfo);
     turnRight(motorInfo, motorInfo.turnDegree);
     Sleep(500);
