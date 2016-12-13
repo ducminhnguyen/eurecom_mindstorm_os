@@ -226,6 +226,7 @@ int main( void ) {
     stopRobot(motorInfo);
     StartRunning(motorInfo);
     releaseObject(motorInfo);
+    Sleep(1000);
 
     // run backward
     struct MotorInfo b_motor_info = motorInfo;
