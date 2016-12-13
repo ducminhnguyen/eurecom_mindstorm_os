@@ -181,12 +181,51 @@ int main( void ) {
     info.diffGyro = initialGyro;
     StartRunning(motorInfo);
 
-    robotState = ROBOT_GO_STRAIGHT;
+    // robotState = ROBOT_GO_TIMED;
 
-    while (true) {
-        UpdateSensorInfo(&info);
-        SteerRobot(info, motorInfo);
-    }
+    // run straight for a second, to running out of starting position
+    printf("start running\n");
+    StartRunning(motorInfo);
+    runStraightLine(motorInfo, info);
+    sleep(2);
+    stopRobot(motorInfo);
+
+    //turn right
+    printf("turn right\n");
+    // robotState = ROBOT_TURN_RIGHT;
+    StartRunning(motorInfo);
+    turnRight(motorInfo, motorInfo.turnDegree);
+    sleep(2);
+    stopRobot(motorInfo);
+
+    // run straight
+    printf("turn right\n");
+    // robotState = ROBOT_GO_TIMED;
+    StartRunning(motorInfo);
+    runStraightLine(motorInfo, info);
+    sleep(2);
+    stopRobot(motorInfo);
+
+    // turn left
+    printf("turn right\n");
+    // robotState = ROBOT_TURN_LEFT;
+    StartRunning(motorInfo);
+    turnLeft(motorInfo, motorInfo.turnDegree);
+    sleep(2);
+    stopRobot(motorInfo);
+
+    //run straight
+    printf("turn right\n");
+    // robotState = ROBOT_GO_TIMED;
+    StartRunning(motorInfo);
+    runStraightLine(motorInfo, info);
+    sleep(2);
+    stopRobot(motorInfo);
+
+    //while (true) {
+    //    UpdateSensorInfo(&info);
+    //    SteerRobot(info, motorInfo);
+    //}
 //    int port=65;
 //    for (port=65; port<69; port++){
 //        if ( ev3_search_tacho_plugged_in(port,0, &sn, 0 )) {
