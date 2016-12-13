@@ -85,11 +85,14 @@ void UpdateSensorInfo(struct SensorInfo* info) { // update
         }
     }
     info->currentColor = getColorSensorValue(*info);
-    if (info->currentColor < 15 && info->currentColor > 0) {
-        Sleep(1);
-        robotState = ROBOT_STOP;
-    }
+    //printf("color: %d", info->currentColor);
     return;
+}
+
+int getTachoState(struct MotorInfo motorInfo) {
+    FLAGS_T flag;
+    get_tacho_state_flags(motorInfo.leftMotor, &flag);
+    return flag;
 }
 
 void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // draw
@@ -107,10 +110,19 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // d
         runStraightLine(motorInfo, sensorInfo);
     } else if (robotState == ROBOT_GO_TIMED) {
         // To be implement
+        motorInfo.command = TACHO_RUN_TIMED;
+        runStraightLine(motorInfo, sensorInfo);
+        robotState = ROBOT_IDLE;
     } else if (robotState == ROBOT_GRAB) {
-
+        printf("In grab \n");
+        grabObject(motorInfo);
     } else if (robotState == ROBOT_SCAN) {
 
+    } else if (robotState == ROBOT_IDLE) {
+        int motorState = getTachoState(motorInfo);
+        if (motorState == 0) {
+            robotState = ROBOT_GRAB;
+        }
     }
     return;
 }
@@ -164,15 +176,17 @@ int main( void ) {
     int val;
     float value;
     uint32_t n, ii;
-    int color_val = 255;
+    int color_val;
 
     uint8_t tacho_left_motor = getTacho(PORT_B);    // left  wheel id
     uint8_t tacho_right_motor = getTacho(PORT_C);   // right wheel id
+    uint8_t tacho_graber_motor = getTacho(PORT_D);  // graber id
     struct MotorInfo motorInfo;
     motorInfo.leftMotor = tacho_left_motor;
     motorInfo.rightMotor = tacho_right_motor;
+    motorInfo.graberMotor = tacho_graber_motor;
     motorInfo.speed = 500;
-    motorInfo.time = 5000;
+    motorInfo.time = 1000;
     motorInfo.command = TACHO_RUN_TIMED;
     motorInfo.turnDegree = 90;
 
@@ -182,31 +196,34 @@ int main( void ) {
     info.diffGyro = initialGyro;
     StartRunning(motorInfo);
 
-    robotState = ROBOT_GO_STRAIGHT;
+    robotState = ROBOT_GO_TIMED;
 
-//    while (true) {
-//        UpdateSensorInfo(&info);
-//        SteerRobot(info, motorInfo);
-//    }
+    while (true) {
+        UpdateSensorInfo(&info);
+        SteerRobot(info, motorInfo);
+    }
 
     // run straight for a second, to running out of starting position
     printf("start running\n");
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(4);
+    sleep(2);
     stopRobot(motorInfo);
     printf("change state of robot to check color until get black\n");
 
     color_val = getColorSensorValue(info);
     while (true) { // run until see black
         printf("sensor color %d\n", color_val); 
-        if ( color_val = getColorSensorValue(info) < 25) {
+        if ( (color_val = getColorSensorValue(info)) < 25) {
             break; 
         } 
+        motorInfo.command = TACHO_RUN_FOREVER;
         runStraightLine(motorInfo, info);
         Sleep(30);
     }
     // release object
+    motorInfo.time = 200;
+    motorInfo.command = TACHO_RUN_TIMED;
     runStraightLine(motorInfo, info);
     Sleep(200);
     stopRobot(motorInfo);
@@ -215,6 +232,9 @@ int main( void ) {
     // run backward
     struct MotorInfo b_motor_info = motorInfo;
     b_motor_info.speed = - b_motor_info.speed;
+    b_motor_info.speed = -500;
+    b_motor_info.time = 1000;
+    b_motor_info.command = TACHO_RUN_TIMED;
     runStraightLine(b_motor_info, info);
     sleep(1);
     stopRobot(b_motor_info);
