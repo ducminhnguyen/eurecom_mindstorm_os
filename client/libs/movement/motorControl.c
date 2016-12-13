@@ -74,20 +74,31 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
     turn_speed =  degree < 0 ? turn_speed : -turn_speed;
     while (true) {
         update_sensor_info(&nsensor);
-        diff_degree = nsensor.currentGyro - desire_degree;
+        diff_degree = nsensor.currentGyro - desire_degree
+        ;
         if (abs(diff_degree) <= 5) {
             stopRobot(motor_info);
             break;
-        } else if (abs(diff_degree) > abs(degree))
-            turn_speed = -turn_speed;
-        printf("diff degree %f\n", diff_degree);
-        printf("turn speed %d\n", turn_speed);
-        set_tacho_speed_sp(motor_info.leftMotor, turn_speed);
-        set_tacho_speed_sp(motor_info.rightMotor, -turn_speed);
-        set_tacho_time_sp(motor_info.leftMotor, turn_time);
-        set_tacho_time_sp(motor_info.rightMotor, turn_time);
-        set_tacho_command_inx(motor_info.leftMotor, TACHO_RUN_TIMED);
-        set_tacho_command_inx(motor_info.rightMotor, TACHO_RUN_TIMED);
+        } 
+        if (diff_degree < desire_degree)
+        {
+            set_tacho_speed_sp(motor_info.leftMotor, turn_speed);
+            set_tacho_speed_sp(motor_info.rightMotor, -turn_speed);
+            set_tacho_time_sp(motor_info.leftMotor, turn_time);
+            set_tacho_time_sp(motor_info.rightMotor, turn_time);
+            set_tacho_command_inx(motor_info.leftMotor, TACHO_RUN_TIMED);
+            set_tacho_command_inx(motor_info.rightMotor, TACHO_RUN_TIMED); 
+        }
+        else {
+            set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
+            set_tacho_speed_sp(motor_info.rightMotor, turn_speed);
+            set_tacho_time_sp(motor_info.leftMotor, turn_time);
+            set_tacho_time_sp(motor_info.rightMotor, turn_time);
+            set_tacho_command_inx(motor_info.leftMotor, TACHO_RUN_TIMED);
+            set_tacho_command_inx(motor_info.rightMotor, TACHO_RUN_TIMED); 
+
+        }
+        
     }
 }
 
