@@ -73,13 +73,13 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
 
     while (true) {
         update_sensor_info(&nsensor);
-        diff_degree = nsensor.currentGyro - desire_degree
-        ;
+        diff_degree = nsensor.currentGyro - desire_degree;
+
         if (abs(diff_degree) <= 5) {
             stopRobot(motor_info);
             break;
         } 
-        if (diff_degree < desire_degree)
+        if (diff_degree < 0)
         {
             set_tacho_speed_sp(motor_info.leftMotor, turn_speed);
             set_tacho_speed_sp(motor_info.rightMotor, -turn_speed);
