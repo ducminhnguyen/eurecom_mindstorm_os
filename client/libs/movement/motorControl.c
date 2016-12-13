@@ -62,11 +62,12 @@ void runStraight(){
 
 void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double degree) {
     stopRobot(motor_info);
-    int turn_speed = 450;
+    int turn_speed = 250;
     int turn_time = 200;
     float diff_degree, sign;
     float init_degree = sensor.currentGyro;
     struct SensorInfo nsensor;
+    turn_speed =  degree < 0 ? turn_speed : -turn_speed;
     while (true) {
         update_sensor_info(&nsensor);
         diff_degree = nsensor.currentGyro - init_degree;
@@ -74,6 +75,7 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
             stopRobot(motor_info);
             break;
         }
+        printf("diff degree %f\n", diff_degree);
         printf("turn speed %d\n", turn_speed);
         set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
         set_tacho_speed_sp(motor_info.rightMotor, turn_speed);
