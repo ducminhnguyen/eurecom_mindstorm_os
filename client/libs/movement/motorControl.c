@@ -71,7 +71,6 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
     init_degree = sensor.currentGyro;
     desire_degree = init_degree + degree;
 
-    turn_speed =  degree < 0 ? turn_speed : -turn_speed;
     while (true) {
         update_sensor_info(&nsensor);
         diff_degree = nsensor.currentGyro - desire_degree
@@ -98,7 +97,7 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
             set_tacho_command_inx(motor_info.rightMotor, TACHO_RUN_TIMED); 
 
         }
-        
+
     }
 }
 
