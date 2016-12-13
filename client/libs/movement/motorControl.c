@@ -61,21 +61,21 @@ void runStraight(){
 }
 
 void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double degree) {
-    stopRobot(motorInfo);
+    stopRobot(motor_info);
     int turn_speed = 450;
     int turn_time = 200;
-    int diff_degree, sign;
-    int init_degree = sensor.currentGyro;
-    struct SensorInfo sensor;
+    float diff_degree, sign;
+    float init_degree = sensor.currentGyro;
+    struct SensorInfo nsensor;
     while (true) {
-        update_sensor_info(&sensor);
+        update_sensor_info(&nsensor);
         diff_degree = sensor.currentGyro - init_degree;
         sign = diff_degree < 0 ? 1 : -1;
         if (abs(diff_degree) <= 3) {
             stopRobot(motor_info);
             break;
         } else {
-            turn_speed = (int)((1 - abs(diff_degree)/degree) * turn_speed * sign);
+            turn_speed = (int)((1.0 - abs(diff_degree)/degree) * turn_speed * sign);
         }
         set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
         set_tacho_speed_sp(motor_info.rightMotor, turn_speed);
