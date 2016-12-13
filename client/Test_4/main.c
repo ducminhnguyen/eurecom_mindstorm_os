@@ -218,7 +218,7 @@ int main( void ) {
     motorInfo.turnDegree = 90;
     StartRunning(motorInfo);
     //turnLeft(motorInfo, motorInfo.turnDegree);
-    turn_robot(motorInfo, sensor, -90);
+    turn_robot(motorInfo, -90);
     Sleep(500);
     stopRobot(motorInfo);
     sleep(2);
