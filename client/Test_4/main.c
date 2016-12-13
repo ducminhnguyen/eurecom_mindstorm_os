@@ -198,8 +198,8 @@ int main( void ) {
     printf("turn right\n");
     motorInfo.turnDegree = 100;
     StartRunning(motorInfo);
-    turnRight(motorInfo, motorInfo.turnDegree);
-    //turn_robot(motorInfo, info, -90);
+    //turnRight(motorInfo, motorInfo.turnDegree);
+    turn_robot(motorInfo, info, -90);
     Sleep(500);
     stopRobot(motorInfo);
     sleep(2);
@@ -217,7 +217,8 @@ int main( void ) {
     printf("turn left\n");
     motorInfo.turnDegree = 90;
     StartRunning(motorInfo);
-    turnLeft(motorInfo, motorInfo.turnDegree);
+    //turnLeft(motorInfo, motorInfo.turnDegree);
+    turn_robot(motorInfo, sensor, -90);
     Sleep(500);
     stopRobot(motorInfo);
     sleep(2);
@@ -234,8 +235,10 @@ int main( void ) {
     // turn left
     printf("turn left\n");
     StartRunning(motorInfo);
-    turnLeft(motorInfo, motorInfo.turnDegree);
+    //turnLeft(motorInfo, motorInfo.turnDegree);
     //turn_robot(motorInfo, info, motorInfo.turnDegree);
+
+    turn_robot(motorInfo, sensor, -90);
     Sleep(500);
     stopRobot(motorInfo);
     sleep(2);
