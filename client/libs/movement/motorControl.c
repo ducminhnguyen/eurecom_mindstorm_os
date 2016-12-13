@@ -77,7 +77,7 @@ void turnLeft(struct MotorInfo motorInfo, double degree) {
 void turnRight(struct MotorInfo motorInfo, double degree) {
     stopRobot(motorInfo);
     int turnSpeed = TURN_SPEED;
-    int turnTime = (int)(degree * ((float)(405) / 90)); // calculate based on degree
+    int turnTime = (int)(degree * ((float)(700) / 90)); // calculate based on degree
     set_tacho_speed_sp(motorInfo.leftMotor, turnSpeed);
     set_tacho_speed_sp(motorInfo.rightMotor, -turnSpeed);
     set_tacho_time_sp(motorInfo.leftMotor, turnTime);
