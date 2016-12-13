@@ -194,6 +194,7 @@ int main( void ) {
 
     //turn right
     printf("turn right\n");
+    motorInfo.turnDegree = 92;
     StartRunning(motorInfo);
     turnRight(motorInfo, motorInfo.turnDegree);
     Sleep(500);
@@ -246,6 +247,7 @@ int main( void ) {
 
     //turn right
     printf("turn right\n");
+    motorInfo.turnDegree = 92;
     StartRunning(motorInfo);
     turnRight(motorInfo, motorInfo.turnDegree);
     Sleep(500);
