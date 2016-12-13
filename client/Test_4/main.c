@@ -206,7 +206,7 @@ int main( void ) {
 
     // run straight
     printf("run straight\n");
-    motorInfo.time = 2800;
+    motorInfo.time = 3200;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
     Sleep(2400);
