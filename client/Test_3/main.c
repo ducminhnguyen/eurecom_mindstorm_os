@@ -173,7 +173,7 @@ int main( void ) {
     motorInfo.speed = 500;
     motorInfo.time = 5000;
     motorInfo.command = TACHO_RUN_TIMED;
-    motorInfo.turnDegree = 80;
+    motorInfo.turnDegree = 90;
 
     float initialGyro = getInitialGyroValue();      // initial value of gyro
     struct SensorInfo info;
@@ -185,71 +185,83 @@ int main( void ) {
 
     // run straight for a second, to running out of starting position
     printf("start running\n");
-    motorInfo.time = 12000;
+    motorInfo.time = 4500;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(2);
+    Sleep(4700);
     stopRobot(motorInfo);
+    sleep(2);
 
     //turn right
     printf("turn right\n");
+    motorInfo.turnDegree = 92;
     StartRunning(motorInfo);
     turnRight(motorInfo, motorInfo.turnDegree);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
+    sleep(2);
 
     // run straight
     printf("run straight\n");
-    motorInfo.time = 5000;
+    motorInfo.time = 2400;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(2);
+    Sleep(2400);
     stopRobot(motorInfo);
+    sleep(2);
 
     // turn left
     printf("turn left\n");
     StartRunning(motorInfo);
     turnLeft(motorInfo, motorInfo.turnDegree);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
+    sleep(2);
 
     //run straight
     printf("run straight\n");
-    motorInfo.time = 4000;
+    motorInfo.time = 2600;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(2);
+    Sleep(2600);
     stopRobot(motorInfo);
+    sleep(2);
 
     // turn left
     printf("turn left\n");
+    motorInfo.turnDegree = 89;
     StartRunning(motorInfo);
     turnLeft(motorInfo, motorInfo.turnDegree);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
+    sleep(2);
 
     //run straight
     printf("run straight\n");
-    motorInfo.time = 5000;
+    motorInfo.time = 2400;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(2);
+    Sleep(2400);
     stopRobot(motorInfo);
+    sleep(2);
 
     //turn right
     printf("turn right\n");
+    motorInfo.turnDegree = 92;
     StartRunning(motorInfo);
     turnRight(motorInfo, motorInfo.turnDegree);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
+    sleep(2);
 
     //run straight
     printf("run straight\n");
-    motorInfo.time = 12000;
+    motorInfo.time = 4500;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(2);
+    Sleep(4500);
     stopRobot(motorInfo);
+    sleep(2);
 
     //while (true) {
     //    UpdateSensorInfo(&info);

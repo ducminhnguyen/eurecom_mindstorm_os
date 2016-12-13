@@ -88,7 +88,7 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
 void turnLeft(struct MotorInfo motorInfo, double degree) {
     stopRobot(motorInfo);
     int turnSpeed = TURN_SPEED;
-    int turnTime = (int)(degree * ((float)(405) / 90)); // calculate based on degree
+    int turnTime = (int)(degree * (1300.0f / 90)); // calculate based on degree
     set_tacho_speed_sp(motorInfo.leftMotor, -turnSpeed);
     set_tacho_speed_sp(motorInfo.rightMotor, turnSpeed);
     set_tacho_time_sp(motorInfo.leftMotor, turnTime);
@@ -101,7 +101,7 @@ void turnLeft(struct MotorInfo motorInfo, double degree) {
 void turnRight(struct MotorInfo motorInfo, double degree) {
     stopRobot(motorInfo);
     int turnSpeed = TURN_SPEED;
-    int turnTime = (int)(degree * ((float)(800) / 90)); // calculate based on degree
+    int turnTime = (int)(degree * (1300.0f / 90)); // calculate based on degree
     set_tacho_speed_sp(motorInfo.leftMotor, turnSpeed);
     set_tacho_speed_sp(motorInfo.rightMotor, -turnSpeed);
     set_tacho_time_sp(motorInfo.leftMotor, turnTime);
@@ -145,7 +145,7 @@ void grabObject(struct MotorInfo motorInfo) {
     set_tacho_speed_sp(motorInfo.graberMotor, -200);
     set_tacho_time_sp(motorInfo.graberMotor, 700);
     set_tacho_command_inx(motorInfo.graberMotor, TACHO_RUN_TIMED);
-    sleep(2000);
+    usleep(200000);
 }
 
 void releaseObject(struct MotorInfo motorInfo) {
@@ -153,7 +153,7 @@ void releaseObject(struct MotorInfo motorInfo) {
     set_tacho_speed_sp(motorInfo.graberMotor, 200);
     set_tacho_time_sp(motorInfo.graberMotor, 700);
     set_tacho_command_inx(motorInfo.graberMotor, TACHO_RUN_TIMED);
-    sleep(2000);
+    usleep(200000);
 }
 
 /////////////////////////////////sensor code/////////////////////////////////////////
