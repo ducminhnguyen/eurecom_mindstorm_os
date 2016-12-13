@@ -173,7 +173,7 @@ int main( void ) {
     motorInfo.speed = 500;
     motorInfo.time = 5000;
     motorInfo.command = TACHO_RUN_TIMED;
-    motorInfo.turnDegree = 80;
+    motorInfo.turnDegree = 90;
 
     float initialGyro = getInitialGyroValue();      // initial value of gyro
     struct SensorInfo info;
@@ -188,14 +188,14 @@ int main( void ) {
     motorInfo.time = 12000;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
 
     //turn right
     printf("turn right\n");
     StartRunning(motorInfo);
     turnRight(motorInfo, motorInfo.turnDegree);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
 
     // run straight
@@ -203,14 +203,14 @@ int main( void ) {
     motorInfo.time = 5000;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
 
     // turn left
     printf("turn left\n");
     StartRunning(motorInfo);
     turnLeft(motorInfo, motorInfo.turnDegree);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
 
     //run straight
@@ -218,14 +218,14 @@ int main( void ) {
     motorInfo.time = 4000;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
 
     // turn left
     printf("turn left\n");
     StartRunning(motorInfo);
     turnLeft(motorInfo, motorInfo.turnDegree);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
 
     //run straight
@@ -233,14 +233,14 @@ int main( void ) {
     motorInfo.time = 5000;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
 
     //turn right
     printf("turn right\n");
     StartRunning(motorInfo);
     turnRight(motorInfo, motorInfo.turnDegree);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
 
     //run straight
@@ -248,7 +248,7 @@ int main( void ) {
     motorInfo.time = 12000;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    sleep(2);
+    Sleep(500);
     stopRobot(motorInfo);
 
     //while (true) {
