@@ -196,7 +196,7 @@ int main( void ) {
 
     //turn right
     printf("turn right\n");
-    motorInfo.turnDegree = 150;
+    motorInfo.turnDegree = 100;
     StartRunning(motorInfo);
     turnRight(motorInfo, motorInfo.turnDegree);
     //turn_robot(motorInfo, info, -90);
