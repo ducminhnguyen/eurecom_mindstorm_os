@@ -232,8 +232,8 @@ int main( void ) {
     // run backward
     struct MotorInfo b_motor_info = motorInfo;
     b_motor_info.speed = - b_motor_info.speed;
-    b_motor_info.speed = -500;
-    b_motor_info.time = 1000;
+    b_motor_info.speed = -200;
+    b_motor_info.time = 1500;
     b_motor_info.command = TACHO_RUN_TIMED;
     stopRobot(motorInfo);
     StartRunning(b_motor_info);
