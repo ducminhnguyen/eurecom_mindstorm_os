@@ -38,7 +38,7 @@
 #define KCYN            6
 #define KWHT            7
 
-#define TURN_SPEED 400
+#define TURN_SPEED 300
 
 typedef enum {
     ROBOT_GO_STRAIGHT, ROBOT_SCAN, ROBOT_STOP, ROBOT_GRAB,
