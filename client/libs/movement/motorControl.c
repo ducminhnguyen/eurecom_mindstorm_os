@@ -64,9 +64,12 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
     stopRobot(motor_info);
     int turn_speed = 250;
     int turn_time = 200;
-    float diff_degree, sign;
-    float init_degree = sensor.currentGyro;
+    float diff_degree, init_degree, sign;    
     struct SensorInfo nsensor;
+
+    update_sensor_info(&sensor);
+    init_degree = sensor.currentGyro
+
     turn_speed =  degree < 0 ? turn_speed : -turn_speed;
     while (true) {
         update_sensor_info(&nsensor);
