@@ -73,8 +73,6 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
         if (abs(degree - diff_degree) <= 3) {
             stopRobot(motor_info);
             break;
-        } else {
-            turn_speed = (int)((1.0 - abs(diff_degree)/degree) * turn_speed);
         }
         printf("turn speed %d\n", turn_speed);
         set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
