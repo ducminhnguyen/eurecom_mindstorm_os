@@ -185,19 +185,19 @@ int main( void ) {
 
     // run straight for a second, to running out of starting position
     printf("start running\n");
-    motorInfo.time = 4400;
+    motorInfo.time = 4300;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(4600);
+    Sleep(4500);
     stopRobot(motorInfo);
     sleep(2);
 
     //turn right
     printf("turn right\n");
-    motorInfo.turnDegree = 95;
+    //motorInfo.turnDegree = 93;
     StartRunning(motorInfo);
-    turnRight(motorInfo, motorInfo.turnDegree);
-    //turn_robot(motorInfo, info, -90);
+    //turnRight(motorInfo, motorInfo.turnDegree);
+    turn_robot(motorInfo, info, 90);
     Sleep(500);
     stopRobot(motorInfo);
     sleep(2);
@@ -213,9 +213,10 @@ int main( void ) {
 
     // turn left
     printf("turn left\n");
-    motorInfo.turnDegree = 90;
+    //motorInfo.turnDegree = 89;
     StartRunning(motorInfo);
-    turnLeft(motorInfo, motorInfo.turnDegree);
+    //turnLeft(motorInfo, motorInfo.turnDegree);
+    turn_robot(motorInfo, info, -90);
     Sleep(500);
     stopRobot(motorInfo);
     sleep(2);
@@ -231,9 +232,10 @@ int main( void ) {
 
     // turn left
     printf("turn left\n");
+    //motorInfo.turnDegree = 88;
     StartRunning(motorInfo);
-    turnLeft(motorInfo, motorInfo.turnDegree);
-    //turn_robot(motorInfo, info, motorInfo.turnDegree);
+    //turnLeft(motorInfo, motorInfo.turnDegree);
+    turn_robot(motorInfo, info, -90);
     Sleep(500);
     stopRobot(motorInfo);
     sleep(2);
@@ -249,19 +251,20 @@ int main( void ) {
 
     //turn right
     printf("turn right\n");
-    motorInfo.turnDegree = 92;
+    //motorInfo.turnDegree = 93;
     StartRunning(motorInfo);
-    turnRight(motorInfo, motorInfo.turnDegree);
+    //turnRight(motorInfo, motorInfo.turnDegree);
+    turn_robot(motorInfo, info, 90);
     Sleep(500);
     stopRobot(motorInfo);
     sleep(2);
 
     //run straight
     printf("run straight\n");
-    motorInfo.time = 4500;
+    motorInfo.time = 5500;
     StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
-    Sleep(4500);
+    Sleep(5500);
     stopRobot(motorInfo);
     sleep(2);
 
