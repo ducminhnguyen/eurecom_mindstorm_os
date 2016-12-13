@@ -209,19 +209,22 @@ int main( void ) {
     while (true) { // run until see black
         printf("sensor color %d\n", color_val); 
         if ( (color_val = getColorSensorValue(info)) < 25) {
-            printf("Get into black erea\n");
+            printf("Get into black area\n");
             break; 
         } 
         motorInfo.command = TACHO_RUN_TIMED;
+        StartRunning(motorInfo);
         runStraightLine(motorInfo, info);
         Sleep(30);
     }
     // release object
     motorInfo.time = 200;
     motorInfo.command = TACHO_RUN_TIMED;
+    StartRunning(motorInfo);
     runStraightLine(motorInfo, info);
     Sleep(200);
     stopRobot(motorInfo);
+    StartRunning(motorInfo);
     releaseObject(motorInfo);
 
     // run backward
@@ -230,6 +233,7 @@ int main( void ) {
     b_motor_info.speed = -500;
     b_motor_info.time = 1000;
     b_motor_info.command = TACHO_RUN_TIMED;
+    StartRunning(motorInfo);
     runStraightLine(b_motor_info, info);
     sleep(1);
     stopRobot(b_motor_info);
