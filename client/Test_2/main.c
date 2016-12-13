@@ -233,7 +233,7 @@ int main( void ) {
     b_motor_info.speed = -500;
     b_motor_info.time = 1000;
     b_motor_info.command = TACHO_RUN_TIMED;
-    StartRunning(motorInfo);
+    StartRunning(b_motor_info);
     runStraightLine(b_motor_info, info);
     sleep(1);
     stopRobot(b_motor_info);
