@@ -116,6 +116,7 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // d
     } else if (robotState == ROBOT_GRAB) {
         printf("In grab \n");
         grabObject(motorInfo);
+        robotState = ROBOT_SCAN;
     } else if (robotState == ROBOT_SCAN) {
 
     } else if (robotState == ROBOT_IDLE) {
