@@ -71,7 +71,7 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
         update_sensor_info(&nsensor);
         diff_degree = sensor.currentGyro - init_degree;
         sign = diff_degree < 0 ? 1 : -1;
-        if (abs(diff_degree) <= 3) {
+        if (abs(degree - diff_degree) <= 3) {
             stopRobot(motor_info);
             break;
         } else {
