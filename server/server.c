@@ -12,7 +12,7 @@
 #include "ui.h"
 #include "graphics.h"
 
-#define CONNECT_DELAY       155
+#define CONNECT_DELAY       15
 #define SELECT_TO           200
 #define INET_PORT           8888
 
@@ -206,6 +206,7 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
     char teamAlinea [MAXNAMESIZE+4] = {0};
     int i;
     int l = strlen (game.teams[sendingTeam].name);
+    int consumedBytes = 5;
 
     for (i=0; i<MAXNAMESIZE-l; i++)
         teamAlinea [i] = ' ';
@@ -226,7 +227,7 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
     }
 
     if (buf[3] != 0xFF && (buf[3] == 0 || buf[3] > game.nbTeams || !game.teams[buf[3]-1].active)) {
-        log (KRED, "*** unknown or inactive receiver (%d) ***\n", buf[3]-1);
+        log (KRED, "*** unknown or inactive receiver (%d) ***\n", buf[3]);
         return;
     }
 
@@ -242,6 +243,8 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                     log (KRED, "*** ACK message is too short (%d bytes) ***\n", nbbytes);
                     return;
                 }
+
+                consumedBytes = 8;
 
                 if (buf[3] != game.teams[sendingTeam].ally) {
                     log (KRED, "*** Can't send ACK message to team ");
@@ -327,6 +330,8 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 /* CUSTOM */
                 int i;
 
+                consumedBytes = nbbytes;
+
                 if (buf[3] == 0xFF) {
                     log (KRED, "*** Can't send CUSTOM message to server ***\n");
                     return;
@@ -381,6 +386,8 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                     return;
                 }
 
+                consumedBytes = 9;
+
                 if (buf[3] != 0xFF) {
                     log (KRED, "*** Can't send POSITION message to team ");
                     log (COL(buf[3]-1), "%s", game.teams[buf[3]-1].name);
@@ -412,6 +419,8 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                     log (KRED, "*** BALL message is too short (%d bytes) ***\n", nbbytes);
                     return;
                 }
+
+                consumedBytes = 10;
 
                 if (buf[3] == 0xFF) {
                     log (KRED, "*** Can't send BALL message to server ***\n");
@@ -468,6 +477,9 @@ void parseMessage (int sendingTeam, const unsigned char *buf, int nbbytes) {
                 return;
             }
     }
+
+    if (consumedBytes > nbbytes)
+        parseMessage (sendingTeam, buf+consumedBytes, nbbytes-consumedBytes);
 }
 
 void usage (const char *execName) {
@@ -790,7 +802,7 @@ int main (int argc, char **argv) {
                                     buf[4] = MSG_START;                     /* This is a START message  */
                                     buf[5] = (game.leaders[game.teams[i].side] != i);   /* role */
                                     buf[6] = game.teams[i].side;            /* side */
-                                    buf[7] = game.teams[i].ally;            /* ally */
+                                    buf[7] = game.teams[i].ally+1;            /* ally */
 
                                     write_to_client (&game.teams[i], buf, 8);
 
