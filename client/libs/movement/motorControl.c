@@ -158,7 +158,7 @@ void stopRobot(struct MotorInfo motorInfo) {
 
 void grabObject(struct MotorInfo motorInfo) {
     stopRobot(motorInfo);
-    set_tacho_speed_sp(motorInfo.graberMotor, -200);
+    set_tacho_speed_sp(motorInfo.graberMotor, 200);
     set_tacho_time_sp(motorInfo.graberMotor, 700);
     set_tacho_command_inx(motorInfo.graberMotor, TACHO_RUN_TIMED);
     usleep(200000);
@@ -166,7 +166,7 @@ void grabObject(struct MotorInfo motorInfo) {
 
 void releaseObject(struct MotorInfo motorInfo) {
     stopRobot(motorInfo);
-    set_tacho_speed_sp(motorInfo.graberMotor, 200);
+    set_tacho_speed_sp(motorInfo.graberMotor, -200);
     set_tacho_time_sp(motorInfo.graberMotor, 700);
     set_tacho_command_inx(motorInfo.graberMotor, TACHO_RUN_TIMED);
     usleep(200000);

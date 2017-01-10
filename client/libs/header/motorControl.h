@@ -23,6 +23,7 @@ struct MotorInfo {
     int command;
     int time;
     double turnDegree;
+    int graberState;
 };
 
 struct CommandInfo {

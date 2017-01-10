@@ -12,9 +12,12 @@
 #define PORT_D 68           // port D
 
 
-#define PORT_GRABBER 66
+#define PORT_GRABBER 66		// port B
 #define PORT_LEFT_W 67      // port C
 #define PORT_RIGHT_W 68     // port D
+
+#define GRABER_CLOSE 0		// Graber state originally always 0 (close)
+#define GRABER_OPEN 1		// Open state
 
 #define MSG_ACK             0
 #define MSG_NEXT            1

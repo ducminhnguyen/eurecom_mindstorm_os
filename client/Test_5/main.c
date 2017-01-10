@@ -115,7 +115,15 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // d
         robotState = ROBOT_IDLE;
     } else if (robotState == ROBOT_GRAB) {
         printf("In grab \n");
-        grabObject(motorInfo);
+        if (motorInfo.graberState == GRABER_OPEN) {
+            grabObject(motorInfo);
+            motorInfo.graberState = GRABER_CLOSE;
+        } else {
+            releaseObject(motorInfo);
+            motorInfo.graberState = GRABER_OPEN;
+            grabObject(motorInfo);
+            motorInfo.graberState = GRABER_CLOSE;
+        }
         robotState = ROBOT_SCAN;
     } else if (robotState == ROBOT_SCAN) {
 
@@ -189,7 +197,9 @@ int main( void ) {
     motorInfo.time = 2500;
     motorInfo.command = TACHO_RUN_TIMED;
     motorInfo.turnDegree = 90;
+    motorInfo.graberState = GRABER_CLOSE;
 
+    
     float initialGyro = getInitialGyroValue();      // initial value of gyro
     struct SensorInfo info;
     info.initialGyro = initialGyro;
