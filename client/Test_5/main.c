@@ -199,7 +199,7 @@ int main( void ) {
     motorInfo.turnDegree = 90;
     motorInfo.graberState = GRABER_CLOSE;
 
-    
+
     float initialGyro = getInitialGyroValue();      // initial value of gyro
     struct SensorInfo info;
     info.initialGyro = initialGyro;
