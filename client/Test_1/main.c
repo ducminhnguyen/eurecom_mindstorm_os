@@ -188,7 +188,7 @@ int main( void ) {
     struct SensorInfo info;
     info.initialGyro = initialGyro;
     info.diffGyro = initialGyro;
-    StartRunning(motorInfo);
+    //StartRunning(motorInfo);
 
     robotState = ROBOT_GO_TIMED;
 
