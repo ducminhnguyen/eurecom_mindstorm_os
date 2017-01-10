@@ -121,7 +121,10 @@ void SteerRobot(struct SensorInfo sensorInfo, struct MotorInfo motorInfo) { // d
         } else {
             releaseObject(motorInfo);
             motorInfo.graberState = GRABER_OPEN;
-            usleep(5000000);
+            usleep(2000000);
+            motorInfo.time = 100;
+            runStraightLine(motorInfo, sensorInfo);
+            usleep(1000000);
             grabObject(motorInfo);
             motorInfo.graberState = GRABER_CLOSE;
         }
