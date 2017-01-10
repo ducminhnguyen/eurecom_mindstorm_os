@@ -167,9 +167,11 @@ int main( void ) {
     uint8_t sn_mag;
     uint8_t sn_gyro;
     char s[ 256 ];
-    int val;
+    int val, init_gyro, d_gyro, m, max;
     float value;
     uint32_t n, ii;
+
+    int us[1000], gy[1000];
 
     uint8_t tacho_left_motor = getTacho(PORT_B);    // left  wheel id
     uint8_t tacho_right_motor = getTacho(PORT_C);   // right wheel id
@@ -190,97 +192,27 @@ int main( void ) {
 
     robotState = ROBOT_GO_TIMED;
 
+// test scanning function
+    i = 0;
+    init_gyro = get_gyro_sensor_value();
+    turnRight(motorInfo, 90);
     while (true) {
-        UpdateSensorInfo(&info);
-        SteerRobot(info, motorInfo);
+        us[i] = get_us_sensor_value();
+        gy[i] = get_gyro_sensor_value();
+        Sleep(20);
+        i++;
+        if (get_gyro_sensor_value() - init_gyro> 80 )
+            break;
     }
-//    int port=65;
-//    for (port=65; port<69; port++){
-//        if ( ev3_search_tacho_plugged_in(port,0, &sn, 0 )) {
-//            int max_speed;
-//
-//            printf( "LEGO_EV3_M_MOTOR 1 is found, run for 5 sec...\n" );
-//            get_tacho_max_speed( sn, &max_speed );
-//            printf("  max speed = %d\n", max_speed );
-//            set_tacho_stop_action_inx( sn, TACHO_COAST );
-//            set_tacho_speed_sp( sn, max_speed * 2 / 3 );
-//            set_tacho_time_sp( sn, 5000 );
-//            set_tacho_ramp_up_sp( sn, 2000 );
-//            set_tacho_ramp_down_sp( sn, 2000 );
-//            set_tacho_command_inx( sn, TACHO_RUN_TIMED );
-//            /* Wait tacho stop */
-//            Sleep( 100 );
-//            do {
-//                get_tacho_state_flags( sn, &state );
-//            } while ( state );
-//            printf( "run to relative position...\n" );
-//            set_tacho_speed_sp( sn, max_speed / 2 );
-//            set_tacho_ramp_up_sp( sn, 0 );
-//            set_tacho_ramp_down_sp( sn, 0 );
-//            set_tacho_position_sp( sn, 90 );
-//            for ( i = 0; i < 8; i++ ) {
-//                set_tacho_command_inx( sn, TACHO_RUN_TO_REL_POS );
-//                Sleep( 500 );
-//            }
-//
-//        } else {
-//            printf( "LEGO_EV3_M_MOTOR 1 is NOT found\n" );
-//        }
-//    }
+    m = i;
+    max = -1;
+    for (i=0; i < m; ++i) {
+        if (max < us[i]) {
+            max = us[i];
+            d_gyro = gy[i];
+        }
+    }
 
-//    for ( ; ; ){
-//
-//        if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0 )) {
-//            printf("GYRO value");
-//            if (!get_sensor_value0(sn_gyro, &value)) {
-//                value = 0;
-//            }
-//            printf( "\r(%f) \n", initialGyro - value);
-//            fflush( stdout );
-//        }
-//        if ( ev3_search_sensor( LEGO_EV3_COLOR, &sn_color, 0 )) {
-//            printf( "COLOR sensor is found, reading COLOR...\n" );
-//            if ( !get_sensor_value( 0, sn_color, &val ) || ( val < 0 ) || ( val >= COLOR_COUNT )) {
-//                val = 0;
-//            }
-//            printf( "\r(%s) \n", color[ val ]);
-//            fflush( stdout );
-//        }
-//        if (ev3_search_sensor(HT_NXT_COMPASS, &sn_compass,0)){
-//            printf("COMPASS found, reading compass...\n");
-//            if ( !get_sensor_value0(sn_compass, &value )) {
-//                value = 0;
-//            }
-//            printf( "\r(%f) \n", value);
-//            fflush( stdout );
-//        }
-//        if (ev3_search_sensor(LEGO_EV3_US, &sn_sonar,0)){
-//            printf("SONAR found, reading sonar...\n");
-//            if ( !get_sensor_value0(sn_sonar, &value )) {
-//                value = 0;
-//            }
-//            printf( "\r(%f) \n", value);
-//            fflush( stdout );
-//        }
-//        if (ev3_search_sensor(NXT_ANALOG, &sn_mag,0)){
-//            printf("Magnetic sensor found, reading magnet...\n");
-//            if ( !get_sensor_value0(sn_mag, &value )) {
-//                value = 0;
-//            }
-//            printf( "\r(%f) \n", value);
-//            fflush( stdout );
-//        }
-
-//        if ( _check_pressed( sn_touch )) break;
-//        Sleep( 200 );
-//        printf( "\r        " );
-//        fflush( stdout );
-//        if ( _check_pressed( sn_touch )) break;
-//        Sleep( 200 );
-//    }
-
-    ev3_uninit();
-    printf( "*** ( EV3 ) Bye! ***\n" );
-    return 0;
+    turn_robot(motorInfo, info, d_gyro - get_gyro_sensor_value());
 }
 
