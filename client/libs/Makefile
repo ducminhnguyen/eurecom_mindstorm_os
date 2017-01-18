@@ -8,6 +8,13 @@ CC 		= gcc
 CFLAGS 		= -Werror -pedantic -std=gnu99 -g
 LFLAGS 		= -lbluetooth -lcurses -lpthread
 
-all:
+SRC=$(wildcard movement/*.c)
+
+PROG=$(patsubst movement/%.c,bin/%.o, $(SRC))
+
+
+all: $(PROG)
+
+bin/%.o: movement/%.c
 	mkdir -p bin
-	$(CC) $(CFLAGS) -I ~/libs/ev3dev-c/source/ev3 -o ./bin/libmotorcontrol.o -c ./movement/motorControl.c
+	$(CC) $(CFLAGS) -c -o $@ $< $(LFLAGS)

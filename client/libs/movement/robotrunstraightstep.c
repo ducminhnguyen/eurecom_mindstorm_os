@@ -1,0 +1,58 @@
+//
+// Created by parallels on 1/17/17.
+//
+// header include
+#include "../header/motorControl.h"
+#include "../header/robotrunstraightstep.h"
+#include "../header/global.h"
+// libs include
+#include "ev3.h"
+#include "ev3_port.h"
+#include "ev3_tacho.h"
+#include "ev3_sensor.h"
+#include <unistd.h>
+#include <stdarg.h>
+#include <sys/socket.h>
+#include <ncurses.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <math.h>
+// Update the sensor information
+// Update the
+void robotrunstraight_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+
+}
+
+void robotrunstraight_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+
+}
+
+
+void robotrunstraight_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+    int left_motor_speed, right_motor_speed;
+    get_tacho_speed(motorInfo->leftMotor, &left_motor_speed);
+    get_tacho_speed(motorInfo->rightMotor, &right_motor_speed);
+
+    if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
+        if (sensorInfo->diffGyro > 0) {// && left_motor_speed < right_motor_speed + 30) { // left tilt
+            set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed - 40*abs(sensorInfo->diffGyro));
+            set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
+            printf("Left tilt: %f \n", sensorInfo->diffGyro);
+        } else if (sensorInfo.diffGyro < 0) {// && left_motor_speed + 30 > right_motor_speed) { // right tilt
+            set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed);
+            set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed - 40*abs(sensorInfo->diffGyro));
+            printf("Right tilt: %f \n", sensorInfo->diffGyro);
+        } else {
+            set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
+            set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed);
+        }
+        set_tacho_time_sp(motorInfo->leftMotor, motorInfo->time);
+        set_tacho_time_sp(motorInfo->rightMotor, motorInfo->time);
+        set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
+        set_tacho_command_inx(motorInfo->rightMotor, motorInfo->command);
+    } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
+        set_tacho_command_inx(motorInfo->leftMotor, TACHO_RESET);
+        set_tacho_command_inx(motorInfo->rightMotor, TACHO_RESET);
+    }
+}

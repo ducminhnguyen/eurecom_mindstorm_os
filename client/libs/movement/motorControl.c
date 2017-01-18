@@ -60,12 +60,12 @@ void runStraight(){
     }
 }
 
-void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double degree) {
+void turn_robot( MotorInfo motor_info,  SensorInfo sensor, double degree) {
     stopRobot(motor_info);
-    int turn_speed = 70;
+    int turn_speed = 120;
     int turn_time = 100;
     float diff_degree, init_degree, sign, desire_degree;    
-    struct SensorInfo nsensor;
+     SensorInfo nsensor;
 
     update_sensor_info(&sensor);
     init_degree = sensor.currentGyro;
@@ -101,7 +101,7 @@ void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double de
     }
 }
 
-void turnLeft(struct MotorInfo motorInfo, double degree) {
+void turnLeft( MotorInfo motorInfo, double degree) {
     stopRobot(motorInfo);
     int turnSpeed = TURN_SPEED;
     int turnTime = (int)(degree * (1300.0f / 90)); // calculate based on degree
@@ -114,7 +114,7 @@ void turnLeft(struct MotorInfo motorInfo, double degree) {
     //usleep(turnTime);
 }
 
-void turnRight(struct MotorInfo motorInfo, double degree) {
+void turnRight( MotorInfo motorInfo, double degree) {
     stopRobot(motorInfo);
     int turnSpeed = TURN_SPEED;
     int turnTime = (int)(degree * (1300.0f / 90)); // calculate based on degree
@@ -127,7 +127,7 @@ void turnRight(struct MotorInfo motorInfo, double degree) {
     //usleep(turnTime);
 }
 
-void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo) {
+void runStraightLine( MotorInfo motorInfo,  SensorInfo sensorInfo) {
     int left_motor_speed, right_motor_speed;
     get_tacho_speed(motorInfo.leftMotor, &left_motor_speed);
     get_tacho_speed(motorInfo.rightMotor, &right_motor_speed);
@@ -150,13 +150,13 @@ void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo) {
     set_tacho_command_inx(motorInfo.rightMotor, motorInfo.command);
 }
 
-void stopRobot(struct MotorInfo motorInfo) {
+void stopRobot( MotorInfo motorInfo) {
     set_tacho_command_inx(motorInfo.rightMotor, TACHO_RESET);
     set_tacho_command_inx(motorInfo.leftMotor, TACHO_RESET);
     set_tacho_command_inx(motorInfo.graberMotor, TACHO_RESET);
 }
 
-void grabObject(struct MotorInfo motorInfo) {
+void grabObject( MotorInfo motorInfo) {
     stopRobot(motorInfo);
     set_tacho_speed_sp(motorInfo.graberMotor, 200);
     set_tacho_time_sp(motorInfo.graberMotor, 700);
@@ -164,7 +164,7 @@ void grabObject(struct MotorInfo motorInfo) {
     usleep(2000000);
 }
 
-void releaseObject(struct MotorInfo motorInfo) {
+void releaseObject( MotorInfo motorInfo) {
     stopRobot(motorInfo);
     set_tacho_speed_sp(motorInfo.graberMotor, -200);
     set_tacho_time_sp(motorInfo.graberMotor, 700);
@@ -173,7 +173,7 @@ void releaseObject(struct MotorInfo motorInfo) {
 }
 
 /////////////////////////////////sensor code/////////////////////////////////////////
-int getColorSensorValue(struct SensorInfo sensorInfo) {
+int getColorSensorValue( SensorInfo sensorInfo) {
     const char const *color[] = { "?", "BLACK", "BLUE", "GREEN", "YELLOW", "RED", "WHITE", "BROWN" };
     int COLOR_COUNT = ( int )( sizeof( color ) / sizeof( color[ 0 ]));
     int val = 0;
@@ -188,7 +188,41 @@ int getColorSensorValue(struct SensorInfo sensorInfo) {
     }
 }
 
-void update_sensor_info(struct SensorInfo* info) { // update
+int get_us_sensor_value() {
+    uint8_t sn_us;
+    bool stop = false;
+    float value = 0;
+    while (!stop) {
+        if (ev3_search_sensor(LEGO_EV3_US, &sn_us, 0)) {
+            stop = true;
+            if (!get_sensor_value0(sn_us, &value)) {
+                value = 0;
+            }
+            return value;
+        }
+        else {
+            printf("Can not find US sensor\n");
+        }
+    }
+}
+int get_gyro_sensor_value() {
+    uint8_t sn_us;
+    bool stop = false;
+    float value = 0;
+    while (!stop) {
+        if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_us, 0)) {
+            stop = true;
+            if (!get_sensor_value0(sn_us, &value)) {
+                value = 0;
+            }
+            return value;
+        } else {
+            printf("Can not find GYRO sensor\n");
+        }
+    }
+}
+
+void update_sensor_info( SensorInfo* info) { // update
     //printf("Update\n");
     uint8_t sn_gyro;
     bool stop = false;

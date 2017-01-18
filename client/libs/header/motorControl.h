@@ -12,41 +12,43 @@
 #include "ev3_sensor.h"
 #include "config.h"
 
-struct SensorInfo {
+typedef struct SensorInfo {
     float currentGyro, initialGyro, diffGyro;
     int currentColor, initialColor, diffColor;
-};
+} SensorInfo;
 
-struct MotorInfo {
+typedef struct MotorInfo {
     uint8_t leftMotor, rightMotor, graberMotor;
     int speed;
     int command;
     int time;
     double turnDegree;
     int graberState;
-};
+} MotorInfo;
 
-struct CommandInfo {
+typedef struct CommandInfo {
     Robot_State cmdState;
     struct SensorInfo sensorInfo;
     struct MotorInfo motorInfo;
-};
+} CommandInfo;
 
 //////////////////////////// motor function declaration /////////////////////
 void runStraight();
-void turn_robot(struct MotorInfo motor_info, struct SensorInfo sensor, double degree);
-void turnLeft(struct MotorInfo motorInfo, double degree);
-void turnRight(struct MotorInfo motorInfo, double degree);
-void runStraightLine(struct MotorInfo motorInfo, struct SensorInfo sensorInfo);
-void stopRobot(struct MotorInfo motorInfo);
-void grabObject(struct MotorInfo motorInfo);
-void releaseObject(struct MotorInfo motorInfo);
+void turn_robot(MotorInfo motor_info, SensorInfo sensor, double degree);
+void turnLeft(MotorInfo motorInfo, double degree);
+void turnRight(MotorInfo motorInfo, double degree);
+void runStraightLine(MotorInfo motorInfo, SensorInfo sensorInfo);
+void stopRobot(MotorInfo motorInfo);
+void grabObject(MotorInfo motorInfo);
+void releaseObject(MotorInfo motorInfo);
 
 
 
 /////////////////////////// sensor function declaration ///////////////////
-int getColorSensorValue(struct SensorInfo sensorInfo);
-void update_sensor_info(struct SensorInfo* info);
+int getColorSensorValue(SensorInfo sensorInfo);
+int get_us_sensor_value();
+int get_gyro_sensor_value();
+void update_sensor_info(SensorInfo* info);
 
 
 #endif //OS_ROBOT_PROJECT_FALL2016_MOTORCONTROL_H

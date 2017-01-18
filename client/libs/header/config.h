@@ -53,4 +53,6 @@ typedef enum {
 	UNKNOW, BLACK, BLUE, GREEN, YELLOW, RED, WHITE, BROWN
 } Color;
 
+
+
 #endif //ROBOT_BUNBO_CONFIG_H
