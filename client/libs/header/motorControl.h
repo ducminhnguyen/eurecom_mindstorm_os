@@ -15,6 +15,7 @@
 typedef struct SensorInfo {
     float currentGyro, initialGyro, diffGyro;
     int currentColor, initialColor, diffColor;
+    int currentDistance, initialDistance, diffDistance;
 } SensorInfo;
 
 typedef struct MotorInfo {
@@ -45,10 +46,17 @@ void releaseObject(MotorInfo motorInfo);
 
 
 /////////////////////////// sensor function declaration ///////////////////
-int getColorSensorValue(SensorInfo sensorInfo);
+int getColorSensorValue(SensorInfo* sensorInfo);
 int get_us_sensor_value();
 int get_gyro_sensor_value();
 void update_sensor_info(SensorInfo* info);
+void update_sensor_value(SensorInfo* sensorInfo);
 
+
+
+/////////////////////////// initialize variables ////////////////////////
+uint8_t getTacho(int portNum);
+void init_motor_info(MotorInfo* motorInfo);
+void set_sensor_initial_values(SensorInfo* sensorInfo);
 
 #endif //OS_ROBOT_PROJECT_FALL2016_MOTORCONTROL_H

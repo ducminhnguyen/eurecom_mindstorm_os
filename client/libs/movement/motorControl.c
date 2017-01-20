@@ -173,7 +173,7 @@ void releaseObject( MotorInfo motorInfo) {
 }
 
 /////////////////////////////////sensor code/////////////////////////////////////////
-int getColorSensorValue( SensorInfo sensorInfo) {
+int getColorSensorValue(SensorInfo* sensorInfo) {
     const char const *color[] = { "?", "BLACK", "BLUE", "GREEN", "YELLOW", "RED", "WHITE", "BROWN" };
     int COLOR_COUNT = ( int )( sizeof( color ) / sizeof( color[ 0 ]));
     int val = 0;
@@ -222,7 +222,7 @@ int get_gyro_sensor_value() {
     }
 }
 
-void update_sensor_info( SensorInfo* info) { // update
+void update_sensor_info(SensorInfo* info) { // update
     //printf("Update\n");
     uint8_t sn_gyro;
     bool stop = false;
@@ -237,7 +237,52 @@ void update_sensor_info( SensorInfo* info) { // update
             info->diffGyro = info->initialGyro - info->currentGyro;
         }
     }
-    info->currentColor = getColorSensorValue(*info);
+    info->currentColor = getColorSensorValue(info);
     //printf("color: %d", info->currentColor);
     return;
+}
+
+void update_sensor_value(SensorInfo* sensorInfo) {
+    sensorInfo->currentColor = getColorSensorValue(sensorInfo);
+    sensorInfo->diffColor = sensorInfo->initialColor - sensorInfo->currentColor;
+
+    sensorInfo->currentGyro = get_gyro_sensor_value();
+    sensorInfo->diffGyro = sensorInfo->initialGyro - sensorInfo->currentGyro;
+
+    sensorInfo->currentDistance = get_us_sensor_value();
+    sensorInfo->diffDistance = sensorInfo->initialDistance - sensorInfo->currentDistance;
+
+}
+
+void set_sensor_initial_values(SensorInfo* sensorInfo) {
+    sensorInfo->initialColor = getColorSensorValue(sensorInfo);
+    sensorInfo->initialGyro = get_gyro_sensor_value();
+    sensorInfo->initialDistance = get_us_sensor_value();
+}
+
+
+uint8_t getTacho(int portNum) {
+    uint8_t tachoSeqNum;
+    bool stop = false;
+    while (!stop) {
+        if (ev3_search_tacho_plugged_in(portNum, 0, &tachoSeqNum, 0)) {
+            return tachoSeqNum;
+        }
+    }
+}
+
+
+void init_motor_info(MotorInfo* motorInfo) {
+    uint8_t tacho_left_motor = getTacho(PORT_B);    // left  wheel id
+    uint8_t tacho_right_motor = getTacho(PORT_C);   // right wheel id
+    uint8_t tacho_graber_motor = getTacho(PORT_D);  // graber id
+    motorInfo->leftMotor = tacho_left_motor;        // motor port position constant should not be changed
+    motorInfo->rightMotor = tacho_right_motor;
+    motorInfo->graberMotor = tacho_graber_motor;
+
+
+    motorInfo->speed = 500;                         // dummy number may be change later
+    motorInfo->time = 5000;
+    motorInfo->command = TACHO_RUN_TIMED;
+    motorInfo->turnDegree = 90;
 }

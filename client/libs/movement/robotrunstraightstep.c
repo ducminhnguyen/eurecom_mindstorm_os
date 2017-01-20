@@ -19,13 +19,14 @@
 #include <stdint.h>
 #include <math.h>
 // Update the sensor information
-// Update the
+// Calculate condition to change ROBOT_STATE and ROBOT step
+// Update the ROBOT_STATE and the step
 void robotrunstraight_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
-
+    set_sensor_initial_values(sensorInfo);
 }
 
 void robotrunstraight_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
-
+    update_sensor_value(sensorInfo);
 }
 
 
@@ -39,7 +40,7 @@ void robotrunstraight_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
             set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed - 40*abs(sensorInfo->diffGyro));
             set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
             printf("Left tilt: %f \n", sensorInfo->diffGyro);
-        } else if (sensorInfo.diffGyro < 0) {// && left_motor_speed + 30 > right_motor_speed) { // right tilt
+        } else if (sensorInfo->diffGyro < 0) {// && left_motor_speed + 30 > right_motor_speed) { // right tilt
             set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed);
             set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed - 40*abs(sensorInfo->diffGyro));
             printf("Right tilt: %f \n", sensorInfo->diffGyro);
