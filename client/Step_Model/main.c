@@ -46,17 +46,25 @@ static bool _check_pressed( uint8_t sn )
 }
 
 void update_all_sensor(SensorInfo* sensorInfo, MotorInfo* motorInfo) { // update
-
+    global_params.robot_steps[global_params.current_step].update_all(motorInfo, sensorInfo);
     return;
 }
 
 void run_robot(SensorInfo* sensorInfo, MotorInfo* motorInfo) { // draw
-
+    global_params.robot_steps[global_params.current_step].run_motor(motorInfo, sensorInfo);
     return;
 }
 
 void ResetSensors(struct SensorInfo sensorInfo) {
 
+}
+
+void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
+    global_params.robot_steps = (step*)malloc(sizeof(step) * 1);
+    global_params.total_step = 1;
+    global_params.run_style = ONE_WAY;
+    global_params.current_step = 0;
+    global_params.robot_steps[global_params.current_step].init_step(motorInfo, sensorInfo);
 }
 
 int main( void ) {
