@@ -98,7 +98,7 @@ int main( void ) {
 
     SensorInfo sensorInfo;
     set_sensor_initial_values(&sensorInfo);
-    printf("finish init");
+    printf("finish init\n");
 
 
     init_robot_steps(&motorInfo, &sensorInfo);
