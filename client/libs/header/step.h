@@ -17,7 +17,7 @@ typedef struct {
     // params for different steps
 
     // robotrunstraightuntilwall: distance until hit wall threshold to stop
-    int robot_run_straight_until_wall_distance_to_stop;
+    float robot_run_straight_until_wall_distance_to_stop;
 
     // robotrunstraightstep: color read threshold
     int robot_run_straight_color_threshold; // color threshold to stop

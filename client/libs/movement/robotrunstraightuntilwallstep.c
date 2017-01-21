@@ -55,5 +55,5 @@ void robotrunstraightuntilwall_run_motor(MotorInfo *motorInfo, SensorInfo *senso
 // right form. Implement this function if you think at the start of this step sensor and motor need to be in a specific
 // state
 void robotrunstraightuntilwall_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
-
+    set_sensor_initial_values(sensorInfo);
 }
