@@ -14,6 +14,7 @@
 
 static float robotscanforball_min_dis = 20000;
 static float robotscanforball_min_angle = 0;
+static float robotscanforball_initial_gyro = 0;
 static uint8_t robotscanforball_current_step = 0;
 static step * global_current_step_pt = 0;
 
@@ -57,10 +58,13 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         switch (robotscanforball_current_step) {
             case 0: // change from turn left to right
                 global_params.robot_state = ROBOT_TURN_RIGHT;
+
+                robotturnright_init_step(motorInfo, sensorInfo);
                 robotscanforball_current_step = 1;
                 break;
             case 1: // change turn state
                 global_params.robot_state = ROBOT_TURN_LEFT;
+                robotturnleft_init_step(motorInfo, sensorInfo);
                 robotscanforball_current_step = 2; 
                 if (robotscanforball_min_dis < 20.0) {
                     ball_found = 1;
@@ -69,7 +73,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 }
                 else {
                     global_current_step_pt->robot_turn_left_degree = 
-                        abs(sensorInfo->currentGyro - sensorInfo->initialGyro);
+                        abs(sensorInfo->currentGyro - robotscanforball_initial_gyro);
                 }
                 printf("turn left degree: %f\n", global_current_step_pt->robot_turn_left_degree);
                 break;
@@ -77,10 +81,12 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 if (ball_found == 1) {
                     robotscanforball_current_step = 4;
                     global_current_step_pt->robot_run_straight_until_wall_distance_to_stop = 6.0; // stop before hit the ball 6 cm
+                    robotrunstraightuntilwall_init_step(motorInfo, sensorInfo);
                 }
                 else { // if not, move forward a little bit
                     robotscanforball_current_step = 3;
                     global_current_step_pt->robot_run_timed_time_to_run = 0.5;
+                    robotrunstraight_init_step(motorInfo, sensorInfo);
                 }
                 global_params.robot_state = ROBOT_RUN_STRAIGHT;
                 break;
@@ -121,6 +127,7 @@ void robotscanforball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // state
 void robotscanforball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
+    robotscanforball_initial_gyro = sensorInfo->initialGyro;
     robotscanforball_min_dis = 20000;
     robotscanforball_min_angle = 0;
     robotscanforball_current_step = 0;
@@ -131,4 +138,5 @@ void robotscanforball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     global_current_step_pt->robot_turn_right_degree = 60;
 
     global_params.robot_state = ROBOT_TURN_LEFT;
+    robotturnleft_init_step(motorInfo, sensorInfo);
 }
