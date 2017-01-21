@@ -9,7 +9,7 @@
 void robotrunstraightuntilwall_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
-        printf("Dist: %f\n", sensorInfo->currentDistance);
+        //printf("Dist: %f\n", sensorInfo->currentDistance);
         if (sensorInfo->currentDistance <= global_params.robot_steps[global_params.current_step].robot_run_straight_until_wall_distance_to_stop) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
@@ -46,7 +46,7 @@ void robotrunstraightuntilwall_run_motor(MotorInfo *motorInfo, SensorInfo *senso
         set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
         set_tacho_command_inx(motorInfo->rightMotor, motorInfo->command);
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING || global_params.robot_state == ROBOT_COMPLETE_STEP) {
-        printf("robot stop\n");
+        //printf("robot stop\n");
         set_tacho_speed_sp(motorInfo->leftMotor, 0);
         set_tacho_speed_sp(motorInfo->rightMotor, 0);
         set_tacho_command_inx(motorInfo->leftMotor, TACHO_STOP);
