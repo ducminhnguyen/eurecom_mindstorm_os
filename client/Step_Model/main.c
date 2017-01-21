@@ -66,9 +66,9 @@ void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.robot_steps[0].robot_run_straight_until_wall_distance_to_stop = 30;
     global_params.robot_steps[0].robot_run_timed_time_to_run = 2;
     global_params.robot_steps[0].robot_run_timed_speed = -400;
-    global_params.robot_steps[0].init_step = &robotturnleft_init;
-    global_params.robot_steps[0].run_motor = &robotruntimed_run_motor;
-    global_params.robot_steps[0].update_all = &robotruntimed_update;
+    global_params.robot_steps[0].init_step = &robotturnleft_init_step;
+    global_params.robot_steps[0].run_motor = &robotturnleft_run_motor;
+    global_params.robot_steps[0].update_all = &robotturnleft_update;
 
     global_params.robot_steps[global_params.current_step].init_step(motorInfo, sensorInfo);
 }
