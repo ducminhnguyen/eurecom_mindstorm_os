@@ -59,4 +59,7 @@ uint8_t getTacho(int portNum);
 void init_motor_info(MotorInfo* motorInfo);
 void set_sensor_initial_values(SensorInfo* sensorInfo);
 
+
+/////// helper functions
+
 #endif //OS_ROBOT_PROJECT_FALL2016_MOTORCONTROL_H

@@ -21,4 +21,5 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <math.h>
+#include <time.h>
 #endif //OS_ROBOT_PROJECT_FALL2016_STD_INCLUDE_H
