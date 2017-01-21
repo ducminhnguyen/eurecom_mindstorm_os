@@ -8,7 +8,7 @@
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/rfcomm.h>
 
-#define SERV_ADDR   "f4:5c:89:91:68:fa"     /* Whatever the address of the server is */
+#define SERV_ADDR   "dc:53:60:AD:61:90"     /* Whatever the address of the server is */
 #define TEAM_ID     8                       /* Your team ID */
 
 #define MSG_ACK     0

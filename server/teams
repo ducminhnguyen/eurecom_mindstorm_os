@@ -3,7 +3,6 @@
 #       [ADDR] : aa:bb:cc:dd:ee:ff is the bluetooth address if type is 1
 #                aaa.bbb.ccc.ddd is the IP address if type is 2
 #       [NAME] : is the name of the team
-
 1 00:17:E9:F5:B9:DE LeE
 1 A0:E6:F8:DC:88:C5 BreakingBot
 1 A0:E6:F8:DC:88:B9 Eurebot
