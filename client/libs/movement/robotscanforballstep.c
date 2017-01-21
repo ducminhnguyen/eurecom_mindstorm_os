@@ -87,6 +87,8 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 else { // if not, move forward a little bit
                     robotscanforball_current_step = 3;
                     global_current_step_pt->robot_run_timed_time_to_run = 500;
+
+                    global_current_step_pt->robot_run_timed_speed = 400;
                     robotruntimed_init_step(motorInfo, sensorInfo);
                 }
                 global_params.robot_state = ROBOT_RUN_STRAIGHT;
@@ -94,6 +96,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
             case 3:
                 global_current_step_pt->robot_turn_left_degree = 45;
                 global_params.robot_state = ROBOT_TURN_LEFT;
+                robotscanforball_current_step = 0;
                 robotturnleft_init_step(motorInfo, sensorInfo);
                 break;
             case 4:
