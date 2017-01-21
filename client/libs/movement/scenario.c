@@ -39,7 +39,7 @@ void scenario_small_stadium_finisher_init() {
      * wait server
      * run straight until black line
      * turn left 90
-     * run straight for 3-5 sec
+     * run straight for 3-5 sec (calibrate)
      * scan for ball
      * run to ball
      * grab ball
@@ -54,16 +54,29 @@ void scenario_small_stadium_finisher_init() {
      * run straight until black line
      * release ball and step back and close grabber
      * turn around 180
-     * run straight until wall 20 cm
+     * run straight until wall 20 cm (calibrate)
      * turn right 90
-     * run straight until wall 30 cm
+     * run straight until wall 30 cm (calibrate)
      * turn around 180
     */
 }
 
 void scenario_large_stadium_left_beginner() {
-
+    /*
+     * run straight until wall 20 cm
+     * turn left 90
+     * run straight 5 sec (calibrate)
+     * turn right 90
+     * run straight until wall 20 cm (calibrate)
+     * turn right 90
+     * run straight until black line
+     * run straight 1 sec (calibrate)
+     * turn around 180
+     * release ball, go backward
+     *
+    */
 }
+
 
 void scenario_large_stadium_left_finisher() {
 
