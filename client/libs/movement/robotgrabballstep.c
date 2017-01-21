@@ -40,7 +40,7 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         usleep(run_time * 1000);
         global_params.robot_state = ROBOT_CLOSE_GRABBER;
     } else if (global_params.robot_state == ROBOT_CLOSE_GRABBER) {
-        
+
         set_tacho_speed_sp(motorInfo->graberMotor, GRABBER_SPEED);
         set_tacho_time_sp(motorInfo->graberMotor, GRABBER_TIME);
         set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_TIMED);
