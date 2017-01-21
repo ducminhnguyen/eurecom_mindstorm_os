@@ -8,7 +8,7 @@
 #include "config.h"
 #include "step.h"
 #include "motorControl.h"
-#define MAX_STEP 150
+#define MAX_STEP 100
 
 typedef enum {
     LOOP, ONE_WAY
