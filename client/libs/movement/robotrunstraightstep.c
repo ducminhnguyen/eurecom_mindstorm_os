@@ -30,6 +30,15 @@ void robotrunstraight_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     printf("updating\n");
 
     update_sensor_value(sensorInfo);
+    if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
+        if (sensorInfo->currentColor < 10) {
+            global_params.robot_state = ROBOT_STOP_RUNNING;
+        }
+    } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
+        // move to next step();
+        // movetonextstep(&global_params, motorInfo, sensorInfo);
+        // for individual step testing comment this
+    }
 }
 
 
