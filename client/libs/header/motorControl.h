@@ -27,11 +27,11 @@ typedef struct MotorInfo {
     int graberState;
 } MotorInfo;
 
-typedef struct CommandInfo {
-    Robot_State cmdState;
-    struct SensorInfo sensorInfo;
-    struct MotorInfo motorInfo;
-} CommandInfo;
+//typedef struct CommandInfo {
+//    Robot_State cmdState;
+//    struct SensorInfo sensorInfo;
+//    struct MotorInfo motorInfo;
+//} CommandInfo;
 
 //////////////////////////// motor function declaration /////////////////////
 void runStraight();
