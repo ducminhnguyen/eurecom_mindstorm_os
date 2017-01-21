@@ -4,6 +4,7 @@
 
 #include "../header/global.h"
 
+
 int movetonextstep(global_parameters *global_param, MotorInfo* motorInfo, SensorInfo *sensorInfo) {
     if (global_param->run_style == LOOP) {
         global_param->current_step = (++global_param->current_step) % global_param->total_step;
@@ -20,3 +21,4 @@ int movetonextstep(global_parameters *global_param, MotorInfo* motorInfo, Sensor
     }
     return 1;
 }
+

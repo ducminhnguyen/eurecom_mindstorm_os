@@ -21,6 +21,7 @@ typedef enum {
 typedef struct global_parameters {
     step* robot_steps;
     int current_step, total_step;
+    float calibrated_straight_angle;
     RUN_STYLE run_style;
     ROBOT_STATE robot_state;
 } global_parameters;

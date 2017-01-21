@@ -1,0 +1,8 @@
+HEADER=robotstep_headers.h
+echo "#ifndef __ROBOT_STEP_HEADERS__" > $HEADER
+echo "#define __ROBOT_STEP_HEADERS__" >> $HEADER
+for file in robot*step.h
+do
+    echo "#include \"$file\"" >> $HEADER
+done
+echo "#endif" >> $HEADER
