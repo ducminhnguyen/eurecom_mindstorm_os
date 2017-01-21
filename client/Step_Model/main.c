@@ -90,8 +90,9 @@ int main( void ) {
     printf( "Waiting tacho is plugged...\n" );
 
 #endif
-    printf("Start program\n");
+
     initRobot();
+    printf("Start program\n");
 
     MotorInfo motorInfo;
     init_motor_info(&motorInfo);
