@@ -44,6 +44,9 @@ static bool _check_pressed( uint8_t sn )
 }
 
 void update_all_sensor(SensorInfo* sensorInfo, MotorInfo* motorInfo) { // update
+    if (global_params.robot_state == ROBOT_COMPLETE_STEP) {
+        movetonextstep(&global_params, motorInfo, sensorInfo);
+    }
     global_params.robot_steps[global_params.current_step].update_all(motorInfo, sensorInfo);
     return;
 }
