@@ -31,11 +31,11 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     if (global_params.robot_state == ROBOT_COMPLETE_STEP) {
         switch (robotscanforball_current_step) {
             case 0: // change from turn left to right
-                global_params.robot_state == ROBOT_TURN_RIGHT;
+                global_params.robot_state = ROBOT_TURN_RIGHT;
                 robotscanforball_current_step = 1;
                 break;
             case 1: // change turn state
-                global_params.robot_state == ROBOT_TURN_LEFT;
+                global_params.robot_state = ROBOT_TURN_LEFT;
                 robotscanforball_current_step = 2; 
                 if (robotscanforball_min_dis < 20.0) {
                     ball_found = 1;
@@ -59,7 +59,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 global_params.robot_state = ROBOT_RUN_STRAIGHT;
                 break;
             case 3:
-                global_current_step_pt->robot_turn_left_degree == 30;
+                global_current_step_pt->robot_turn_left_degree = 30;
                 break;
             case 4:
                 ball_found = 1;
@@ -121,8 +121,8 @@ void robotscanforball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 
     global_current_step_pt = &global_params.robot_steps[global_params.current_step];
 
-    global_current_step_pt->robot_turn_left_degree == 30;
-    global_current_step_pt->robot_turn_right_degree == 60;
+    global_current_step_pt->robot_turn_left_degree = 30;
+    global_current_step_pt->robot_turn_right_degree = 60;
 
-    global_params.robot_state == ROBOT_TURN_LEFT;
+    global_params.robot_state = ROBOT_TURN_LEFT;
 }
