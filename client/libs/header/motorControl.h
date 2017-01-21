@@ -47,8 +47,8 @@ void releaseObject(MotorInfo motorInfo);
 
 /////////////////////////// sensor function declaration ///////////////////
 int getColorSensorValue(SensorInfo* sensorInfo);
-int get_us_sensor_value();
-int get_gyro_sensor_value();
+float get_us_sensor_value();
+float get_gyro_sensor_value();
 void update_sensor_info(SensorInfo* info);
 void update_sensor_value(SensorInfo* sensorInfo);
 

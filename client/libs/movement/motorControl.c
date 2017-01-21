@@ -206,7 +206,7 @@ float get_us_sensor_value() {
         }
     }
 }
-int get_gyro_sensor_value() {
+float get_gyro_sensor_value() {
     uint8_t sn_us;
     bool stop = false;
     float value = 0;
