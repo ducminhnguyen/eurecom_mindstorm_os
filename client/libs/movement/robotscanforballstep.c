@@ -92,6 +92,8 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 break;
             case 3:
                 global_current_step_pt->robot_turn_left_degree = 45;
+                global_params.robot_state = ROBOT_TURN_LEFT;
+                robotturnleft_init_step(motorInfo, sensorInfo);
                 break;
             case 4:
                 ball_found = 1;
@@ -134,7 +136,7 @@ void robotscanforball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 
     global_current_step_pt = &global_params.robot_steps[global_params.current_step];
 
-    global_current_step_pt->robot_turn_left_degree = 45;
+    global_current_step_pt->robot_turn_left_degree = 30;
     global_current_step_pt->robot_turn_right_degree = 90;
 
     global_params.robot_state = ROBOT_TURN_LEFT;
