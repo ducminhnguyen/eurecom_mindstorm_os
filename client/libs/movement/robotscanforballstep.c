@@ -28,7 +28,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         return;
     }
 
-
+    printf("Sensor gyro and us: %f, %f\n", sensorInfo->currentGyro, sensorInfo->currentDistance);
     if (robotscanforball_current_step == 0) { // turn left
         robotturnleft_update(motorInfo, sensorInfo);
     }
