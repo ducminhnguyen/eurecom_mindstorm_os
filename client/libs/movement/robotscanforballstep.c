@@ -19,7 +19,7 @@ static step * global_current_step_pt = 0;
 
 void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     static uint8_t ball_found = 0;
-    update_sensor_info(sensorInfo);
+    update_sensor_value(sensorInfo);
 
     // check for the obstacle
     if (sensorInfo->currentDistance <= 5.0) {
@@ -54,7 +54,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 
 
     if (global_params.robot_state == ROBOT_COMPLETE_STEP) {
-        printf("Complete step %d\n", robotscanforball_current_step);
+        printf("Scanning ball: Complete step %d\n", robotscanforball_current_step);
         switch (robotscanforball_current_step) {
             case 0: // change from turn left to right
                 global_params.robot_state = ROBOT_TURN_RIGHT;
