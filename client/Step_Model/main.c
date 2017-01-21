@@ -97,8 +97,11 @@ int main( void ) {
     initRobot();
     printf("Start program\n");
 
+
     MotorInfo motorInfo;
     init_motor_info(&motorInfo);
+
+    stopRobot(motorInfo);
 
     SensorInfo sensorInfo;
     set_sensor_initial_values(&sensorInfo);
