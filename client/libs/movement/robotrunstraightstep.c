@@ -26,11 +26,17 @@ void robotrunstraight_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 }
 
 void robotrunstraight_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+
+    printf("updating\n");
+
     update_sensor_value(sensorInfo);
 }
 
 
 void robotrunstraight_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+
+    printf("running\n");
+
     int left_motor_speed, right_motor_speed;
     get_tacho_speed(motorInfo->leftMotor, &left_motor_speed);
     get_tacho_speed(motorInfo->rightMotor, &right_motor_speed);
