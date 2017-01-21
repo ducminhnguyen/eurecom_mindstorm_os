@@ -42,7 +42,7 @@
 #define KWHT            7
 
 #define TURN_SPEED 120
-#define TURN_TIME 5
+#define TURN_TIME 100
 
 //typedef enum {
 //    ROBOT_GO_STRAIGHT, ROBOT_SCAN, ROBOT_STOP, ROBOT_GRAB,
