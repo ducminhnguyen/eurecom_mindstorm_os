@@ -23,12 +23,12 @@ void robotturnleft_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // call this function in the run motor function of the loop
 void robotturnleft_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     if(global_params.robot_state == ROBOT_TURN_LEFT){
-        set_tacho_speed_sp(motorInfo.leftMotor, -TURN_SPEED);
-        set_tacho_speed_sp(motorInfo.rightMotor, TURN_SPEED);
-        set_tacho_time_sp(motorInfo.leftMotor, TURN_TIME);
-        set_tacho_time_sp(motorInfo.rightMotor, TURN_TIME);
-        set_tacho_command_inx(motorInfo.leftMotor, TACHO_RUN_TIMED);
-        set_tacho_command_inx(motorInfo.rightMotor, TACHO_RUN_TIMED);
+        set_tacho_speed_sp(motorInfo->leftMotor, -TURN_SPEED);
+        set_tacho_speed_sp(motorInfo->rightMotor, TURN_SPEED);
+        set_tacho_time_sp(motorInfo->leftMotor, TURN_TIME);
+        set_tacho_time_sp(motorInfo->rightMotor, TURN_TIME);
+        set_tacho_command_inx(motorInfo->leftMotor, TACHO_RUN_TIMED);
+        set_tacho_command_inx(motorInfo->rightMotor, TACHO_RUN_TIMED);
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
         set_tacho_speed_sp(motorInfo->leftMotor, 0);
         set_tacho_speed_sp(motorInfo->rightMotor, 0);
