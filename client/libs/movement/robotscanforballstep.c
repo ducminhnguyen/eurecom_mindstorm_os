@@ -12,8 +12,8 @@
 // Update the ROBOT_STATE and the step
 
 
-static uint16_t robotscanforball_min_dis = 20000;
-static uint16_t robotscanforball_min_angle = 2 << 15 - 1;
+static float robotscanforball_min_dis = 20000;
+static float robotscanforball_min_angle = 2 << 15 - 1;
 static uint8_t robotscanforball_current_step = 0;
 static step * global_current_step_pt = 0;
 
@@ -34,6 +34,13 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     }
     else if (robotscanforball_current_step == 1) { // turn right
         robotturnright_update(motorInfo, sensorInfo);
+        printf("Distance %f, %f\n", sensorInfo->currentDistance, robotscanforball_min_dis);
+        // check for distance
+        if (sensorInfo->currentDistance < robotscanforball_min_dis) {
+            robotscanforball_min_dis = sensorInfo->currentDistance;
+            robotscanforball_min_angle = sensorInfo->currentGyro;
+        }
+    
     } 
     else if (robotscanforball_current_step == 2) { // turn back to ball direction
         robotturnleft_update(motorInfo, sensorInfo);
@@ -45,8 +52,9 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         robotrunstraightuntilwall_update(motorInfo, sensorInfo);
     }
 
-    
+
     if (global_params.robot_state == ROBOT_COMPLETE_STEP) {
+        printf("Complete step %d\n", robotscanforball_current_step);
         switch (robotscanforball_current_step) {
             case 0: // change from turn left to right
                 global_params.robot_state = ROBOT_TURN_RIGHT;
@@ -96,10 +104,6 @@ void robotscanforball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     }
     else if (robotscanforball_current_step == 1) { // turn right
         robotturnright_run_motor(motorInfo, sensorInfo);
-        if (sensorInfo->currentDistance < robotscanforball_min_dis) {
-            robotscanforball_min_dis = sensorInfo->currentDistance;
-            robotscanforball_min_angle = sensorInfo->currentGyro;
-        }
     } 
     else if (robotscanforball_current_step == 2) { // turn back to ball direction or original direction
         robotturnleft_run_motor(motorInfo, sensorInfo);
