@@ -64,6 +64,11 @@ void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.total_step = 1;
     global_params.run_style = ONE_WAY;
     global_params.current_step = 0;
+
+    global_params.robot_steps[0].init_step = &robotrunstraight_init_step;
+    global_params.robot_steps[0].run_motor = &robotrunstraight_run_motor;
+    global_params.robot_steps[0].update_all = &robotrunstraight_update;
+
     global_params.robot_steps[global_params.current_step].init_step(motorInfo, sensorInfo);
 }
 
@@ -91,8 +96,9 @@ int main( void ) {
 
     SensorInfo sensorInfo;
     set_sensor_initial_values(&sensorInfo);
-
+    printf("finish init");
     robotState = ROBOT_TURN_LEFT;
+    init_robot_steps(&motorInfo, &sensorInfo);
 
     while (true) {
         update_all_sensor(&sensorInfo, &motorInfo);
