@@ -23,10 +23,10 @@ typedef struct {
     int robot_run_straight_color_threshold; // color threshold to stop
 
     // robotturnleftstep:
-    int robot_turn_left_degree;
+    float robot_turn_left_degree;
 
     // robotturnrightstep:
-    int robot_turn_right_degree;
+    float robot_turn_right_degree;
 
     // robotturnaroundstep:
 
