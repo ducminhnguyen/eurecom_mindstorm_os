@@ -68,7 +68,7 @@ void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.run_style = ONE_WAY;
     global_params.current_step = 0;
 
-    global_params.robot_steps[0].robot_run_straight_until_wall_distance_to_stop = 5;
+    global_params.robot_steps[0].robot_run_straight_until_wall_distance_to_stop = 5; // in cm
     global_params.robot_steps[0].robot_run_timed_time_to_run = 2;
     global_params.robot_steps[0].robot_run_timed_speed = -400;
     global_params.robot_steps[0].robot_turn_left_degree = 90;
