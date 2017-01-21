@@ -8,6 +8,7 @@
 #include "config.h"
 #include "step.h"
 #include "motorControl.h"
+#define MAX_STEP 150
 
 typedef enum {
     LOOP, ONE_WAY
@@ -18,7 +19,7 @@ typedef enum {
 } ROBOT_STATE; // state pool use for all steps
 
 typedef struct global_parameters {
-    step* robot_steps;
+    step* robot_steps[MAX_STEP];
     int current_step, total_step;
     RUN_STYLE run_style;
     ROBOT_STATE robot_state;
