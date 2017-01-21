@@ -13,13 +13,13 @@
 
 
 static float robotscanforball_min_dis = 20000;
-static float robotscanforball_min_angle = 2 << 15 - 1;
+static float robotscanforball_min_angle = 0;
 static uint8_t robotscanforball_current_step = 0;
 static step * global_current_step_pt = 0;
 
 void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     static uint8_t ball_found = 0;
-    update_sensor_value(sensorInfo);
+    //update_sensor_value(sensorInfo);
 
     // check for the obstacle
     if (sensorInfo->currentDistance <= 5.0) {
@@ -34,7 +34,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     }
     else if (robotscanforball_current_step == 1) { // turn right
         robotturnright_update(motorInfo, sensorInfo);
-        printf("Distance %f, %f\n", sensorInfo->currentDistance, robotscanforball_min_dis);
+        printf("Distance %f, %f, %f\n", sensorInfo->currentDistance, robotscanforball_min_dis, robotscanforball_min_angle);
         // check for distance
         if (sensorInfo->currentDistance < robotscanforball_min_dis) {
             robotscanforball_min_dis = sensorInfo->currentDistance;
@@ -122,7 +122,7 @@ void robotscanforball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 void robotscanforball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
     robotscanforball_min_dis = 20000;
-    robotscanforball_min_angle = 2 << 15 - 1;
+    robotscanforball_min_angle = 0;
     robotscanforball_current_step = 0;
 
     global_current_step_pt = &global_params.robot_steps[global_params.current_step];
