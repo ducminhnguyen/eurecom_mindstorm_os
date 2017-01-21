@@ -43,7 +43,7 @@ void robotruntimed_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         }
         set_tacho_time_sp(motorInfo->leftMotor, global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run);
         set_tacho_time_sp(motorInfo->rightMotor, global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run);
-        set_tacho_command_inx(motorInfo->leftMotor, global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run);
+        set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
         set_tacho_command_inx(motorInfo->rightMotor, motorInfo->command);
 //        usleep(global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run * 10000);
 //        set_tacho_speed_sp(motorInfo->leftMotor, 0);
