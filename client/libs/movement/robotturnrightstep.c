@@ -42,4 +42,5 @@ void robotturnright_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // state
 void robotturnright_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
+    global_params.robot_state = ROBOT_TURN_RIGHT;
 }
