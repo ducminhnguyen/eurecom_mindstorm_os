@@ -6,6 +6,7 @@
 #include "../header/robotturnrightstep.h"
 #include "../header/robotrunstraightuntilwallstep.h"
 #include "../header/robotrunstraightstep.h"
+#include "../header/robotruntimedstep.h"
 
 // Update the sensor information
 // Calculate condition to change ROBOT_STATE and ROBOT step
