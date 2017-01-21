@@ -20,7 +20,7 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         usleep(GRABBER_TIME * 1000);
         global_params.robot_state = ROBOT_RUN_STRAIGHT;
     } else if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
-        int run_time = 2;
+        int run_time = 200;
         if (sensorInfo->diffGyro > 0) {
             set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed - 10*abs(sensorInfo->diffGyro));
             set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
@@ -40,6 +40,7 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         usleep(run_time * 1000);
         global_params.robot_state = ROBOT_CLOSE_GRABBER;
     } else if (global_params.robot_state == ROBOT_CLOSE_GRABBER) {
+        printf("Close grabber")
         set_tacho_speed_sp(motorInfo->graberMotor, GRABBER_SPEED);
         set_tacho_time_sp(motorInfo->graberMotor, GRABBER_TIME);
         set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_TIMED);
