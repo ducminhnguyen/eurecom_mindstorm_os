@@ -258,6 +258,9 @@ void set_sensor_initial_values(SensorInfo* sensorInfo) {
     sensorInfo->initialColor = getColorSensorValue(sensorInfo);
     sensorInfo->initialGyro = get_gyro_sensor_value();
     sensorInfo->initialDistance = get_us_sensor_value();
+    sensorInfo->diffGyro = 0;
+    sensorInfo->diffColor = 0;
+    sensorInfo->diffDistance = 0;
 }
 
 
@@ -281,8 +284,8 @@ void init_motor_info(MotorInfo* motorInfo) {
     motorInfo->graberMotor = tacho_graber_motor;
 
 
-    motorInfo->speed = 500;                         // dummy number may be change later
-    motorInfo->time = 5000;
+    motorInfo->speed = 300;                         // dummy number may be change later
+    motorInfo->time = 3000;
     motorInfo->command = TACHO_RUN_TIMED;
-    motorInfo->turnDegree = 90;
+    motorInfo->turnDegree = 0;
 }
