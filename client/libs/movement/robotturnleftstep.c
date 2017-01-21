@@ -9,7 +9,7 @@
 void robotturnleft_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_TURN_LEFT) {
-        //printf("update: %d\n", abs(abs(sensorInfo->diffGyro) - global_params.robot_steps[global_params.current_step].robot_turn_left_degree));
+        printf("update: %f\n", abs(abs(sensorInfo->diffGyro) - global_params.robot_steps[global_params.current_step].robot_turn_left_degree));
         if(abs(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_left_degree) - 5){
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
