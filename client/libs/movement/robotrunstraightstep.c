@@ -43,9 +43,6 @@ void robotrunstraight_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 
 
 void robotrunstraight_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
-
-    printf("running\n");
-
     int left_motor_speed, right_motor_speed;
     get_tacho_speed(motorInfo->leftMotor, &left_motor_speed);
     get_tacho_speed(motorInfo->rightMotor, &right_motor_speed);
@@ -68,7 +65,9 @@ void robotrunstraight_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
         set_tacho_command_inx(motorInfo->rightMotor, motorInfo->command);
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
-        set_tacho_command_inx(motorInfo->leftMotor, TACHO_RESET);
-        set_tacho_command_inx(motorInfo->rightMotor, TACHO_RESET);
+        set_tacho_speed_sp(motorInfo->leftMotor, 0);
+        set_tacho_speed_sp(motorInfo->rightMotor, 0);
+        set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
+        set_tacho_command_inx(motorInfo->rightMotor, motorInfo->command);
     }
 }
