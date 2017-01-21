@@ -28,6 +28,24 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         return;
     }
 
+
+    if (robotscanforball_current_step == 0) { // turn left
+        robotturnleft_update(motorInfo, sensorInfo);
+    }
+    else if (robotscanforball_current_step == 1) { // turn right
+        robotturnright_update(motorInfo, sensorInfo);
+    } 
+    else if (robotscanforball_current_step == 2) { // turn back to ball direction
+        robotturnleft_update(motorInfo, sensorInfo);
+    } 
+    else if (robotscanforball_current_step == 3) { // in case can not find ball in short distance
+        robotrunstraight_update(motorInfo, sensorInfo);
+    }
+    else if (robotscanforball_current_step == 4) {
+        robotrunstraightuntilwall_update(motorInfo, sensorInfo);
+    }
+
+    
     if (global_params.robot_state == ROBOT_COMPLETE_STEP) {
         switch (robotscanforball_current_step) {
             case 0: // change from turn left to right
@@ -66,22 +84,6 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 return;
                 break;
         }
-    }
-
-    if (robotscanforball_current_step == 0) { // turn left
-        robotturnleft_update(motorInfo, sensorInfo);
-    }
-    else if (robotscanforball_current_step == 1) { // turn right
-        robotturnright_update(motorInfo, sensorInfo);
-    } 
-    else if (robotscanforball_current_step == 2) { // turn back to ball direction
-        robotturnleft_update(motorInfo, sensorInfo);
-    } 
-    else if (robotscanforball_current_step == 3) { // in case can not find ball in short distance
-        robotrunstraight_update(motorInfo, sensorInfo);
-    }
-    else if (robotscanforball_current_step == 4) {
-        robotrunstraightuntilwall_update(motorInfo, sensorInfo);
     }
 
 }
