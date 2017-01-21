@@ -15,7 +15,7 @@
 typedef struct SensorInfo {
     float currentGyro, initialGyro, diffGyro;
     int currentColor, initialColor, diffColor;
-    int currentDistance, initialDistance, diffDistance;
+    float currentDistance, initialDistance, diffDistance;
 } SensorInfo;
 
 typedef struct MotorInfo {

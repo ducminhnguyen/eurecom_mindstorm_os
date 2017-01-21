@@ -188,7 +188,7 @@ int getColorSensorValue(SensorInfo* sensorInfo) {
     }
 }
 
-int get_us_sensor_value() {
+float get_us_sensor_value() {
     uint8_t sn_us;
     bool stop = false;
     float value = 0;
@@ -199,7 +199,7 @@ int get_us_sensor_value() {
                 value = 0;
             }
             //printf("%f\n", value);
-            return value / 10;
+            return value / 10.0;
         }
         else {
             printf("Can not find US sensor\n");
