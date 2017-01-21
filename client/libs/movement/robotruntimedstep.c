@@ -9,6 +9,7 @@ void robotruntimed_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_STOP_RUNNING) {
         // next step
+        global_params.robot_state == ROBOT_COMPLETE_STEP;
     }
 }
 
