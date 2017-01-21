@@ -26,7 +26,7 @@ typedef struct {
     int robot_turn_left_degree;
 
     // robotturnrightstep:
-    int robot_turn right_degree;
+    int robot_turn_right_degree;
 
     // robotturnaroundstep:
 

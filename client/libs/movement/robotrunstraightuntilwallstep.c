@@ -3,6 +3,7 @@
 //
 
 #include "../header/robotrunstraightuntilwallstep.h"
+#include "../header/std_include.h"
 
 // call this function in the update all function in the loop
 void robotrunstraightuntilwall_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
