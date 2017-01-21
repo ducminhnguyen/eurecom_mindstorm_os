@@ -71,6 +71,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                     global_current_step_pt->robot_turn_left_degree = 
                         abs(sensorInfo->currentGyro - sensorInfo->initialGyro);
                 }
+                printf("turn left degree: %f\n", global_current_step_pt->robot_turn_left_degree);
                 break;
             case 2: // after finding ball direction, move to it
                 if (ball_found == 1) {
