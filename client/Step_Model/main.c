@@ -25,8 +25,6 @@
 global_parameters global_params;
 //////////////////////////////////////////
 
-Robot_State robotState = ROBOT_STOP;
-
 const char const *color[] = { "?", "BLACK", "BLUE", "GREEN", "YELLOW", "RED", "WHITE", "BROWN" };
 #define COLOR_COUNT  (( int )( sizeof( color ) / sizeof( color[ 0 ])))
 
@@ -100,7 +98,8 @@ int main( void ) {
     SensorInfo sensorInfo;
     set_sensor_initial_values(&sensorInfo);
     printf("finish init");
-    robotState = ROBOT_TURN_LEFT;
+
+    
     init_robot_steps(&motorInfo, &sensorInfo);
 
     global_params.calibrated_straight_angle = get_gyro_sensor_value();
