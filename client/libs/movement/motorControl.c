@@ -198,8 +198,8 @@ int get_us_sensor_value() {
             if (!get_sensor_value0(sn_us, &value)) {
                 value = 0;
             }
-            printf("%f", value);
-            return value;
+            //printf("%f\n", value);
+            return value / 10;
         }
         else {
             printf("Can not find US sensor\n");
