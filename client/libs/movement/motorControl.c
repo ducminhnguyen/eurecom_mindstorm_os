@@ -285,7 +285,7 @@ void init_motor_info(MotorInfo* motorInfo) {
     motorInfo->graberMotor = tacho_graber_motor;
 
 
-    motorInfo->speed = 400;                         // dummy number may be change later
+    motorInfo->speed = 250;                         // dummy number may be change later
     motorInfo->time = 3000;
     motorInfo->command = TACHO_RUN_TIMED;
     motorInfo->turnDegree = 0;
