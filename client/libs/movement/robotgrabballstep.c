@@ -5,9 +5,21 @@
 #include "../header/std_include.h"
 #include "../header/robotgrabballstep.h"
 
+static clock_t begin_time;
 
 void robotgrabball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
+    clock_t current_time = clock();
+
+    if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
+        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000) {
+            global_params.robot_state = ROBOT_CLOSE_GRABBER;
+        }
+    } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
+        // next step
+        global_params.robot_state == ROBOT_COMPLETE_STEP;
+    }
+
 }
 
 
@@ -19,6 +31,7 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_TIMED);
         usleep(GRABBER_TIME * 1000);
         global_params.robot_state = ROBOT_RUN_STRAIGHT;
+        begin_time = clock();
     } else if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
         int run_time = 200;
         if (sensorInfo->diffGyro > 0) {
@@ -37,15 +50,12 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         set_tacho_time_sp(motorInfo->rightMotor, run_time);
         set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
         set_tacho_command_inx(motorInfo->rightMotor, motorInfo->command);
-        usleep(run_time * 1000);
-        global_params.robot_state = ROBOT_CLOSE_GRABBER;
     } else if (global_params.robot_state == ROBOT_CLOSE_GRABBER) {
-
         set_tacho_speed_sp(motorInfo->graberMotor, GRABBER_SPEED);
         set_tacho_time_sp(motorInfo->graberMotor, GRABBER_TIME);
         set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_TIMED);
         usleep(GRABBER_TIME * 1000);
-        global_params.robot_state = ROBOT_COMPLETE_STEP;
+        global_params.robot_state = ROBOT_STOP_RUNNING;
     }
 }
 
@@ -55,4 +65,5 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 void robotgrabball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
     global_params.robot_state = ROBOT_OPEN_GRABBER;
+
 }
