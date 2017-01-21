@@ -2,19 +2,11 @@
 #include "../header/motorControl.h"
 #include "../header/robotturnleftstep.h"
 #include "../header/global.h"
-// libs include
-#include "ev3.h"
-#include "ev3_port.h"
-#include "ev3_tacho.h"
-#include "ev3_sensor.h"
-#include <unistd.h>
-#include <stdarg.h>
-#include <sys/socket.h>
-#include <ncurses.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <math.h>
+#include "../header/std_include.h"
+#include "../header/robotturnrightstep.h"
+#include "../header/robotrunstraightuntilwallstep.h"
+#include "../header/robotrunstraightstep.h"
+
 // Update the sensor information
 // Calculate condition to change ROBOT_STATE and ROBOT step
 // Update the ROBOT_STATE and the step
@@ -33,7 +25,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     if (sensorInfo->currentDistance <= 5.0) {
         global_params.robot_state = ROBOT_STOP_RUNNING;
         robotscanforball_current_step = 4;
-        return
+        return;
     }
 
     if (global_params.robot_state == ROBOT_COMPLETE_STEP) {

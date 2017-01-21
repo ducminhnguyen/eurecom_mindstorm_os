@@ -10,7 +10,7 @@ void robotruntimed_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     clock_t current_time = clock();
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
-        if ((current_time - begin_time) / CLOCKS_PER_SEC > global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run - 50 / 1000) {
+        if ((current_time - begin_time) / CLOCKS_PER_SEC > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run - 50) / 1000) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
@@ -28,12 +28,12 @@ void robotruntimed_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
         if (sensorInfo->diffGyro > 0) {
-            set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed - 10*abs(sensorInfo->diffGyro));
+            set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed - 10* ((motorInfo->speed > 0)*2 - 1) *abs(sensorInfo->diffGyro));
             set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
             printf("Left tilt: %f \n", sensorInfo->diffGyro);
         } else if (sensorInfo->diffGyro < 0) {
             set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed);
-            set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed - 10*abs(sensorInfo->diffGyro));
+            set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed - 10* ((motorInfo->speed > 0)*2 - 1) *abs(sensorInfo->diffGyro));
             printf("Right tilt: %f \n", sensorInfo->diffGyro);
         } else {
             set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
