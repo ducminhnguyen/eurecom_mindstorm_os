@@ -72,8 +72,14 @@ void scenario_large_stadium_left_beginner() {
      * run straight until black line
      * run straight 1 sec (calibrate)
      * turn around 180
-     * release ball, go backward
-     *
+     * release ball, go backward, close grabber
+     * turn around 180
+     * run straight 2 sec (calibrate)
+     * turn left 90
+     * run straight until wall or black line
+     * turn around 180
+     * send signal to server
+     * wait server
     */
 }
 
