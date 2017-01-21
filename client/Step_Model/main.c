@@ -65,9 +65,10 @@ void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.run_style = ONE_WAY;
     global_params.current_step = 0;
 
-    global_params.robot_steps[0].init_step = &robotrunstraight_init_step;
-    global_params.robot_steps[0].run_motor = &robotrunstraight_run_motor;
-    global_params.robot_steps[0].update_all = &robotrunstraight_update;
+    global_params.robot_steps[0].robot_run_straight_until_wall_distance_to_stop = 30;
+    global_params.robot_steps[0].init_step = &robotrunstraightuntilwall_init_step;
+    global_params.robot_steps[0].run_motor = &robotrunstraightuntilwall_run_motor;
+    global_params.robot_steps[0].update_all = &robotrunstraightuntilwall_update;
 
     global_params.robot_steps[global_params.current_step].init_step(motorInfo, sensorInfo);
 }

@@ -27,8 +27,6 @@ void robotrunstraight_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 
 void robotrunstraight_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 
-    printf("updating\n");
-
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
         if (sensorInfo->currentColor < 10) {
