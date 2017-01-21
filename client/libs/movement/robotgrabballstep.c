@@ -14,10 +14,10 @@ void robotgrabball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // call this function in the run motor function of the loop
 void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     if (global_params.robot_state == ROBOT_OPEN_GRABBER) {
-        set_tacho_speed_sp(motorInfo->graberMotor, GRABBER_SPEED);
+        set_tacho_speed_sp(motorInfo->graberMotor, -GRABBER_SPEED);
         set_tacho_time_sp(motorInfo->graberMotor, GRABBER_TIME);
         set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_TIMED);
-        usleep(GRABBER_TIME * 1000000);
+        usleep(GRABBER_TIME * 1000);
         global_params.robot_state = ROBOT_RUN_STRAIGHT;
     } else if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
         int run_time = 2;
@@ -37,13 +37,13 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         set_tacho_time_sp(motorInfo->rightMotor, run_time);
         set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
         set_tacho_command_inx(motorInfo->rightMotor, motorInfo->command);
-        usleep(run_time * 1000000);
+        usleep(run_time * 1000);
         global_params.robot_state = ROBOT_CLOSE_GRABBER;
     } else if (global_params.robot_state == ROBOT_CLOSE_GRABBER) {
-        set_tacho_speed_sp(motorInfo->graberMotor, -GRABBER_SPEED);
+        set_tacho_speed_sp(motorInfo->graberMotor, GRABBER_SPEED);
         set_tacho_time_sp(motorInfo->graberMotor, GRABBER_TIME);
         set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_TIMED);
-        usleep(GRABBER_TIME * 1000000);
+        usleep(GRABBER_TIME * 1000);
         global_params.robot_state = ROBOT_COMPLETE_STEP;
     }
 }
