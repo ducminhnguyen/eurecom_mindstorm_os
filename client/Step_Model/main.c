@@ -60,7 +60,7 @@ void ResetSensors(struct SensorInfo sensorInfo) {
 }
 
 void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
-    //global_params.robot_steps = (step*)malloc(sizeof(step) * 1);
+    global_params.robot_steps = (step*)malloc(sizeof(step) * 30);
     global_params.total_step = 1;
     global_params.run_style = ONE_WAY;
     global_params.current_step = 0;

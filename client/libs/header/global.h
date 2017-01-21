@@ -19,7 +19,7 @@ typedef enum {
 } ROBOT_STATE; // state pool use for all steps
 
 typedef struct global_parameters {
-    step robot_steps[MAX_STEP];
+    step* robot_steps;
     int current_step, total_step;
     RUN_STYLE run_style;
     ROBOT_STATE robot_state;
