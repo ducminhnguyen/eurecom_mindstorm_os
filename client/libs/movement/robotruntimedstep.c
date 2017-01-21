@@ -28,6 +28,7 @@ void robotruntimed_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     get_tacho_speed(motorInfo->rightMotor, &right_motor_speed);
 
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
+        printf("mult: %d\n", (motorInfo->speed > 0)*2 - 1);
         if (sensorInfo->diffGyro > 0) {
             set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed - 10*((motorInfo->speed > 0)*2 - 1)*abs(sensorInfo->diffGyro));
             set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
