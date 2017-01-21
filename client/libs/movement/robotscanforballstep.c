@@ -28,7 +28,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         robotscanforball_current_step = 4;
         return;
     }
-    printf("sensor gyro %f, us %f\n", sensorInfo->currentGyro, sensorInfo->currentDistance);
+    //printf("sensor gyro %f, us %f\n", sensorInfo->currentGyro, sensorInfo->currentDistance);
     if (robotscanforball_current_step == 0) { // turn left
         robotturnleft_update(motorInfo, sensorInfo);
     }
@@ -46,7 +46,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         robotturnleft_update(motorInfo, sensorInfo);
     } 
     else if (robotscanforball_current_step == 3) { // in case can not find ball in short distance
-        robotrunstraight_update(motorInfo, sensorInfo);
+        robotruntimed_update(motorInfo, sensorInfo);
     }
     else if (robotscanforball_current_step == 4) {
         robotrunstraightuntilwall_update(motorInfo, sensorInfo);
@@ -85,8 +85,8 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 }
                 else { // if not, move forward a little bit
                     robotscanforball_current_step = 3;
-                    global_current_step_pt->robot_run_timed_time_to_run = 0.5;
-                    robotrunstraight_init_step(motorInfo, sensorInfo);
+                    global_current_step_pt->robot_run_timed_time_to_run = 500;
+                    robotruntimed_init_step(motorInfo, sensorInfo);
                 }
                 global_params.robot_state = ROBOT_RUN_STRAIGHT;
                 break;
@@ -100,6 +100,8 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 return;
                 break;
         }
+        printf("Scanning ball: Starting step %d\n", robotscanforball_current_step);
+        
     }
 
 }
@@ -117,7 +119,7 @@ void robotscanforball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         robotturnleft_run_motor(motorInfo, sensorInfo);
     } 
     else if (robotscanforball_current_step == 3) { // in case can not find ball in short distance
-        robotrunstraight_update(motorInfo, sensorInfo);
+        robotruntimed_run_motor(motorInfo, sensorInfo);
     }
     else if (robotscanforball_current_step == 4) {
         robotrunstraightuntilwall_update(motorInfo, sensorInfo);
