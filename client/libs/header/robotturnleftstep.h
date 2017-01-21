@@ -17,7 +17,7 @@ void robotturnleft_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo);
 // this function is called whenever the state is entered to ensure starting parameter of a state is always in the
 // right form. Implement this function if you think at the start of this step sensor and motor need to be in a specific
 // state
-void roboturnleft_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo);
+void robotturnleft_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo);
 
 
 #endif //OS_ROBOT_PROJECT_FALL2016_ROBOTTURNLEFTSTEP_H
