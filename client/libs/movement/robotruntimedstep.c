@@ -43,7 +43,7 @@ void robotruntimed_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
         set_tacho_command_inx(motorInfo->rightMotor, motorInfo->command);
         global_params.robot_state = ROBOT_STOP_RUNNING;
-    } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
+    } else if (global_params.robot_state == ROBOT_STOP_RUNNING || global_params.robot_state == ROBOT_COMPLETE_STEP) {
         set_tacho_speed_sp(motorInfo->leftMotor, 0);
         set_tacho_speed_sp(motorInfo->rightMotor, 0);
         set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
