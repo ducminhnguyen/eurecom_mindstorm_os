@@ -24,8 +24,8 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     //update_sensor_value(sensorInfo);
 
     // check for the obstacle
-    if (sensorInfo->currentDistance <= 5.0) {
-        global_params.robot_state = ROBOT_STOP_RUNNING;
+    if (sensorInfo->currentDistance <= 9.0) {
+        global_params.robot_state = ROBOT_COMPLETE_STEP;
         robotscanforball_current_step = 4;
         return;
     }
@@ -81,7 +81,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
             case 2: // after finding ball direction, move to it
                 if (ball_found == 1) {
                     robotscanforball_current_step = 4;
-                    global_current_step_pt->robot_run_straight_until_wall_distance_to_stop = 6.0; // stop before hit the ball 6 cm
+                    global_current_step_pt->robot_run_straight_until_wall_distance_to_stop = 10.0; // stop before hit the ball 6 cm
                     robotrunstraightuntilwall_init_step(motorInfo, sensorInfo);
                 }
                 else { // if not, move forward a little bit
