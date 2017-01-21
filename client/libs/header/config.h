@@ -41,7 +41,7 @@
 #define KCYN            6
 #define KWHT            7
 
-#define TURN_SPEED 120
+#define TURN_SPEED 80
 #define TURN_TIME 100
 #define GRABBER_SPEED 200
 #define GRABBER_TIME 500
