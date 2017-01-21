@@ -9,6 +9,7 @@
 void robotrunstraightuntilwall_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
+        printf("Dist: %f\n", sensorInfo->currentDistance);
         if (sensorInfo->currentDistance < global_params.robot_steps[global_params.current_step].robot_run_straight_until_wall_distance_to_stop - 3) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
