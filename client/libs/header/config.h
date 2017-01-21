@@ -41,7 +41,7 @@
 #define KCYN            6
 #define KWHT            7
 
-#define TURN_SPEED 120
+#define TURN_SPEED 100
 #define TURN_TIME 1
 
 //typedef enum {
