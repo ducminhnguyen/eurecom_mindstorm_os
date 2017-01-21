@@ -10,7 +10,7 @@ void robotruntimed_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     clock_t current_time = clock();
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
-        printf("%f\n", (current_time - begin_time) / CLOCKS_PER_SEC);
+        printf("%f\n", ((double)(current_time - begin_time)) / CLOCKS_PER_SEC);
         if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
