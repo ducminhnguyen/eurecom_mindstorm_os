@@ -31,7 +31,7 @@ typedef struct {
     // robotturnaroundstep:
 
     // robotruntimed:
-    int robot_run_timed_time_to_run;
+    float robot_run_timed_time_to_run; // time to run in second
 
 } step;
 

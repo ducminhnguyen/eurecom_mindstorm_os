@@ -1,47 +1,20 @@
 //
-// Created by parallels on 1/17/17.
+// Created by parallels on 1/21/17.
 //
-// header include
-#include "../header/motorControl.h"
-#include "../header/robotrunstraightstep.h"
-#include "../header/global.h"
-// libs include
-#include "ev3.h"
-#include "ev3_port.h"
-#include "ev3_tacho.h"
-#include "ev3_sensor.h"
-#include <unistd.h>
-#include <stdarg.h>
-#include <sys/socket.h>
-#include <ncurses.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <math.h>
-// Update the sensor information
-// Calculate condition to change ROBOT_STATE and ROBOT step
-// Update the ROBOT_STATE and the step
-void robotrunstraight_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
-    set_sensor_initial_values(sensorInfo);
-    global_params.robot_state = ROBOT_RUN_STRAIGHT;
-}
 
-void robotrunstraight_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+#include "../header/std_include.h"
+#include "../header/robotruntimedstep.h"
 
+void robotruntimed_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
-    if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
-        if (sensorInfo->currentColor < 10) {
-            global_params.robot_state = ROBOT_STOP_RUNNING;
-        }
-    } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
-        // move to next step();
-        // movetonextstep(&global_params, motorInfo, sensorInfo);
-        // for individual step testing comment this
+    if (global_params.robot_state == ROBOT_STOP_RUNNING) {
+        // next step
     }
 }
 
 
-void robotrunstraight_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+// call this function in the run motor function of the loop
+void robotruntimed_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     int left_motor_speed, right_motor_speed;
     get_tacho_speed(motorInfo->leftMotor, &left_motor_speed);
     get_tacho_speed(motorInfo->rightMotor, &right_motor_speed);
@@ -63,10 +36,24 @@ void robotrunstraight_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         set_tacho_time_sp(motorInfo->rightMotor, motorInfo->time);
         set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
         set_tacho_command_inx(motorInfo->rightMotor, motorInfo->command);
+        usleep(global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run * 1000000 );
+        set_tacho_speed_sp(motorInfo->leftMotor, 0);
+        set_tacho_speed_sp(motorInfo->rightMotor, 0);
+        set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
+        set_tacho_command_inx(motorInfo->rightMotor, motorInfo->command);
+        global_params.robot_state = ROBOT_STOP_RUNNING;
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
         set_tacho_speed_sp(motorInfo->leftMotor, 0);
         set_tacho_speed_sp(motorInfo->rightMotor, 0);
         set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
         set_tacho_command_inx(motorInfo->rightMotor, motorInfo->command);
     }
+}
+
+// this function is called whenever the state is entered to ensure starting parameter of a state is always in the
+// right form. Implement this function if you think at the start of this step sensor and motor need to be in a specific
+// state
+void robotruntimed_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+    set_sensor_initial_values(sensorInfo);
+    global_params.robot_state = ROBOT_RUN_STRAIGHT;
 }

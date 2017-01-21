@@ -4,6 +4,10 @@
 
 #ifndef OS_ROBOT_PROJECT_FALL2016_STD_INCLUDE_H
 #define OS_ROBOT_PROJECT_FALL2016_STD_INCLUDE_H
+
+#include "config.h"
+#include "global.h"
+#include "motorControl.h"
 // libs include
 #include "ev3.h"
 #include "ev3_port.h"

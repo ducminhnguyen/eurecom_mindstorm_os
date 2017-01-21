@@ -14,7 +14,7 @@ typedef enum {
 } RUN_STYLE;
 
 typedef enum {
-    ROBOT_RUN_STRAIGHT, ROBOT_STOP_RUNNING
+    ROBOT_RUN_STRAIGHT, ROBOT_STOP_RUNNING, ROBOT_WAIT_FINISH_COMMAND
 } ROBOT_STATE; // state pool use for all steps
 
 typedef struct global_parameters {
