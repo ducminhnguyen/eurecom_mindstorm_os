@@ -8,7 +8,7 @@
 
 void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.robot_steps = (step*)malloc(sizeof(step) * 20);
-    global_params.total_step = 4;
+    global_params.total_step = 5;
     global_params.current_step = 0;
     step* stepArr = global_params.robot_steps;
     int cur_num = 0;

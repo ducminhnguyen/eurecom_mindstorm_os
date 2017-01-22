@@ -17,7 +17,6 @@ int movetonextstep(global_parameters *global_param, MotorInfo* motorInfo, Sensor
         ++global_param->current_step;
         if (global_param->current_step == global_param->total_step) {
             global_param->current_step = 0;
-            global_param->robot_steps[global_param->current_step].init_step(motorInfo, sensorInfo);
             global_param->robot_state = ROBOT_FINISH_PROGRAM;
             return 0;
         } else {

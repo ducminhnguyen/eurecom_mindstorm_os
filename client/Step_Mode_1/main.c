@@ -47,20 +47,20 @@ void update_all_sensor(SensorInfo* sensorInfo, MotorInfo* motorInfo) { // update
     if (global_params.robot_state == ROBOT_COMPLETE_STEP) {
         printf("Complete\n");
         movetonextstep(&global_params, motorInfo, sensorInfo);
-    } else if (global_params.robot_state == ROBOT_FINISH_PROGRAM) {
+        if (global_params.robot_state == ROBOT_FINISH_PROGRAM) {
+
+        }
         //clean_up_program();
     } else {
         global_params.robot_steps[global_params.current_step].update_all(motorInfo, sensorInfo);
     }
+
     return;
 }
 
 void run_robot(SensorInfo* sensorInfo, MotorInfo* motorInfo) { // draw
     if (global_params.robot_state == ROBOT_FINISH_PROGRAM) {
 
-    }
-    else if (global_params.robot_state == ROBOT_FINISH_PROGRAM) {
-        //clean_up_program();
     }
     else {
         global_params.robot_steps[global_params.current_step].run_motor(motorInfo, sensorInfo);
