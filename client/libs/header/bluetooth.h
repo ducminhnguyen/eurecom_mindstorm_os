@@ -12,15 +12,28 @@
 #include <sys/socket.h>
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/rfcomm.h>
+#include "global.h"
+
+// Position to send to the server
+typedef struct position{
+    int x;   /* Horizontal position*/
+    int y;   /* Vertical position */
+} position;
 
 // Bluetooth object to communicate with server
-typedef struct bluetooth_object{
+typedef struct BT_Object{
     uint16_t msgId;
     position pos;
+    uint16_t ally;
     int socket;
-}bluetooth_object;
+    char serverAddr[20];
+}BT_Object;
 
-// Read the server's returning message
-int readfromserver(bluetooth_object bt_obj, char *buffer, size_t maxSize);
+void InitBtObject(char *serverAddr);
+int ConnectBtServer();
+int ReadServerMsg(char *buffer, size_t maxSize);
+void ToDestination();
+void SendRobotPosition();
+void SendBallMessage();
 
 #endif //ROBOT_BUNBO_BLUETOOTH_H
