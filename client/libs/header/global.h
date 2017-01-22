@@ -8,7 +8,6 @@
 #include "config.h"
 #include "step.h"
 #include "motorControl.h"
-#include "bluetooth.h"
 #define MAX_STEP 30
 
 typedef enum {
@@ -16,9 +15,45 @@ typedef enum {
 } RUN_STYLE;
 
 typedef enum {
+    BEGINNER, FINISHER
+} ROBOT_ROLE;
+
+typedef enum {
+   SMALL, BIG
+} STADIUM;
+
+typedef  enum {
+    LEFT, RIGHT
+} SIDE;
+
+typedef enum {
     ROBOT_RUN_STRAIGHT, ROBOT_STOP_RUNNING, ROBOT_WAIT_FINISH_COMMAND,
     ROBOT_TURN_LEFT, ROBOT_TURN_RIGHT, ROBOT_COMPLETE_STEP, ROBOT_FINISH_PROGRAM, ROBOT_CLOSE_GRABBER, ROBOT_OPEN_GRABBER
 } ROBOT_STATE; // state pool use for all steps
+
+// Position to send to the server
+typedef struct Position{
+    int x;   /* Horizontal position*/
+    int y;   /* Vertical position */
+} Position;
+
+//
+typedef struct GameInfo{
+    int ally;
+    STADIUM stadium;
+    SIDE side;
+    ROBOT_ROLE role;
+}GameInfo;
+
+// Bluetooth object to communicate with server
+typedef struct BT_Object{
+    uint16_t msgId;
+    position pos;
+    GameInfo info;
+    int socket;
+    char serverAddr[20];
+    char msg[58];
+}BT_Object;
 
 typedef struct global_parameters {
     step* robot_steps;

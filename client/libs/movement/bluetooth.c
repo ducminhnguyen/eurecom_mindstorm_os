@@ -58,39 +58,40 @@ int ReadServerMsg(char *buffer, size_t maxSize){
  * send a next message to the server
  */
 void ToDestination(){
-    *((uint16_t *) string) = global_params.btObj.msgId++;
-    string[2] = TEAM_ID;
-    string[3] = global_params.btObj.ally;
-    string[4] = MSG_NEXT;
-    write(global_params.btObj.socket, string, 5);
+    *((uint16_t *)  global_params.btObj.msg) = global_params.btObj.msgId++;
+    global_params.btObj.msg[2] = TEAM_ID;
+    global_params.btObj.msg[3] = global_params.btObj.ally;
+    global_params.btObj.msg[4] = MSG_NEXT;
+    write(global_params.btObj.socket,  global_params.btObj.msg, 5);
 }
 /**
  * Send the current position of the robot to the server
  */
 void SendRobotPosition(){
-    *((uint16_t *) string) = global_params.btObj.msgId++;
-    string[2] = TEAM_ID;
-    string[3] = 0xFF;
-    string[4] = MSG_POSITION;
-    string[5] = global_params.btObj.pos.x;
-    string[6] = 0x00;
-    string[7] = global_params.btObj.pos.y;
-    string[8]= 0x00;
-    write(global_params.btObj.socket, string, 9);
+    *((uint16_t *)  global_params.btObj.msg) = global_params.btObj.msgId++;
+    global_params.btObj.msg[2] = TEAM_ID;
+    global_params.btObj.msg[3] = 0xFF;
+    global_params.btObj.msg[4] = MSG_POSITION;
+    global_params.btObj.msg[5] = global_params.btObj.pos.x;
+    global_params.btObj.msg[6] = 0x00;
+    global_params.btObj.msg[7] = global_params.btObj.pos.y;
+    global_params.btObj.msg[8]= 0x00;
+    write(global_params.btObj.socket,  global_params.btObj.msg, 9);
 }
 
 /**
- *
+ * Send ball position and the act of grab/release ball
+ * @param act : the act of grab or release ball. 0->release; 1->grab
  */
-void SendBallMessage(){
-    *((uint16_t *) string) = global_params.btObj.msgId++;
-    string[2] = TEAM_ID;
-    string[3] = global_params.btObj.ally;
-    string[4] = MSG_BALL;
-    //string[5] = //TODO: Action of grab or release ball
-    string[6] = global_params.btObj.pos.x;
-    string[7] = 0x00;
-    string[8] = global_params.btObj.pos.y;
-    string[9] = 0x00;
-    write(global_params.btObj.socket, string, 10);
+void SendBallMessage(int act){
+    *((uint16_t *) global_params.btObj.msg) = global_params.btObj.msgId++;
+    global_params.btObj.msg[2] = TEAM_ID;
+    global_params.btObj.msg[3] = global_params.btObj.info.ally;
+    global_params.btObj.msg[4] = MSG_BALL;
+    global_params.btObj.msg[5] = act;
+    global_params.btObj.msg[6] = global_params.btObj.pos.x;
+    global_params.btObj.msg[7] = 0x00;
+    global_params.btObj.msg[8] = global_params.btObj.pos.y;
+    global_params.btObj.msg[9] = 0x00;
+    write(global_params.btObj.socket,  global_params.btObj.msg, 10);
 }
