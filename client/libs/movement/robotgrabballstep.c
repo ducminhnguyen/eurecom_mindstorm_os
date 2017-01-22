@@ -31,6 +31,8 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         set_tacho_time_sp(motorInfo->graberMotor, GRABBER_TIME);
         set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_TIMED);
         usleep(GRABBER_TIME * 1000);
+        set_tacho_speed_sp(motorInfo->graberMotor, 0);
+        set_tacho_time_sp(motorInfo->graberMotor, TACHO_RUN_FOREVER);
         global_params.robot_state = ROBOT_RUN_STRAIGHT;
         set_tacho_command_inx(motorInfo->graberMotor, TACHO_STOP);
         begin_time = clock();
@@ -39,11 +41,11 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         if (sensorInfo->diffGyro > 0) {
             set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed - 10*abs(sensorInfo->diffGyro));
             set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
-            printf("Left tilt: %f \n", sensorInfo->diffGyro);
+            //printf("Left tilt: %f \n", sensorInfo->diffGyro);
         } else if (sensorInfo->diffGyro < 0) {
             set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed);
             set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed - 10*abs(sensorInfo->diffGyro));
-            printf("Right tilt: %f \n", sensorInfo->diffGyro);
+            //printf("Right tilt: %f \n", sensorInfo->diffGyro);
         } else {
             set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
             set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed);
