@@ -15,7 +15,7 @@ all: $(ALL_LIB) $(ALL_HEADERS)
 	gcc main.o -Wall -lm -lev3dev-c -L$(LIB_PATH) -o test $^
 
 ../libs/bin/%.o: ../libs/movement/%.c
-	gcc $(CFLAGS) -c -o $@ $< $(LFLAGS)
+	gcc $(CFLAGS) -lm -c -o $@ $< $(LFLAGS)
 
 run:
 	./test

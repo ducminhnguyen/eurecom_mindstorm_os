@@ -6,7 +6,7 @@
 #include "../header/robotstep_headers.h"
 
 
-void scenario_small_stadium_beginner_init() {
+void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.robot_steps = (step*)malloc(sizeof(step) * 20);
     /*
      * run straight until black line
