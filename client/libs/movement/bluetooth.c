@@ -16,6 +16,22 @@ void InitBtObject(global_parameters *glo_param, char *server){
 }
 
 /**
+ * Init information for the game
+ * @param stadium : 0-> small stadium; 1->big stadium
+ */
+void InitGameInfo(global_parameters *glo_param, unsigned char stadium){
+    unsigned char role = (unsigned char) glo_param->btObj.msg[5];
+    unsigned char side = (unsigned char) glo_param->btObj.msg[6];
+    glo_param->btObj.info.ally = (uint16_t) glo_param->btObj.msg[7];
+    if(role == 0){ glo_param->btObj.info.role = BEGINNER; }
+    else { glo_param->btObj.info.role = FINISHER; }
+    if(stadium == 0){ glo_param->btObj.info.stadium = SMALL; }
+    else { glo_param->btObj.info.stadium = BIG; }
+    if(side == 1){ glo_param->btObj.info.side = LEFT; }
+    else { glo_param->btObj.info.side = RIGHT; }
+}
+
+/**
  * Procedure to connect to server by bluetooth
  * @return status of the connection 0 -> OK; 1 -> error
  */
@@ -37,12 +53,11 @@ int ConnectBtServer(global_parameters *glo_param){
 
 /***
  * Function to read a message from server
- * @param buffer : memory to store the return message
  * @param maxSize : max size of the memory
  * @return message in bytes
  */
-int ReadServerMsg(global_parameters *glo_param, char *buffer, size_t maxSize){
-    int bytes_read = read (glo_param->btObj.socket, buffer, maxSize);
+int ReadServerMsg(global_parameters *glo_param, size_t maxSize){
+    int bytes_read = read (glo_param->btObj.socket, glo_param->btObj.msg, maxSize);
     if (bytes_read <= 0) {
         fprintf (stderr, "Server unexpectedly closed connection...\n");
         close (glo_param->btObj.socket);
