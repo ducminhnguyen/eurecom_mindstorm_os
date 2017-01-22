@@ -20,19 +20,13 @@ typedef enum {
     ROBOT_TURN_LEFT, ROBOT_TURN_RIGHT, ROBOT_COMPLETE_STEP, ROBOT_FINISH_PROGRAM, ROBOT_CLOSE_GRABBER, ROBOT_OPEN_GRABBER
 } ROBOT_STATE; // state pool use for all steps
 
-// Position to send to the server
-typedef struct position{
-    int x;   /* Horizontal position*/
-    int y;   /* Vertical position */
-} position;
-
 typedef struct global_parameters {
     step* robot_steps;
     int current_step, total_step;
     float calibrated_straight_angle;
     RUN_STYLE run_style;
     ROBOT_STATE robot_state;
-    bluetooth_object bt_obj;
+    BT_Object btObj;
 } global_parameters;
 
 extern global_parameters global_params; // to be define in main.c
