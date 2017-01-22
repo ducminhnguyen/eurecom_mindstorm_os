@@ -39,8 +39,8 @@ int update_robot_position(global_parameters *global_param, MotorInfo* motorInfo,
             float d_x, d_y, d_d;
             d_d = sensorInfo->currentDistance - previous_us_value; // difference in us distance
             if (d_d > 1.0) { // in case sensor get right value
-                d_x = cos(PI * ((sensorInfo->currentGyro - global_param->robot_direction_x) % 360)) * d_d;
-                d_y = cos(PI * ((sensorInfo->currentGyro - global_param->robot_direction_y) % 360)) * d_d;
+                d_x = cos(PI * ((int)(sensorInfo->currentGyro - global_param->robot_direction_x) % 360)) * d_d;
+                d_y = cos(PI * ((int)(sensorInfo->currentGyro - global_param->robot_direction_y) % 360)) * d_d;
 
                 global_param->robot_position_x += d_x;
                 global_param->robot_position_y += d_y;
