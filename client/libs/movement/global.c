@@ -23,3 +23,30 @@ int movetonextstep(global_parameters *global_param, MotorInfo* motorInfo, Sensor
     }
     return 1;
 }
+
+
+int update_robot_position(global_parameters *global_param, MotorInfo* motorInfo, SensorInfo* sensorInfo) 
+{
+    static time_t previous_updated_time = 0;
+
+    if (global_param->robot_state == ROBOT_RUN_STRAIGHT) 
+    {
+        // update position based-on gyro and ultra sonic sensor
+
+    }
+    
+    if (previous_updated_time == 0) // update distance every
+    {
+        /* code */
+    }
+    else 
+    {
+        if (time(NULL) - previous_updated_time >= 2)
+        {
+            /* code */
+            // send bluetooth position to server
+        }
+        previous_updated_time = time(NULL);
+    }
+
+}

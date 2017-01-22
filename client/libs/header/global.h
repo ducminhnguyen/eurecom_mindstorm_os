@@ -61,11 +61,19 @@ typedef struct global_parameters {
     float calibrated_straight_angle;
     RUN_STYLE run_style;
     ROBOT_STATE robot_state;
+
+   // for calculate current position
+    float robot_position_x, robot_position_y;
+    float robot_direction_x, robot_direction_y;
+
     BT_Object btObj;
 } global_parameters;
 
 extern global_parameters global_params; // to be define in main.c
 // in main.c this variable must be daclare in the following fashion: global_parameters global_params;
 int movetonextstep(global_parameters *global_param, MotorInfo* motorInfo, SensorInfo* sensorInfo);
+
+int update_robot_position(global_parameters *global_param, MotorInfo* motorInfo, SensorInfo* sensorInfo);
+
 
 #endif //OS_ROBOT_PROJECT_FALL2016_GLOBAL_H
