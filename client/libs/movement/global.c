@@ -3,6 +3,7 @@
 //
 
 #include "../header/global.h"
+#include <time.h>
 
 
 int movetonextstep(global_parameters *global_param, MotorInfo* motorInfo, SensorInfo *sensorInfo) {
@@ -23,3 +24,7 @@ int movetonextstep(global_parameters *global_param, MotorInfo* motorInfo, Sensor
     return 1;
 }
 
+int update_robot_position(global_parameters *global_param, MotorInfo* motorInfo, SensorInfo* sensorInfo) {
+    static time_t previous_updated_time;
+
+}
