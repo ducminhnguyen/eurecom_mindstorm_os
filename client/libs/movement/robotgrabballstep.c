@@ -11,9 +11,11 @@ static clock_t begin_time;
 void robotgrabball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     clock_t current_time = clock();
-    printf("%d\n", global_params.robot_state);
+
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000) {
+        printf("%f, %f\n", ((double)(current_time - begin_time)) / CLOCKS_PER_SEC, (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000.0f);
+        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000.0f) {
+            printf("%d\n", global_params.robot_state);
             global_params.robot_state = ROBOT_CLOSE_GRABBER;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
