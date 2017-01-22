@@ -14,7 +14,7 @@ all: $(ALL_LIB) $(ALL_HEADERS)
 	gcc -I ~/libs/ev3dev-c/source/ev3 -O2 -std=gnu99 -c main.c -o main.o
 	gcc main.o -Wall -lm -lev3dev-c $(LFLAGS) -L$(LIB_PATH) -o test $^
 
-../libs/bin/%.o: ../libs/movement/%.c
+../libs/bin/%.o: ../libs/movement/%.c $(ALL_HEADERS)
 	gcc $(CFLAGS) -lm -c -o $@ $< $(LFLAGS)
 
 run:
