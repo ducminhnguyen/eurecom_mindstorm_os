@@ -32,7 +32,7 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         set_tacho_speed_sp(motorInfo->graberMotor, -GRABBER_SPEED);
         set_tacho_time_sp(motorInfo->graberMotor, 2000);
         set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_FOREVER);
-        usleep(2000 * 1000);
+        usleep(GRABBER_TIME * 1000);
         global_params.robot_state = ROBOT_RUN_STRAIGHT;
         begin_time = clock();
     } else if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
@@ -73,5 +73,5 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 void robotgrabball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
     global_params.robot_state = ROBOT_OPEN_GRABBER;
-    global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run = 2000.0f;
+    global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run = 1000.0f;
 }
