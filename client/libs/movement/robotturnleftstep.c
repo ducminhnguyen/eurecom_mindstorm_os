@@ -26,8 +26,8 @@ void robotturnleft_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 void robotturnleft_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     if(global_params.robot_state == ROBOT_TURN_LEFT) {
         //printf("running: %d\n", TURN_TIME);
-        set_tacho_speed_sp(motorInfo->leftMotor, -80);
-        set_tacho_speed_sp(motorInfo->rightMotor, 80);
+        set_tacho_speed_sp(motorInfo->leftMotor, -120);
+        set_tacho_speed_sp(motorInfo->rightMotor, 120);
         set_tacho_time_sp(motorInfo->leftMotor, TURN_TIME);
         set_tacho_time_sp(motorInfo->rightMotor, TURN_TIME);
         set_tacho_command_inx(motorInfo->leftMotor, TACHO_RUN_TIMED);
