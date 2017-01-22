@@ -82,7 +82,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 if (ball_found == 1) {
                     robotscanforball_current_step = 4;
                     global_current_step_pt->robot_run_straight_until_wall_distance_to_stop = 10.0; // stop before hit the ball 6 cm
-                    motorInfo->speed = 200;
+                    motorInfo->speed = 120;
                     robotrunstraightuntilwall_init_step(motorInfo, sensorInfo);
                 }
                 else { // if not, move forward a little bit
@@ -95,7 +95,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 global_params.robot_state = ROBOT_RUN_STRAIGHT;
                 break;
             case 3:
-                global_current_step_pt->robot_turn_left_degree = 45;
+                global_current_step_pt->robot_turn_left_degree = 30;
                 global_params.robot_state = ROBOT_TURN_LEFT;
                 robotscanforball_current_step = 0;
                 robotturnleft_init_step(motorInfo, sensorInfo);
@@ -144,7 +144,7 @@ void robotscanforball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     global_current_step_pt = &global_params.robot_steps[global_params.current_step];
 
     global_current_step_pt->robot_turn_left_degree = 30;
-    global_current_step_pt->robot_turn_right_degree = 90;
+    global_current_step_pt->robot_turn_right_degree = 70;
 
     global_params.robot_state = ROBOT_TURN_LEFT;
     robotturnleft_init_step(motorInfo, sensorInfo);
