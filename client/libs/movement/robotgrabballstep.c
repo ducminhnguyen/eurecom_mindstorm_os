@@ -31,7 +31,7 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     if (global_params.robot_state == ROBOT_OPEN_GRABBER) {
         set_tacho_speed_sp(motorInfo->graberMotor, -GRABBER_SPEED);
         set_tacho_time_sp(motorInfo->graberMotor, 2000);
-        set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_TIMED);
+        set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_FOREVER);
         usleep(2000 * 1000);
         global_params.robot_state = ROBOT_RUN_STRAIGHT;
         begin_time = clock();
