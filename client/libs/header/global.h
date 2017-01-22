@@ -37,7 +37,7 @@ typedef struct Position{
     int y;   /* Vertical position */
 } Position;
 
-//
+// Information of the contest get from server
 typedef struct GameInfo{
     int ally;
     STADIUM stadium;
@@ -48,10 +48,10 @@ typedef struct GameInfo{
 // Bluetooth object to communicate with server
 typedef struct BT_Object{
     uint16_t msgId;
-    position pos;
+    Position pos;
     GameInfo info;
     int socket;
-    char serverAddr[20];
+    char *serverAddr;
     char msg[58];
 }BT_Object;
 
