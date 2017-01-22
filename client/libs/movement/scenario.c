@@ -59,6 +59,11 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].update_all = &robotscanforball_update;
     ++cur_num;
 
+    stepArr[cur_num].init_step = &robotgrabball_init_step;
+    stepArr[cur_num].run_motor = &robotgrabball_run_motor;
+    stepArr[cur_num].update_all = &robotgrabball_update;
+    ++cur_num;
+
 //    stepArr[4].init_step = &robotrunstraight_init_step;
 //    stepArr[4].run_motor = &robotrunstraight_run_motor;
 //    stepArr[4].update_all = &robotrunstraight_update;
