@@ -45,6 +45,7 @@ static bool _check_pressed( uint8_t sn )
 
 void update_all_sensor(SensorInfo* sensorInfo, MotorInfo* motorInfo) { // update
     if (global_params.robot_state == ROBOT_COMPLETE_STEP) {
+        printf("Complete\n");
         movetonextstep(&global_params, motorInfo, sensorInfo);
     } else if (global_params.robot_state == ROBOT_FINISH_PROGRAM) {
         //clean_up_program();
