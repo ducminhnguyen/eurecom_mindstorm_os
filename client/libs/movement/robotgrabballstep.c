@@ -7,6 +7,7 @@
 
 static clock_t begin_time;
 
+
 void robotgrabball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     clock_t current_time = clock();
