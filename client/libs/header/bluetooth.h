@@ -15,8 +15,9 @@
 #include "global.h"
 
 void InitBtObject(global_parameters *glo_param, char *serverAddr);
+void InitGameInfo(global_parameters *glo_param, unsigned char stadium);
 int ConnectBtServer(global_parameters *glo_param);
-int ReadServerMsg(global_parameters *glo_param, char *buffer, size_t maxSize);
+int ReadServerMsg(global_parameters *glo_param, size_t maxSize);
 void ToDestination(global_parameters *glo_param);
 void SendRobotPosition(global_parameters *glo_param);
 void SendBallMessage(global_parameters *glo_param, int act);
