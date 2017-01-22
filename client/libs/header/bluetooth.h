@@ -18,7 +18,7 @@ typedef struct bluetooth_object{
     uint16_t msgId;
     position pos;
     int socket;
-}bluetooth_object;
+} bluetooth_object;
 
 // Read the server's returning message
 int readfromserver(bluetooth_object bt_obj, char *buffer, size_t maxSize);

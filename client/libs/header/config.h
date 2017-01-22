@@ -45,7 +45,7 @@
 #define KWHT            7
 
 #define TURN_SPEED 10
-#define TURN_TIME 100
+#define TURN_TIME 150
 #define GRABBER_SPEED 200
 #define GRABBER_TIME 500
 //typedef enum {
