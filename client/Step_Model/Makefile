@@ -12,7 +12,7 @@ all: $(ALL_LIB)
 	# cd ../libs && $(MAKE)
 	bash ./allheader
 	gcc -lm -I ~/libs/ev3dev-c/source/ev3 -O2 -std=gnu99 -c main.c -o main.o
-	gcc main.o -lm -Wall -lev3dev-c -L$(LIB_PATH) -o test $^
+	gcc main.o -lm -Wall -lev3dev-c $(LFLAGS) -L$(LIB_PATH) -o test $^
 
 ../libs/bin/%.o: ../libs/movement/%.c
 	gcc $(CFLAGS) -lm -c -o $@ $< $(LFLAGS)
