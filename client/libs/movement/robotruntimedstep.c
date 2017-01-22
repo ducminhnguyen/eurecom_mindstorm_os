@@ -11,7 +11,7 @@ void robotruntimed_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
         //printf("%f\n", ((double)(current_time - begin_time)) / CLOCKS_PER_SEC);
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000) {
+        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000.0f) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
