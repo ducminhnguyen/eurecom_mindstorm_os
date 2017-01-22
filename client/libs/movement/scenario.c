@@ -8,6 +8,9 @@
 
 void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.robot_steps = (step*)malloc(sizeof(step) * 20);
+    global_params.total_step = 3;
+    global_params.current_step = 0;
+    step* stepArr = global_params.robot_steps;
     /*
      * run straight until black line
      * turn left 90 degree
@@ -32,9 +35,33 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
      * run until wall 30 cm
      * turn 180
     */
+    stepArr[0].init_step = &robotrunstraight_init_step;
+    stepArr[0].run_motor = &robotrunstraight_run_motor;
+    stepArr[0].update_all = &robotrunstraight_update;
+
+
+    stepArr[1].init_step = &robotturnleft_init_step;
+    stepArr[1].run_motor = &robotturnleft_run_motor;
+    stepArr[1].update_all = &robotturnleft_update;
+    stepArr[1].robot_turn_left_degree = 90.0f;
+
+    stepArr[2].init_step = &robotrunstraight_init_step;
+    stepArr[2].run_motor = &robotrunstraight_run_motor;
+    stepArr[2].update_all = &robotrunstraight_update;
+
+//    stepArr[3].init_step = &robotrunstraight_init_step;
+//    stepArr[3].run_motor = &robotrunstraight_run_motor;
+//    stepArr[3].update_all = &robotrunstraight_update;
+
+
+
+//    stepArr[5].init_step = &robotturnleft_init_step;
+//    stepArr[5].run_motor = &robotturnleft_run_motor;
+//    stepArr[5].update_all = &robotturnleft_update;
+    stepArr[0].init_step(motorInfo, sensorInfo);
 }
 
-void scenario_small_stadium_finisher_init() {
+void scenario_small_stadium_finisher_init(MotorInfo* motorInfo, SensorInfo *sensorInfo) {
     /*
      * wait server
      * run straight until black line
@@ -61,7 +88,7 @@ void scenario_small_stadium_finisher_init() {
     */
 }
 
-void scenario_large_stadium_left_beginner() {
+void scenario_large_stadium_left_beginner(MotorInfo* motorInfo, SensorInfo *sensorInfo) {
     /*
      * run straight until wall 20 cm
      * turn left 90
@@ -84,14 +111,14 @@ void scenario_large_stadium_left_beginner() {
 }
 
 
-void scenario_large_stadium_left_finisher() {
+void scenario_large_stadium_left_finisher(MotorInfo* motorInfo, SensorInfo *sensorInfo) {
 
 }
 
-void scenario_large_stadium_right_beginner() {
+void scenario_large_stadium_right_beginner(MotorInfo* motorInfo, SensorInfo *sensorInfo) {
 
 }
 
-void scenario_large_stadium_right_finisher() {
+void scenario_large_stadium_right_finisher(MotorInfo* motorInfo, SensorInfo *sensorInfo) {
 
 }
