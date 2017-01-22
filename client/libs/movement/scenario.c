@@ -8,7 +8,7 @@
 
 void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.robot_steps = (step*)malloc(sizeof(step) * 20);
-    global_params.total_step = 3;
+    global_params.total_step = 4;
     global_params.current_step = 0;
     step* stepArr = global_params.robot_steps;
     /*
@@ -39,15 +39,20 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[0].run_motor = &robotrunstraight_run_motor;
     stepArr[0].update_all = &robotrunstraight_update;
 
+    stepArr[1].init_step = &robotruntimed_init_step;
+    stepArr[1].run_motor = &robotruntimed_run_motor;
+    stepArr[1].update_all = &robotruntimed_update;
+    stepArr[1].robot_run_timed_time_to_run = 300;
+    stepArr[1].robot_run_timed_speed = 300;
 
-    stepArr[1].init_step = &robotturnleft_init_step;
-    stepArr[1].run_motor = &robotturnleft_run_motor;
-    stepArr[1].update_all = &robotturnleft_update;
-    stepArr[1].robot_turn_left_degree = 90.0f;
+    stepArr[2].init_step = &robotturnleft_init_step;
+    stepArr[2].run_motor = &robotturnleft_run_motor;
+    stepArr[2].update_all = &robotturnleft_update;
+    stepArr[2].robot_turn_left_degree = 90.0f;
 
-    stepArr[2].init_step = &robotrunstraight_init_step;
-    stepArr[2].run_motor = &robotrunstraight_run_motor;
-    stepArr[2].update_all = &robotrunstraight_update;
+    stepArr[3].init_step = &robotrunstraight_init_step;
+    stepArr[3].run_motor = &robotrunstraight_run_motor;
+    stepArr[3].update_all = &robotrunstraight_update;
 
 //    stepArr[3].init_step = &robotrunstraight_init_step;
 //    stepArr[3].run_motor = &robotrunstraight_run_motor;
