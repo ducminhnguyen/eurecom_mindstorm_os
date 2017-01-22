@@ -20,7 +20,7 @@ void robotgrabball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
         // next step
-        global_params.robot_state == ROBOT_COMPLETE_STEP;
+        global_params.robot_state = ROBOT_COMPLETE_STEP;
     }
 
 }

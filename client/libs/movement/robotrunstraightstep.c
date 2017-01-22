@@ -37,7 +37,7 @@ void robotrunstraight_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         // move to next step();
         // movetonextstep(&global_params, motorInfo, sensorInfo);
         // for individual step testing comment this
-        global_params.robot_state == ROBOT_COMPLETE_STEP;
+        global_params.robot_state = ROBOT_COMPLETE_STEP;
     }
 }
 
