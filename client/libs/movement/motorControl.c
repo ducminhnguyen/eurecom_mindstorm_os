@@ -61,44 +61,44 @@ void runStraight(){
 }
 
 void turn_robot( MotorInfo motor_info,  SensorInfo sensor, double degree) {
-    stopRobot(motor_info);
-    int turn_speed = 120;
-    int turn_time = 100;
-    float diff_degree, init_degree, sign, desire_degree;    
-     SensorInfo nsensor;
-
-    update_sensor_info(&sensor);
-    init_degree = sensor.currentGyro;
-    desire_degree = init_degree + degree;
-
-    while (true) {
-        update_sensor_info(&nsensor);
-        diff_degree = nsensor.currentGyro - desire_degree;
-
-        if (abs(diff_degree) <= 5) {
-            stopRobot(motor_info);
-            break;
-        } 
-        if (diff_degree < 0)
-        { // turn right
-            set_tacho_speed_sp(motor_info.leftMotor, turn_speed);
-            set_tacho_speed_sp(motor_info.rightMotor, -turn_speed);
-            set_tacho_time_sp(motor_info.leftMotor, turn_time);
-            set_tacho_time_sp(motor_info.rightMotor, turn_time);
-            set_tacho_command_inx(motor_info.leftMotor, TACHO_RUN_TIMED);
-            set_tacho_command_inx(motor_info.rightMotor, TACHO_RUN_TIMED); 
-        }
-        else { // turn left
-            set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
-            set_tacho_speed_sp(motor_info.rightMotor, turn_speed);
-            set_tacho_time_sp(motor_info.leftMotor, turn_time);
-            set_tacho_time_sp(motor_info.rightMotor, turn_time);
-            set_tacho_command_inx(motor_info.leftMotor, TACHO_RUN_TIMED);
-            set_tacho_command_inx(motor_info.rightMotor, TACHO_RUN_TIMED); 
-
-        }
-
-    }
+//    stopRobot(motor_info);
+//    int turn_speed = 120;
+//    int turn_time = 100;
+//    float diff_degree, init_degree, sign, desire_degree;
+//     SensorInfo nsensor;
+//
+//    update_sensor_info(&sensor);
+//    init_degree = sensor.currentGyro;
+//    desire_degree = init_degree + degree;
+//
+//    while (true) {
+//        update_sensor_info(&nsensor);
+//        diff_degree = nsensor.currentGyro - desire_degree;
+//
+//        if (abs(diff_degree) <= 5) {
+//            stopRobot(motor_info);
+//            break;
+//        }
+//        if (diff_degree < 0)
+//        { // turn right
+//            set_tacho_speed_sp(motor_info.leftMotor, turn_speed);
+//            set_tacho_speed_sp(motor_info.rightMotor, -turn_speed);
+//            set_tacho_time_sp(motor_info.leftMotor, turn_time);
+//            set_tacho_time_sp(motor_info.rightMotor, turn_time);
+//            set_tacho_command_inx(motor_info.leftMotor, TACHO_RUN_TIMED);
+//            set_tacho_command_inx(motor_info.rightMotor, TACHO_RUN_TIMED);
+//        }
+//        else { // turn left
+//            set_tacho_speed_sp(motor_info.leftMotor, -turn_speed);
+//            set_tacho_speed_sp(motor_info.rightMotor, turn_speed);
+//            set_tacho_time_sp(motor_info.leftMotor, turn_time);
+//            set_tacho_time_sp(motor_info.rightMotor, turn_time);
+//            set_tacho_command_inx(motor_info.leftMotor, TACHO_RUN_TIMED);
+//            set_tacho_command_inx(motor_info.rightMotor, TACHO_RUN_TIMED);
+//
+//        }
+//
+//    }
 }
 
 void turnLeft( MotorInfo motorInfo, double degree) {
