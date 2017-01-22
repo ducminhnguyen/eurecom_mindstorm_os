@@ -62,9 +62,9 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         set_tacho_command_inx(motorInfo->leftMotor, TACHO_STOP);
         set_tacho_command_inx(motorInfo->rightMotor, TACHO_STOP);
 
-        set_tacho_speed_sp(motorInfo->graberMotor, GRABBER_SPEED);
-        set_tacho_time_sp(motorInfo->graberMotor, GRABBER_TIME);
-        set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_TIMED);
+        //set_tacho_speed_sp(motorInfo->graberMotor, GRABBER_SPEED);
+        //set_tacho_time_sp(motorInfo->graberMotor, GRABBER_TIME);
+        //set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_TIMED);
         usleep(GRABBER_TIME * 1000);
         global_params.robot_state = ROBOT_STOP_RUNNING;
     }
