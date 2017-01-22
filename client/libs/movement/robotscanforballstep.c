@@ -126,7 +126,7 @@ void robotscanforball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         robotruntimed_run_motor(motorInfo, sensorInfo);
     }
     else if (robotscanforball_current_step == 4) {
-        robotrunstraightuntilwall_update(motorInfo, sensorInfo);
+        robotrunstraightuntilwall_run_motor(motorInfo, sensorInfo);
     }
 }
 
