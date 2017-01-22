@@ -58,7 +58,11 @@ void update_all_sensor(SensorInfo* sensorInfo, MotorInfo* motorInfo) { // update
 void run_robot(SensorInfo* sensorInfo, MotorInfo* motorInfo) { // draw
     if (global_params.robot_state == ROBOT_FINISH_PROGRAM) {
 
-    } else {
+    }
+    else if (global_params.robot_state == ROBOT_FINISH_PROGRAM) {
+        //clean_up_program();
+    }
+    else {
         global_params.robot_steps[global_params.current_step].run_motor(motorInfo, sensorInfo);
     }
     return;
