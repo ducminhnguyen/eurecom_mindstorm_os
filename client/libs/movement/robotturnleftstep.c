@@ -9,7 +9,7 @@
 void robotturnleft_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_TURN_LEFT) {
-        printf("update: %f\n", (float)fabsf(fabsf(sensorInfo->diffGyro) - global_params.robot_steps[global_params.current_step].robot_turn_left_degree));
+        //printf("update: %f\n", (float)fabsf(fabsf(sensorInfo->diffGyro) - global_params.robot_steps[global_params.current_step].robot_turn_left_degree));
         if((float)fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_left_degree) - 5.0f){
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
@@ -26,8 +26,8 @@ void robotturnleft_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 void robotturnleft_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     if(global_params.robot_state == ROBOT_TURN_LEFT) {
         //printf("running: %d\n", TURN_TIME);
-        set_tacho_speed_sp(motorInfo->leftMotor, -TURN_SPEED);
-        set_tacho_speed_sp(motorInfo->rightMotor, TURN_SPEED);
+        set_tacho_speed_sp(motorInfo->leftMotor, -40);
+        set_tacho_speed_sp(motorInfo->rightMotor, 40);
         set_tacho_time_sp(motorInfo->leftMotor, TURN_TIME);
         set_tacho_time_sp(motorInfo->rightMotor, TURN_TIME);
         set_tacho_command_inx(motorInfo->leftMotor, TACHO_RUN_TIMED);
