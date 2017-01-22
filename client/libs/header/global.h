@@ -8,7 +8,7 @@
 #include "config.h"
 #include "step.h"
 #include "motorControl.h"
-#include "bluetooth.h"
+//#include "bluetooth.h"
 #define MAX_STEP 30
 
 typedef enum {
@@ -26,7 +26,7 @@ typedef struct global_parameters {
     float calibrated_straight_angle;
     RUN_STYLE run_style;
     ROBOT_STATE robot_state;
-    BT_Object btObj;
+    //BT_Object btObj;
 } global_parameters;
 
 extern global_parameters global_params; // to be define in main.c
