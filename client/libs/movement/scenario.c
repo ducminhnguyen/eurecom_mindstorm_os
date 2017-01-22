@@ -65,6 +65,7 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].update_all = &robotgrabball_update;
     ++cur_num;
 
+
 //    stepArr[4].init_step = &robotrunstraight_init_step;
 //    stepArr[4].run_motor = &robotrunstraight_run_motor;
 //    stepArr[4].update_all = &robotrunstraight_update;
@@ -78,6 +79,7 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
 //    stepArr[5].init_step = &robotturnleft_init_step;
 //    stepArr[5].run_motor = &robotturnleft_run_motor;
 //    stepArr[5].update_all = &robotturnleft_update;
+    global_params.total_step = cur_num;
     stepArr[0].init_step(motorInfo, sensorInfo);
 }
 

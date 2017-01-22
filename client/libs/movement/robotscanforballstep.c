@@ -37,7 +37,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         robotturnright_update(motorInfo, sensorInfo);
         printf("Distance %f, %f, %f\n", sensorInfo->currentDistance, robotscanforball_min_dis, robotscanforball_min_angle);
         // check for distance
-        if (sensorInfo->currentDistance <= robotscanforball_min_dis) {
+        if (sensorInfo->currentDistance < robotscanforball_min_dis) {
             robotscanforball_min_dis = sensorInfo->currentDistance;
             robotscanforball_min_angle = sensorInfo->currentGyro;
         }
