@@ -82,6 +82,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 if (ball_found == 1) {
                     robotscanforball_current_step = 4;
                     global_current_step_pt->robot_run_straight_until_wall_distance_to_stop = 10.0; // stop before hit the ball 6 cm
+                    motorInfo->speed = 200;
                     robotrunstraightuntilwall_init_step(motorInfo, sensorInfo);
                 }
                 else { // if not, move forward a little bit
