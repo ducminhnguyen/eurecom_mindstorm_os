@@ -1,5 +1,6 @@
 #ifndef __ALL_HEADERS__
 #define __ALL_HEADERS__
+#include "../libs/header/bluetooth.h"
 #include "../libs/header/config.h"
 #include "../libs/header/global.h"
 #include "../libs/header/motorControl.h"
