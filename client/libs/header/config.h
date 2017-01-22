@@ -19,6 +19,9 @@
 #define GRABER_CLOSE 0		// Graber state originally always 0 (close)
 #define GRABER_OPEN 1		// Open state
 
+/* Bluetooth object */
+#define TEAM_ID     8       /* Team ID*/
+
 #define MSG_ACK             0
 #define MSG_NEXT            1
 #define MSG_START           2
