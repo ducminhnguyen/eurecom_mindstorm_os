@@ -74,13 +74,21 @@ void ResetSensors(struct SensorInfo sensorInfo) {
 
 void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.robot_steps = (step*)malloc(sizeof(step) * 30);
-    global_params.total_step = 1;
+    global_params.total_step = 3;
     global_params.run_style = ONE_WAY;
     global_params.current_step = 0;
 
     global_params.robot_steps[0].init_step = &robotwaitforserver_init_step;
     global_params.robot_steps[0].run_motor = &robotwaitforsever_run_motor;
     global_params.robot_steps[0].update_all = &robotwaitforserver_update;
+
+    global_params.robot_steps[1].init_step = &robotsendballmsg_init_step;
+    global_params.robot_steps[1].run_motor = &robotsendballmsg_run_motor;
+    global_params.robot_steps[1].update_all = &robotsendballmsg_update;
+
+    global_params.robot_steps[2].init_step = &robotsendnextmsg_init_step;
+    global_params.robot_steps[2].run_motor = &robotsendnextmsg_run_motor;
+    global_params.robot_steps[2].update_all = &robotsendnextmsg_update;
 
     global_params.robot_steps[global_params.current_step].init_step(motorInfo, sensorInfo);
 }
@@ -132,6 +140,7 @@ int main(int argc, char **argv ) {
     int connect_status = ConnectBtServer(&global_params);
     //Connected
     if(connect_status == 0){
+        fprintf("Server connected.\n");
         while (true) {
             update_all_sensor(&sensorInfo, &motorInfo);
             run_robot(&sensorInfo, &motorInfo);

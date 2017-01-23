@@ -49,6 +49,7 @@ typedef struct GameInfo{
 
 // Bluetooth object to communicate with server
 typedef struct BT_Object{
+    bool havingBall;
     uint16_t msgId;
     Position pos;
     GameInfo info;

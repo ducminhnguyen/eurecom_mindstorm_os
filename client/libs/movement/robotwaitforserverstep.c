@@ -13,20 +13,21 @@ void robotwaitforserver_update(MotorInfo *motorInfo, SensorInfo *sensorInfo){
         unsigned char msg_type = GetMessageType(&global_params);
         switch (msg_type){
             case MSG_START:
-                printf("Receive start message!\n");
+                printf("Receive START message! Initializing robot...\n");
                 InitGameInfo(&global_params);
                 global_params.robot_state = ROBOT_COMPLETE_STEP;
+            case MSG_KICK:
             case MSG_STOP:
-                printf("Received stop message");
+                printf("Received stop/kick message! Stopping the robot...\n");
                 close(global_params.btObj.socket);
                 global_params.robot_state = ROBOT_FINISH_PROGRAM;
             case MSG_NEXT:
-                printf("Received next message");
+                printf("Received Next message");
                 global_params.robot_state = ROBOT_COMPLETE_STEP;
-            /*case MSG_BALL:
+            case MSG_BALL:
                 printf("Receive message ball position at %02X%02X,%02X%02X \n",
                        global_params.btObj.msg[7], global_params.btObj.msg[6], global_params.btObj.msg[9], global_params.btObj.msg[8]);
-            */default:
+            default:
                 printf("Ignore message %d\b", msg_type);
         }
     }
