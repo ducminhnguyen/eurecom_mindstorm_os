@@ -9,8 +9,8 @@
 void robotturnlefttoidealangle_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_TURN_LEFT) {
-        printf("update: %f\n", (float)fabsf(fabsf(sensorInfo->diffGyro) - global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle));
-        if((float)fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle) - 5.0f){
+        //printf("update: %f\n", (float)fabsf(fabsf(sensorInfo->diffGyro) - global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle));
+        if ((float)fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle) - 5.0f){
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
@@ -49,12 +49,10 @@ void robotturnlefttoidealangle_init_step(MotorInfo *motorInfo, SensorInfo *senso
     set_sensor_initial_values(sensorInfo);
     update_sensor_value(sensorInfo);
     // calculate ideal angle and fix
-    float target_angle = sensorInfo->currentGyro - global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle;
-    target_angle = get_ideal_angle(target_angle);
+    printf("current gyro: %f\n", sensorInfo->currentGyro);
+    printf("init angle to turn: %f\n", global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle);
+    printf("ideal gyro angle: %f\n", get_ideal_angle(sensorInfo->currentGyro - global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle));
 
-    global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle = (target_angle - sensorInfo->currentGyro) < 0?  target_angle - sensorInfo->currentGyro + 360: target_angle - sensorInfo->currentGyro;
-    //printf("%f", global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle);
-    printf("%f, %f, %f, %f, %f\n", global_params.ideal_straight_angle, sensorInfo->currentGyro, target_angle, global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle, get_ideal_angle(target_angle));
     global_params.robot_state = ROBOT_TURN_LEFT;
 }
 

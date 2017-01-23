@@ -74,7 +74,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 global_params.robot_state = ROBOT_TURN_LEFT;
                 robotturnleft_init_step(motorInfo, sensorInfo);
                 robotscanforball_current_step = 2; 
-                if (robotscanforball_min_dis < 25.0f) {
+                if (robotscanforball_min_dis < 20.0f) {
                     float angle = (robotscanforball_min_angle + robotscanforball_max_angle)/2;
                     ball_found = 1;
                     global_current_step_pt->robot_turn_left_degree = 
@@ -95,7 +95,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 }
                 else { // if not, move forward a little bit
                     robotscanforball_current_step = 3;
-                    global_current_step_pt->robot_run_timed_time_to_run = 700;
+                    global_current_step_pt->robot_run_timed_time_to_run = 500;
 
                     global_current_step_pt->robot_run_timed_speed = 120;
                     robotruntimed_init_step(motorInfo, sensorInfo);
