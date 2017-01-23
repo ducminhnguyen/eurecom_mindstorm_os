@@ -16,6 +16,7 @@ void robotturnright_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         // move to next step();
         // movetonextstep(&global_params, motorInfo, sensorInfo);
         // for individual step testing comment this
+        printf("Complete turn right\n");
         global_params.robot_state = ROBOT_COMPLETE_STEP;
     }
 }
