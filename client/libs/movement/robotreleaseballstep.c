@@ -19,7 +19,7 @@ void robotreleaseball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         }
     }
     else if (global_params.robot_state == ROBOT_RUN_BACKWARD) {
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > 1.0f) {
+        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > 0.7f) {
             global_params.robot_state = ROBOT_CLOSE_GRABBER;
             begin_time = current_time;
         }
@@ -93,6 +93,7 @@ void robotreleaseball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // right form. Implement this function if you think at the start of this step sensor and motor need to be in a specific
 // state
 void robotreleaseball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+    set_sensor_initial_values(sensorInfo);
     begin_time = clock();
     global_params.robot_state = ROBOT_OPEN_GRABBER;
     global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run = 1000.0f;
