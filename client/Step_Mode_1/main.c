@@ -127,7 +127,7 @@ int main( void ) {
     init_ideal_angles();
     scenario_test_init(&motorInfo, &sensorInfo);
 
-    
+
     //scenario_small_stadium_beginner_init(&motorInfo, &sensorInfo);
     //init_robot_steps(&motorInfo, &sensorInfo);
     //scenario_small_stadium_beginner_init(&motorInfo, &sensorInfo)
