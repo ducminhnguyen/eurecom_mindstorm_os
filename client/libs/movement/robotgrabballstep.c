@@ -7,23 +7,27 @@
 
 static float begin_time;
 
+#define GRABBER_SPEED 200
+#define GRABBER_TIME 700
+
 void robotgrabball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     float current_time = get_current_time_ms();
+    printf("%f, %f", begin_time, current_time);
     if (global_params.robot_state == ROBOT_OPEN_GRABBER) {
-        if (((double)(current_time - begin_time)) > (GRABBER_TIME)) {
+        if (((current_time - begin_time)) > (GRABBER_TIME)) {
             begin_time = current_time;
             global_params.robot_state = ROBOT_RUN_STRAIGHT;
         }
     } else if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
         //printf("%f, %f\n", ((double)(current_time - begin_time)) / CLOCKS_PER_SEC, (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000.0f);
-        if (((double)(current_time - begin_time)) > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run)) {
+        if (((current_time - begin_time)) > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run)) {
             //printf("%d\n", global_params.robot_state);
             begin_time = current_time;
             global_params.robot_state = ROBOT_CLOSE_GRABBER;
         }
     } else if (global_params.robot_state == ROBOT_CLOSE_GRABBER) {
-        if (((double)(current_time - begin_time))  > (GRABBER_TIME - 200) ) {
+        if (((current_time - begin_time))  > (GRABBER_TIME - 200) ) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
             begin_time = current_time;
         }
@@ -43,7 +47,7 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_FOREVER);
         //usleep((GRABBER_TIME ) * 1000);
         //global_params.robot_state = ROBOT_RUN_STRAIGHT;
-        
+
     } else if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
         int run_time = 200;
         int run_speed = global_params.robot_steps[global_params.current_step].robot_run_timed_speed;
