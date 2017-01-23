@@ -61,6 +61,7 @@ typedef struct global_parameters {
     step* robot_steps;
     int current_step, total_step;
     float calibrated_straight_angle, ideal_straight_angle, ideal_right_angle, ideal_left_angle, ideal_behind_angle;
+    float ideal_target_angle;
     RUN_STYLE run_style;
     ROBOT_STATE robot_state;
 
