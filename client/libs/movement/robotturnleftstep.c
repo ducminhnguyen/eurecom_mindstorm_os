@@ -27,7 +27,7 @@ void robotturnleft_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // call this function in the run motor function of the loop
 void robotturnleft_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     if(global_params.robot_state == ROBOT_TURN_LEFT) {
-        printf("running: %d\n", TURN_TIME);
+        //printf("running: %d\n", TURN_TIME);
         set_tacho_speed_sp(motorInfo->leftMotor, -40);
         set_tacho_speed_sp(motorInfo->rightMotor, 40);
         set_tacho_time_sp(motorInfo->leftMotor, TURN_TIME);
