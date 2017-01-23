@@ -6,26 +6,26 @@
 #include "../header/robotreleaseballstep.h"
 
 
-static clock_t begin_time;
+static float begin_time;
 
 void robotreleaseball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
-    clock_t current_time = clock();
+    float current_time = get_current_time_ms() / 1000.0f;
 
     if (global_params.robot_state == ROBOT_OPEN_GRABBER) {
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > 1.0f) {
+        if (((double)(current_time - begin_time)) > 1.0f) {
             global_params.robot_state = ROBOT_RUN_BACKWARD;
             begin_time = current_time;
         }
     }
     else if (global_params.robot_state == ROBOT_RUN_BACKWARD) {
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > 0.7f) {
+        if (((double)(current_time - begin_time)) > 0.7f) {
             global_params.robot_state = ROBOT_CLOSE_GRABBER;
             begin_time = current_time;
         }
     }
     else if (global_params.robot_state == ROBOT_CLOSE_GRABBER) {
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > 0.2f) {
+        if (((double)(current_time - begin_time)) > 0.2f) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
             begin_time = current_time;
         }
@@ -94,7 +94,7 @@ void robotreleaseball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // state
 void robotreleaseball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
-    begin_time = clock();
+    begin_time = get_current_time_ms() / 1000.0f;
     global_params.robot_state = ROBOT_OPEN_GRABBER;
     global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run = 1000.0f;
     global_params.robot_steps[global_params.current_step].robot_run_timed_speed = 200.0f;

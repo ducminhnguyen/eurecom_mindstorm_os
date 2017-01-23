@@ -4,10 +4,10 @@
 
 #include "../header/std_include.h"
 #include "../header/robotruntimedstep.h"
-static clock_t begin_time;
+static float begin_time;
 
 void robotruntimed_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
-    clock_t current_time = get_current_time_ms();
+    float current_time = get_current_time_ms();
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT || global_params.robot_state == ROBOT_RUN_BACKWARD) {
         //printf("%f\n", ((double)(current_time - begin_time)) / CLOCKS_PER_SEC);

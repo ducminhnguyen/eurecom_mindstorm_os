@@ -5,25 +5,25 @@
 #include "../header/std_include.h"
 #include "../header/robotgrabballstep.h"
 
-static clock_t begin_time;
+static float begin_time;
 
 void robotgrabball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
-    clock_t current_time = clock();
+    float current_time = get_current_time_ms();
     if (global_params.robot_state == ROBOT_OPEN_GRABBER) {
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (GRABBER_TIME) / 1000.0f) {
+        if (((double)(current_time - begin_time)) > (GRABBER_TIME)) {
             begin_time = current_time;
             global_params.robot_state = ROBOT_RUN_STRAIGHT;
         }
     } else if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
-        printf("%f, %f\n", ((double)(current_time - begin_time)) / CLOCKS_PER_SEC, (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000.0f);
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000.0f) {
+        //printf("%f, %f\n", ((double)(current_time - begin_time)) / CLOCKS_PER_SEC, (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000.0f);
+        if (((double)(current_time - begin_time)) > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run)) {
             //printf("%d\n", global_params.robot_state);
             begin_time = current_time;
             global_params.robot_state = ROBOT_CLOSE_GRABBER;
         }
     } else if (global_params.robot_state == ROBOT_CLOSE_GRABBER) {
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (GRABBER_TIME - 200) / 1000.0f) {
+        if (((double)(current_time - begin_time))  > (GRABBER_TIME - 200) ) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
             begin_time = current_time;
         }
@@ -43,7 +43,7 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_FOREVER);
         //usleep((GRABBER_TIME ) * 1000);
         //global_params.robot_state = ROBOT_RUN_STRAIGHT;
-        //begin_time = clock();
+        
     } else if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
         int run_time = 200;
         int run_speed = global_params.robot_steps[global_params.current_step].robot_run_timed_speed;
@@ -96,7 +96,7 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // state
 void robotgrabball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
-    begin_time = clock();
+    begin_time = get_current_time_ms();
     global_params.robot_state = ROBOT_OPEN_GRABBER;
     global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run = 1000.0f;
     global_params.robot_steps[global_params.current_step].robot_run_timed_speed = 200;
