@@ -96,5 +96,6 @@ void robotreleaseball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 void robotreleaseball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     begin_time = clock();
     global_params.robot_state = ROBOT_OPEN_GRABBER;
-    global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run = 1.0f;
+    global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run = 1000.0f;
+    global_params.robot_steps[global_params.current_step].robot_run_timed_speed = 200.0f;
 }

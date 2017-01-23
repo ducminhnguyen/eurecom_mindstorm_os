@@ -16,6 +16,7 @@ void robotruntimed_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
         // next step
+        printf("Complete run timed");
         global_params.robot_state = ROBOT_COMPLETE_STEP;
     }
 }
