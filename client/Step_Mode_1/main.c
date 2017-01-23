@@ -82,10 +82,10 @@ void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.robot_steps[0].robot_run_timed_time_to_run = 2000.0f;
     global_params.robot_steps[0].robot_run_timed_speed = -400;
     global_params.robot_steps[0].robot_turn_left_to_ideal_angle = 70.0f;
-    global_params.robot_steps[0].robot_turn_right_degree = 90.0f;
-    global_params.robot_steps[0].init_step = &robotturnlefttoidealangle_init_step;
-    global_params.robot_steps[0].run_motor = &robotturnlefttoidealangle_run_motor;
-    global_params.robot_steps[0].update_all = &robotturnlefttoidealangle_update;
+    global_params.robot_steps[0].robot_turn_right_to_ideal_angle = 70.0f;
+    global_params.robot_steps[0].init_step = &robotturnrighttoidealangle_init_step;
+    global_params.robot_steps[0].run_motor = &robotturnrighttoidealangle_run_motor;
+    global_params.robot_steps[0].update_all = &robotturnrighttoidealangle_update;
 
     global_params.robot_steps[global_params.current_step].init_step(motorInfo, sensorInfo);
 }
