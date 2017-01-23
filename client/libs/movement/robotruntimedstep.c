@@ -7,11 +7,12 @@
 static clock_t begin_time;
 
 void robotruntimed_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
-    clock_t current_time = clock();
+    clock_t current_time = get_current_time_ms();
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT || global_params.robot_state == ROBOT_RUN_BACKWARD) {
         //printf("%f\n", ((double)(current_time - begin_time)) / CLOCKS_PER_SEC);
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000.0f) {
+        //if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run) / 1000.0f) {
+        if ((current_time - begin_time) > (global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run)) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
@@ -42,6 +43,7 @@ void robotruntimed_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
             set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
             set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed);
         }
+        set_tacho_time_sp(motorInfo->leftMotor, global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run);
         set_tacho_time_sp(motorInfo->leftMotor, global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run);
         set_tacho_time_sp(motorInfo->rightMotor, global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run);
         set_tacho_command_inx(motorInfo->leftMotor, motorInfo->command);
@@ -81,5 +83,5 @@ void robotruntimed_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
     motorInfo->speed = global_params.robot_steps[global_params.current_step].robot_run_timed_speed;
     global_params.robot_state = motorInfo->speed > 0 ? ROBOT_RUN_STRAIGHT : ROBOT_RUN_BACKWARD;
-    begin_time = clock();
+    begin_time = get_current_time_ms();
 }
