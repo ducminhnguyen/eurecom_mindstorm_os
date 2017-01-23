@@ -13,7 +13,7 @@ void robotreleaseball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     clock_t current_time = clock();
 
     if (global_params.robot_state == ROBOT_OPEN_GRABBER) {
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > 0.3f) {
+        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > 0.7f) {
             global_params.robot_state = ROBOT_RUN_BACKWARD;
             begin_time = current_time;
         }
@@ -25,7 +25,7 @@ void robotreleaseball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         }
     }
     else if (global_params.robot_state == ROBOT_CLOSE_GRABBER) {
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > 0.3f) {
+        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > 0.2f) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
             begin_time = current_time;
         }
