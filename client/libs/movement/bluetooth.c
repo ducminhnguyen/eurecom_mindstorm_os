@@ -47,6 +47,7 @@ int ConnectBtServer(global_parameters *glo_param){
 
     /* connect to server */
     status = connect(glo_param->btObj.socket, (struct sockaddr *)&addr, sizeof(addr));
+    return status;
 }
 
 /***

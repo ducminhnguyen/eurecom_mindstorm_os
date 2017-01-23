@@ -65,7 +65,29 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].update_all = &robotgrabball_update;
     ++cur_num;
 
+    stepArr[cur_num].init_step = &robotturnlefttoidealangle_init_step;
+    stepArr[cur_num].run_motor = &robotturnlefttoidealangle_run_motor;
+    stepArr[cur_num].update_all = &robotturnlefttoidealangle_update;
+    stepArr[cur_num].robot_turn_left_to_ideal_angle = 180;
+    ++cur_num;
 
+    stepArr[cur_num].init_step = &robotrunstraightuntilwall_init_step;
+    stepArr[cur_num].run_motor = &robotrunstraightuntilwall_run_motor;
+    stepArr[cur_num].update_all = &robotrunstraightuntilwall_update;
+    stepArr[cur_num].robot_run_straight_until_wall_distance_to_stop = 10.0f;
+    ++cur_num;
+
+    stepArr[cur_num].init_step = &robotturnlefttoidealangle_init_step;
+    stepArr[cur_num].run_motor = &robotturnlefttoidealangle_run_motor;
+    stepArr[cur_num].update_all = &robotturnlefttoidealangle_update;
+    stepArr[cur_num].robot_turn_left_to_ideal_angle = 90;
+    ++cur_num;
+
+    stepArr[cur_num].init_step = &robotrunstraightuntilwall_init_step;
+    stepArr[cur_num].run_motor = &robotrunstraightuntilwall_run_motor;
+    stepArr[cur_num].update_all = &robotrunstraightuntilwall_update;
+    stepArr[cur_num].robot_run_straight_until_wall_distance_to_stop = 18.0f;
+    ++cur_num;
 //    stepArr[4].init_step = &robotrunstraight_init_step;
 //    stepArr[4].run_motor = &robotrunstraight_run_motor;
 //    stepArr[4].update_all = &robotrunstraight_update;
@@ -143,4 +165,41 @@ void scenario_large_stadium_right_beginner(MotorInfo* motorInfo, SensorInfo *sen
 
 void scenario_large_stadium_right_finisher(MotorInfo* motorInfo, SensorInfo *sensorInfo) {
 
+}
+
+
+void scenario_test_init(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
+    global_params.robot_steps = (step*)malloc(sizeof(step) * 20);
+    global_params.total_step = 5;
+    global_params.current_step = 0;
+    step* stepArr = global_params.robot_steps;
+    int cur_num = 0;
+
+
+    stepArr[cur_num].init_step = &robotscanforball_init_step;
+    stepArr[cur_num].run_motor = &robotscanforball_run_motor;
+    stepArr[cur_num].update_all = &robotscanforball_update;
+    ++cur_num;
+
+    stepArr[cur_num].init_step = &robotgrabball_init_step;
+    stepArr[cur_num].run_motor = &robotgrabball_run_motor;
+    stepArr[cur_num].update_all = &robotgrabball_update;
+    ++cur_num;
+
+    stepArr[cur_num].init_step = &robotruntimed_init_step;
+    stepArr[cur_num].run_motor = &robotruntimed_run_motor;
+    stepArr[cur_num].update_all = &robotruntimed_update;
+    stepArr[cur_num].robot_run_timed_speed = 300;
+    stepArr[cur_num].robot_run_timed_time_to_run = 2000;
+    ++cur_num;
+
+    stepArr[cur_num].init_step = &robotreleaseball_init_step;
+    stepArr[cur_num].run_motor = &robotreleaseball_run_motor;
+    stepArr[cur_num].update_all = &robotreleaseball_update;
+    stepArr[cur_num].robot_run_straight_color_threshold = 25;
+    ++cur_num;
+
+
+    global_params.total_step = cur_num;
+    stepArr[0].init_step(motorInfo, sensorInfo);
 }

@@ -2,28 +2,27 @@
 // Created by parallels on 1/20/17.
 //
 
-#include "../header/robotturnrightstep.h"
+#include "../header/robotturnrighttoidealanglestep.h"
 #include "../header/std_include.h"
 
 // call this function in the update all function in the loop
-void robotturnright_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+void robotturnrighttoidealangle_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_TURN_RIGHT) {
-        if (fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_right_degree) - 5.0f) {
+        if (fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_right_to_ideal_angle) - 5.0f) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
         // move to next step();
         // movetonextstep(&global_params, motorInfo, sensorInfo);
         // for individual step testing comment this
-        printf("Complete turn right\n");
         global_params.robot_state = ROBOT_COMPLETE_STEP;
     }
 }
 
 
 // call this function in the run motor function of the loop
-void robotturnright_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+void robotturnrighttoidealangle_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     if(global_params.robot_state == ROBOT_TURN_RIGHT){
         set_tacho_speed_sp(motorInfo->leftMotor, 60);
         set_tacho_speed_sp(motorInfo->rightMotor, -60);
@@ -42,7 +41,13 @@ void robotturnright_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // this function is called whenever the state is entered to ensure starting parameter of a state is always in the
 // right form. Implement this function if you think at the start of this step sensor and motor need to be in a specific
 // state
-void robotturnright_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+void robotturnrighttoidealangle_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
+    update_sensor_value(sensorInfo);
+    // calculate ideal angle and fix
+    float target_angle = sensorInfo->currentGyro + global_params.robot_steps[global_params.current_step].robot_turn_right_to_ideal_angle;
+
+    global_params.robot_steps[global_params.current_step].robot_turn_right_to_ideal_angle = fabsf(sensorInfo->currentGyro - get_ideal_angle(target_angle));
+
     global_params.robot_state = ROBOT_TURN_RIGHT;
 }

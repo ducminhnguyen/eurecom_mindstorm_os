@@ -60,7 +60,7 @@ typedef struct BT_Object{
 typedef struct global_parameters {
     step* robot_steps;
     int current_step, total_step;
-    float calibrated_straight_angle;
+    float calibrated_straight_angle, ideal_straight_angle, ideal_right_angle, ideal_left_angle, ideal_behind_angle;
     RUN_STYLE run_style;
     ROBOT_STATE robot_state;
 
@@ -77,5 +77,8 @@ int movetonextstep(global_parameters *global_param, MotorInfo* motorInfo, Sensor
 
 int update_robot_position(global_parameters *global_param, MotorInfo* motorInfo, SensorInfo* sensorInfo);
 
+void init_ideal_angles();
+
+float get_ideal_angle(float target_angle);
 
 #endif //OS_ROBOT_PROJECT_FALL2016_GLOBAL_H

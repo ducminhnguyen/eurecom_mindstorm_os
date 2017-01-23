@@ -8,6 +8,8 @@
 #include "robotscanforballstep.h"
 #include "robotturnaroundstep.h"
 #include "robotturnleftstep.h"
+#include "robotturnlefttoidealanglestep.h"
 #include "robotturnrightstep.h"
+#include "robotturnrighttoidealanglestep.h"
 #include "robotwaitforserverstep.h"
 #endif
