@@ -23,7 +23,7 @@ void robotgrabball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
             global_params.robot_state = ROBOT_CLOSE_GRABBER;
         }
     } else if (global_params.robot_state == ROBOT_CLOSE_GRABBER) {
-        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (GRABBER_TIME) / 1000.0f) {
+        if (((double)(current_time - begin_time)) / CLOCKS_PER_SEC > (GRABBER_TIME - 200) / 1000.0f) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
