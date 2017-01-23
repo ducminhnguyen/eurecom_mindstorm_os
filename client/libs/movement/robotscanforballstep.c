@@ -12,7 +12,7 @@
 // Calculate condition to change ROBOT_STATE and ROBOT step
 // Update the ROBOT_STATE and the step
 
-#define DIS_ERROR_THRES 1.5f // in centimeter
+#define DIS_ERROR_THRES 2.0f // in centimeter
 #define DISTANCE_TO_STOP 10.0f
 
 static float robotscanforball_min_dis = 20000;
