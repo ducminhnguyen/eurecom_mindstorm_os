@@ -39,7 +39,7 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].init_step = &robotrunstraight_init_step;
     stepArr[cur_num].run_motor = &robotrunstraight_run_motor;
     stepArr[cur_num].update_all = &robotrunstraight_update;
-    stepArr[cur_num].robot_run_straight_color_threshold = 25;
+    stepArr[cur_num].robot_run_straight_color_threshold = 30;
     cur_num = cur_num + 1;
 
     stepArr[cur_num].init_step = &robotruntimed_init_step;
