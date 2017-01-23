@@ -74,15 +74,19 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 global_params.robot_state = ROBOT_TURN_LEFT;
                 robotturnleft_init_step(motorInfo, sensorInfo);
                 robotscanforball_current_step = 2; 
-                if (robotscanforball_min_dis < 25.0f) {
+                if (robotscanforball_min_dis < 20.0f) {
                     float angle = (robotscanforball_min_angle + robotscanforball_max_angle)/2;
                     ball_found = 1;
                     global_current_step_pt->robot_turn_left_degree = 
                         fabsf(angle - sensorInfo->currentGyro);
                 }
                 else {
+                    float angle = (robotscanforball_min_angle + robotscanforball_max_angle)/2;
                     global_current_step_pt->robot_turn_left_degree = 
-                        fabsf(sensorInfo->currentGyro - robotscanforball_initial_gyro);
+                        fabsf(angle - sensorInfo->currentGyro);
+                
+                    //global_current_step_pt->robot_turn_left_degree = 
+                    //    fabsf(sensorInfo->currentGyro - robotscanforball_initial_gyro);
                 }
                 printf("turn left degree: %f\n", global_current_step_pt->robot_turn_left_degree);
                 break;
