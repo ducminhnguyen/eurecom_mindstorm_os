@@ -111,3 +111,11 @@ void SendBallMessage(global_parameters *glo_param,int act){
     glo_param->btObj.msg[9] = 0x00;
     write(glo_param->btObj.socket,  glo_param->btObj.msg, 10);
 }
+
+/**
+ * Get the type of message from server
+ * @return: type of the message
+ */
+unsigned char GetMessageType(global_parameters *glo_param){
+    return glo_param->btObj.msg[4];
+}
