@@ -143,6 +143,9 @@ void robotscanforball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // right form. Implement this function if you think at the start of this step sensor and motor need to be in a specific
 // state
 void robotscanforball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+    
+    printf("Init Scanning for ball\n");
+
     set_sensor_initial_values(sensorInfo);
     robotscanforball_initial_gyro = sensorInfo->initialGyro;
     robotscanforball_min_dis = 20000;
