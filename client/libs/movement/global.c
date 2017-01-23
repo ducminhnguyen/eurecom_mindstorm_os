@@ -128,3 +128,11 @@ float get_ideal_angle(float target_angle) {
         return target_angle + arr[3];
     }
 }
+
+
+float get_current_time_ms() {
+    struct timespec spec;
+
+    clock_gettime(CLOCK_MONOTONIC, &spec);
+    return ((float)spec.tv_nsec / 1.0e6);
+}

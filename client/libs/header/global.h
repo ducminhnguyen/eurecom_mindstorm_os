@@ -81,4 +81,6 @@ void init_ideal_angles();
 
 float get_ideal_angle(float target_angle);
 
+float get_current_time_ms();
+
 #endif //OS_ROBOT_PROJECT_FALL2016_GLOBAL_H
