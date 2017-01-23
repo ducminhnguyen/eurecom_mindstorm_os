@@ -73,7 +73,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 robotturnleft_init_step(motorInfo, sensorInfo);
                 robotscanforball_current_step = 2; 
                 if (robotscanforball_min_dis < 25.0f) {
-                    float angle = (robotscanforball_min_angle + robotscanforball_max_angle)/2
+                    float angle = (robotscanforball_min_angle + robotscanforball_max_angle)/2;
                     ball_found = 1;
                     global_current_step_pt->robot_turn_left_degree = 
                         fabsf(angle - sensorInfo->currentGyro);
