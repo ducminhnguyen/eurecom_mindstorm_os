@@ -6,11 +6,11 @@
 #include "../header/robotreleaseballstep.h"
 
 
-static float begin_time;
+static double begin_time;
 
 void robotreleaseball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
-    float current_time = get_current_time_ms() / 1000.0f;
+    double current_time = get_current_time_ms() / 1000.0f;
 
     if (global_params.robot_state == ROBOT_OPEN_GRABBER) {
         if (((double)(current_time - begin_time)) > 1.0f) {
