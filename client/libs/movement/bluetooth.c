@@ -13,6 +13,7 @@ void InitBtObject(global_parameters *glo_param, char *server){
     glo_param->btObj.pos.y = 0;
     glo_param->btObj.serverAddr = server;
     glo_param->btObj.msgId = 0;
+    glo_param->btObj.havingBall = false;
 }
 
 /**
@@ -23,10 +24,30 @@ void InitGameInfo(global_parameters *glo_param){
     unsigned char role = (unsigned char) glo_param->btObj.msg[5];
     unsigned char side = (unsigned char) glo_param->btObj.msg[6];
     glo_param->btObj.info.ally = (uint16_t) glo_param->btObj.msg[7];
-    if(role == 0){ glo_param->btObj.info.role = BEGINNER; }
-    else { glo_param->btObj.info.role = FINISHER; }
-    if(side == 1){ glo_param->btObj.info.side = LEFT; }
-    else { glo_param->btObj.info.side = RIGHT; }
+    if(role == 0){
+        glo_param->btObj.info.role = BEGINNER;
+        glo_param->btObj.havingBall = true;
+        // For log to command line
+        printf("Role: BEGINNER.\n");
+    }
+    else {
+        glo_param->btObj.info.role = FINISHER;
+        printf("Role: FINISHER.\n");
+    }
+    if(side == 1){
+        glo_param->btObj.info.side = LEFT;
+        // For log to command line
+        if(glo_param->btObj.info.stadium == BIG){
+            printf("Play on the left side.\n");
+        }
+    }
+    else {
+        glo_param->btObj.info.side = RIGHT;
+        // For log to command line
+        if(glo_param->btObj.info.stadium == BIG){
+            printf("Play on the right side.\n");
+        }
+    }
 }
 
 /**
@@ -34,6 +55,7 @@ void InitGameInfo(global_parameters *glo_param){
  * @return status of the connection 0 -> OK; 1 -> error
  */
 int ConnectBtServer(global_parameters *glo_param){
+    printf("Connecting to server...\n");
     struct sockaddr_rc addr = { 0 };
     int status;
 
@@ -72,6 +94,7 @@ int ReadServerMsg(global_parameters *glo_param, size_t maxSize){
  * send a next message to the server
  */
 void ToDestination(global_parameters *glo_param){
+    printf("Reached destination. Sending a NEXT message!\n");
     *((uint16_t *)  glo_param->btObj.msg) = glo_param->btObj.msgId++;
     glo_param->btObj.msg[2] = TEAM_ID;
     glo_param->btObj.msg[3] = glo_param->btObj.info.ally;
@@ -82,6 +105,7 @@ void ToDestination(global_parameters *glo_param){
  * Send the current position of the robot to the server
  */
 void SendRobotPosition(global_parameters *glo_param){
+    printf("Sending Robot's position");
     unsigned char special = 0xFF;
     *((uint16_t *)  glo_param->btObj.msg) = glo_param->btObj.msgId++;
     glo_param->btObj.msg[2] = TEAM_ID;
@@ -98,17 +122,33 @@ void SendRobotPosition(global_parameters *glo_param){
  * Send ball position and the act of grab/release ball
  * @param act : the act of grab or release ball. 0->release; 1->grab
  */
-void SendBallMessage(global_parameters *glo_param,int act){
+void SendBallMessage(global_parameters *glo_param){
+    printf("Sending Ball's position");
     *((uint16_t *) glo_param->btObj.msg) = glo_param->btObj.msgId++;
     glo_param->btObj.msg[2] = TEAM_ID;
     glo_param->btObj.msg[3] = glo_param->btObj.info.ally;
     glo_param->btObj.msg[4] = MSG_BALL;
-    glo_param->btObj.msg[5] = act;
+    if (glo_param->btObj.havingBall){
+        glo_param->btObj.msg[5] = 0x00;
+    }
+    else{
+        glo_param->btObj.msg[5] = 0x01;
+    }
     glo_param->btObj.msg[6] = glo_param->btObj.pos.x;
     glo_param->btObj.msg[7] = 0x00;
     glo_param->btObj.msg[8] = glo_param->btObj.pos.y;
     glo_param->btObj.msg[9] = 0x00;
     write(glo_param->btObj.socket,  glo_param->btObj.msg, 10);
+}
+
+void SendAckMessage(global_parameters *glo_param, uint16_t ackMsgId, int state){
+    *((uint16_t *) glo_param->btObj.msg) = glo_param->btObj.msgId++;
+    glo_param->btObj.msg[2] = TEAM_ID;
+    glo_param->btObj.msg[3] = glo_param->btObj.info.ally;
+    glo_param->btObj.msg[4] = 0x00;
+    glo_param->btObj.msg[5] = ackMsgId;
+    glo_param->btObj.msg[7] = state;
+    write(glo_param->btObj.socket,  glo_param->btObj.msg, 8);
 }
 
 /**
