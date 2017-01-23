@@ -83,9 +83,9 @@ void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.robot_steps[0].robot_run_timed_speed = -400;
     global_params.robot_steps[0].robot_turn_left_degree = 40.0f;
     global_params.robot_steps[0].robot_turn_right_degree = 40.0f;
-    global_params.robot_steps[0].init_step = &robotgrabball_init_step;
-    global_params.robot_steps[0].run_motor = &robotgrabball_run_motor;
-    global_params.robot_steps[0].update_all = &robotgrabball_update;
+    global_params.robot_steps[0].init_step = &robotturnlefttoidealangle_init_step;
+    global_params.robot_steps[0].run_motor = &robotturnlefttoidealangle_run_motor;
+    global_params.robot_steps[0].update_all = &robotturnlefttoidealangle_update;
 
     global_params.robot_steps[global_params.current_step].init_step(motorInfo, sensorInfo);
 }
@@ -121,10 +121,12 @@ int main( void ) {
     printf("finish init\n");
 
 
-    //init_robot_steps(&motorInfo, &sensorInfo);
+
     scenario_small_stadium_beginner_init(&motorInfo, &sensorInfo);
     global_params.calibrated_straight_angle = get_gyro_sensor_value();
 
+    init_robot_steps(&motorInfo, &sensorInfo);
+    //init_ideal_angles();
     while (true) {
         update_all_sensor(&sensorInfo, &motorInfo);
         run_robot(&sensorInfo, &motorInfo);

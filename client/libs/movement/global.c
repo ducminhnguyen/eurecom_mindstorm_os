@@ -45,15 +45,13 @@ int update_robot_position(global_parameters *global_param, MotorInfo* motorInfo,
                 global_param->robot_position_y += d_y;
                 previous_us_value = sensorInfo->currentDistance;
             }
-        }
-        else 
+        } else
             previous_us_value = sensorInfo->currentDistance;
-        
-    }
-    else { // reset value when not run straight 
+
+    } else { // reset value when not run straight
         previous_us_value = -1.0;
     }
-    
+
 
     if (current_time - previous_updated_time >= 2) {
         /* code */
@@ -63,6 +61,13 @@ int update_robot_position(global_parameters *global_param, MotorInfo* motorInfo,
         SendRobotPosition(global_param);
         previous_updated_time = current_time;
     }
-    
 
+
+}
+
+void init_ideal_angles() {
+    global_params.ideal_straight_angle = global_params.calibrated_straight_angle;
+    global_params.ideal_left_angle = global_params.calibrated_straight_angle - 90;
+    global_params.ideal_right_angle = global_params.calibrated_straight_angle + 90;
+    global_params.ideal_behind_angle = global_params.calibrated_straight_angle - 180;
 }

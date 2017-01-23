@@ -1,5 +1,6 @@
 #ifndef __ALL_HEADERS__
 #define __ALL_HEADERS__
+#include "../libs/header/bluetooth.h"
 #include "../libs/header/config.h"
 #include "../libs/header/global.h"
 #include "../libs/header/motorControl.h"
@@ -12,7 +13,9 @@
 #include "../libs/header/robotstep_headers.h"
 #include "../libs/header/robotturnaroundstep.h"
 #include "../libs/header/robotturnleftstep.h"
+#include "../libs/header/robotturnlefttoidealanglestep.h"
 #include "../libs/header/robotturnrightstep.h"
+#include "../libs/header/robotturnrighttoidealanglestep.h"
 #include "../libs/header/robotwaitforserverstep.h"
 #include "../libs/header/scenario.h"
 #include "../libs/header/std_include.h"
