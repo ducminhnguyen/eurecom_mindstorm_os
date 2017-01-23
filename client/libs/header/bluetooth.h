@@ -15,7 +15,7 @@
 #include "global.h"
 
 void InitBtObject(global_parameters *glo_param, char *serverAddr);
-void InitGameInfo(global_parameters *glo_param, unsigned char stadium);
+void InitGameInfo(global_parameters *glo_param);
 int ConnectBtServer(global_parameters *glo_param);
 int ReadServerMsg(global_parameters *glo_param, size_t maxSize);
 void ToDestination(global_parameters *glo_param);

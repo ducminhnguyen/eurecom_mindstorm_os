@@ -19,14 +19,12 @@ void InitBtObject(global_parameters *glo_param, char *server){
  * Init information for the game
  * @param stadium : 0-> small stadium; 1->big stadium
  */
-void InitGameInfo(global_parameters *glo_param, unsigned char stadium){
+void InitGameInfo(global_parameters *glo_param){
     unsigned char role = (unsigned char) glo_param->btObj.msg[5];
     unsigned char side = (unsigned char) glo_param->btObj.msg[6];
     glo_param->btObj.info.ally = (uint16_t) glo_param->btObj.msg[7];
     if(role == 0){ glo_param->btObj.info.role = BEGINNER; }
     else { glo_param->btObj.info.role = FINISHER; }
-    if(stadium == 0){ glo_param->btObj.info.stadium = SMALL; }
-    else { glo_param->btObj.info.stadium = BIG; }
     if(side == 1){ glo_param->btObj.info.side = LEFT; }
     else { glo_param->btObj.info.side = RIGHT; }
 }
