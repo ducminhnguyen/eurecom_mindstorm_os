@@ -122,11 +122,14 @@ int main( void ) {
 
 
 
-    scenario_small_stadium_beginner_init(&motorInfo, &sensorInfo);
+
     global_params.calibrated_straight_angle = get_gyro_sensor_value();
     init_ideal_angles();
+    scenario_test_init(&motorInfo, &sensorInfo);
 
-    init_robot_steps(&motorInfo, &sensorInfo);
+
+    //scenario_small_stadium_beginner_init(&motorInfo, &sensorInfo);
+    //init_robot_steps(&motorInfo, &sensorInfo);
     //scenario_small_stadium_beginner_init(&motorInfo, &sensorInfo)
     while (true) {
         update_all_sensor(&sensorInfo, &motorInfo);

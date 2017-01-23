@@ -37,17 +37,18 @@ void robotgrabball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         begin_time = clock();
     } else if (global_params.robot_state == ROBOT_RUN_STRAIGHT) {
         int run_time = 200;
+        int run_speed = global_params.robot_steps[global_params.current_step].robot_run_timed_speed;
         if (sensorInfo->diffGyro > 0) {
-            set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed - 10*abs(sensorInfo->diffGyro));
-            set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
+            set_tacho_speed_sp(motorInfo->rightMotor, run_speed - 10*abs(sensorInfo->diffGyro));
+            set_tacho_speed_sp(motorInfo->leftMotor, run_speed);
             //printf("Left tilt: %f \n", sensorInfo->diffGyro);
         } else if (sensorInfo->diffGyro < 0) {
-            set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed);
-            set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed - 10*abs(sensorInfo->diffGyro));
+            set_tacho_speed_sp(motorInfo->rightMotor, run_speed);
+            set_tacho_speed_sp(motorInfo->leftMotor, run_speed - 10*abs(sensorInfo->diffGyro));
             //printf("Right tilt: %f \n", sensorInfo->diffGyro);
         } else {
-            set_tacho_speed_sp(motorInfo->leftMotor, motorInfo->speed);
-            set_tacho_speed_sp(motorInfo->rightMotor, motorInfo->speed);
+            set_tacho_speed_sp(motorInfo->leftMotor, run_speed);
+            set_tacho_speed_sp(motorInfo->rightMotor, run_speed);
         }
         set_tacho_time_sp(motorInfo->leftMotor, run_time);
         set_tacho_time_sp(motorInfo->rightMotor, run_time);
@@ -74,5 +75,5 @@ void robotgrabball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
     global_params.robot_state = ROBOT_OPEN_GRABBER;
     global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run = 1000.0f;
-    global_params.robot_steps[global_params.current_step].robot_run_timed_speed = 200.0f;
+    global_params.robot_steps[global_params.current_step].robot_run_timed_speed = 200;
 }

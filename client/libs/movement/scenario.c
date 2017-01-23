@@ -144,3 +144,40 @@ void scenario_large_stadium_right_beginner(MotorInfo* motorInfo, SensorInfo *sen
 void scenario_large_stadium_right_finisher(MotorInfo* motorInfo, SensorInfo *sensorInfo) {
 
 }
+
+
+void scenario_test_init(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
+    global_params.robot_steps = (step*)malloc(sizeof(step) * 20);
+    global_params.total_step = 5;
+    global_params.current_step = 0;
+    step* stepArr = global_params.robot_steps;
+    int cur_num = 0;
+
+
+    stepArr[cur_num].init_step = &robotscanforball_init_step;
+    stepArr[cur_num].run_motor = &robotscanforball_run_motor;
+    stepArr[cur_num].update_all = &robotscanforball_update;
+    ++cur_num;
+
+    stepArr[cur_num].init_step = &robotgrabball_init_step;
+    stepArr[cur_num].run_motor = &robotgrabball_run_motor;
+    stepArr[cur_num].update_all = &robotgrabball_update;
+    ++cur_num;
+
+    stepArr[cur_num].init_step = &robotruntimed_init_step;
+    stepArr[cur_num].run_motor = &robotruntimed_run_motor;
+    stepArr[cur_num].update_all = &robotruntimed_update;
+    stepArr[cur_num].robot_run_timed_speed = 300;
+    stepArr[cur_num].robot_run_timed_time_to_run = 500;
+    ++cur_num;
+
+    stepArr[cur_num].init_step = &robotreleaseball_init_step;
+    stepArr[cur_num].run_motor = &robotreleaseball_run_motor;
+    stepArr[cur_num].update_all = &robotreleaseball_update;
+    stepArr[cur_num].robot_run_straight_color_threshold = 25;
+    ++cur_num;
+
+
+    global_params.total_step = cur_num;
+    stepArr[0].init_step(motorInfo, sensorInfo);
+}
