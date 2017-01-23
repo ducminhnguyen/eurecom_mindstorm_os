@@ -19,4 +19,6 @@ void scenario_large_stadium_left_finisher(MotorInfo* motorInfo, SensorInfo *sens
 void scenario_large_stadium_right_beginner(MotorInfo* motorInfo, SensorInfo *sensorInfo);
 
 void scenario_large_stadium_right_finisher(MotorInfo* motorInfo, SensorInfo *sensorInfo);
+
+void scenario_test_init(MotorInfo* motorInfo, SensorInfo* sensorInfo);
 #endif //OS_ROBOT_PROJECT_FALL2016_SCENARIO_H
