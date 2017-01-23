@@ -21,5 +21,6 @@ int ReadServerMsg(global_parameters *glo_param, size_t maxSize);
 void ToDestination(global_parameters *glo_param);
 void SendRobotPosition(global_parameters *glo_param);
 void SendBallMessage(global_parameters *glo_param, int act);
+unsigned char GetMessageType(global_parameters *glo_param);
 
 #endif //ROBOT_BUNBO_BLUETOOTH_H
