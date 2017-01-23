@@ -5,6 +5,8 @@
 #include "../header/std_include.h"
 #include "../header/robotreleaseballstep.h"
 
+#define GRABBER_SPEED 200
+#define GRABBER_TIME 700
 
 static double begin_time;
 
