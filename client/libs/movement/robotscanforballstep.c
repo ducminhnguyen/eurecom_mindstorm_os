@@ -12,7 +12,9 @@
 // Calculate condition to change ROBOT_STATE and ROBOT step
 // Update the ROBOT_STATE and the step
 
-#define DIS_ERROR_THRES 2.0 // in centimeter
+#define DIS_ERROR_THRES 2.0f // in centimeter
+#define DISTANCE_TO_STOP 7.0f
+
 static float robotscanforball_min_dis = 20000;
 static float robotscanforball_min_angle = 0;
 static float robotscanforball_max_angle = 0;
@@ -87,7 +89,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
             case 2: // after finding ball direction, move to it
                 if (ball_found == 1) {
                     robotscanforball_current_step = 4;
-                    global_current_step_pt->robot_run_straight_until_wall_distance_to_stop = 10.0; // stop before hit the ball 6 cm
+                    global_current_step_pt->robot_run_straight_until_wall_distance_to_stop = DISTANCE_TO_STOP; // stop before hit the ball 6 cm
                     motorInfo->speed = 100;
                     robotrunstraightuntilwall_init_step(motorInfo, sensorInfo);
                 }
