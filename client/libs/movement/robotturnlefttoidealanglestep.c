@@ -49,6 +49,7 @@ void robotturnlefttoidealangle_init_step(MotorInfo *motorInfo, SensorInfo *senso
     set_sensor_initial_values(sensorInfo);
     update_sensor_value(sensorInfo);
     // calculate ideal angle and fix
+    printf("ideal straight: %f\n", global_params.ideal_straight_angle);
     printf("current gyro: %f\n", sensorInfo->currentGyro);
     printf("init angle to turn: %f\n", global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle);
     printf("ideal gyro angle: %f\n", get_ideal_angle(sensorInfo->currentGyro - global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle));
