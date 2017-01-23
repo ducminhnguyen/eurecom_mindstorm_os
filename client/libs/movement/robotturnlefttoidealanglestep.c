@@ -8,10 +8,10 @@
 // call this function in the update all function in the loop
 void robotturnlefttoidealangle_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
-    int adjust = (global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle > 0)? -5:5;
+    float adjust = (global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle > 0)? -5.0f:5.0f;
     if (global_params.robot_state == ROBOT_TURN_LEFT) {
         //printf("update: %f\n", (float)fabsf(fabsf(sensorInfo->diffGyro) - global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle));
-        if (sensorInfo->currentGyro < global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle){
+        if (sensorInfo->currentGyro < global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle + adjust){
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
@@ -55,6 +55,9 @@ void robotturnlefttoidealangle_init_step(MotorInfo *motorInfo, SensorInfo *senso
 //    printf("init angle to turn: %f\n", global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle);
 //    printf("ideal gyro angle: %f\n", get_ideal_angle(sensorInfo->currentGyro - global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle));
     global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle = get_ideal_angle(sensorInfo->currentGyro - global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle);
+    while (global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle > sensorInfo->currentGyro) {
+        global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle -= 360;
+    }
     printf("Turning to ideal\n");
 
     global_params.robot_state = ROBOT_TURN_LEFT;

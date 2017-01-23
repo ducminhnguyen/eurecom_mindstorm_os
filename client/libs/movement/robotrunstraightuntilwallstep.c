@@ -60,6 +60,7 @@ void robotrunstraightuntilwall_run_motor(MotorInfo *motorInfo, SensorInfo *senso
 // state
 void robotrunstraightuntilwall_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
+    motorInfo->speed = global_params.robot_steps[global_params.current_step].robot_run_timed_speed;
     global_params.robot_state = ROBOT_RUN_STRAIGHT;
 }
 

@@ -5,11 +5,14 @@
 #include "../header/robotturnrightstep.h"
 #include "../header/std_include.h"
 
+static float turn_angle;
+
 // call this function in the update all function in the loop
 void robotturnright_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_TURN_RIGHT) {
-        if (fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_right_degree) - 5.0f) {
+        //if((float)fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_left_degree) - 5.0f){
+        if((float)fabsf(sensorInfo->diffGyro) >= (turn_angle - 5.0f) ){
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
@@ -44,5 +47,8 @@ void robotturnright_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // state
 void robotturnright_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
+    global_params.ideal_target_angle += global_params.robot_steps[global_params.current_step].robot_turn_right_degree;
+    printf("Turning right: ideal angle, current angle: %f, %f", global_params.ideal_target_angle, sensorInfo->initialGyro);
+    turn_angle = fabsf(global_params.ideal_target_angle - sensorInfo->initialGyro);
     global_params.robot_state = ROBOT_TURN_RIGHT;
 }
