@@ -25,7 +25,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     //update_sensor_value(sensorInfo);
 
     // check for the obstacle
-    if (global_params.robot_state == ROBOT_COMPLETE_STEP && robotscanforball_update == 4) {
+    if (global_params.robot_state == ROBOT_COMPLETE_STEP && robotscanforball_current_step == 4) {
         return;
     }
     //printf("sensor gyro %f, us %f\n", sensorInfo->currentGyro, sensorInfo->currentDistance);
