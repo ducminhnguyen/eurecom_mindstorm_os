@@ -43,37 +43,48 @@ static bool _check_pressed( uint8_t sn )
     return ( get_sensor_value( 0, sn, &val ) && ( val != 0 ));
 }
 
-void doBeginner(){
-    printf("Beginner sequence start");
-    printf("Send a position message");
-    SendRobotPosition(&global_params);
-    printf("Send a ball message");
-    SendBallMessage(&global_params, 0);
-    printf("Send a next message");
-    ToDestination(&global_params);
+void update_all_sensor(SensorInfo* sensorInfo, MotorInfo* motorInfo) { // update
+    if (global_params.robot_state == ROBOT_COMPLETE_STEP) {
+        printf("Complete\n");
+        movetonextstep(&global_params, motorInfo, sensorInfo);
+        if (global_params.robot_state == ROBOT_FINISH_PROGRAM) {
+
+        }
+        //clean_up_program();
+    } else {
+        global_params.robot_steps[global_params.current_step].update_all(motorInfo, sensorInfo);
+    }
+
+    return;
 }
 
-void doFinisher(){
-    printf("Finisher sequence start");
-    while(1){
-        ReadServerMsg(&global_params, 58);
-        unsigned char msg_type = GetMessageType(&global_params);
-        switch (msg_type){
-            case MSG_STOP: return;
-            case MSG_NEXT:
-                printf("Send a position message");
-                SendRobotPosition(&global_params);
-                SendBallMessage(&global_params, 1);
-                return;
-            case MSG_BALL:
-                printf("Receive message ball position at %02X%02X,%02X%02X \n",
-                       global_params.btObj.msg[7], global_params.btObj.msg[6], global_params.btObj.msg[9], global_params.btObj.msg[8]);
-                break;
-            default:
-                printf("Ignore message %d\b", msg_type);
-        }
+void run_robot(SensorInfo* sensorInfo, MotorInfo* motorInfo) { // draw
+    if (global_params.robot_state == ROBOT_FINISH_PROGRAM) {
+
     }
+    else {
+        global_params.robot_steps[global_params.current_step].run_motor(motorInfo, sensorInfo);
+    }
+    return;
 }
+
+void ResetSensors(struct SensorInfo sensorInfo) {
+
+}
+
+void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
+    global_params.robot_steps = (step*)malloc(sizeof(step) * 30);
+    global_params.total_step = 1;
+    global_params.run_style = ONE_WAY;
+    global_params.current_step = 0;
+
+    global_params.robot_steps[0].init_step = &robotwaitforserver_init_step;
+    global_params.robot_steps[0].run_motor = &robotwaitforsever_run_motor;
+    global_params.robot_steps[0].update_all = &robotwaitforserver_update;
+
+    global_params.robot_steps[global_params.current_step].init_step(motorInfo, sensorInfo);
+}
+
 
 int main(int argc, char **argv ) {
 
@@ -104,31 +115,34 @@ int main(int argc, char **argv ) {
     set_sensor_initial_values(&sensorInfo);
     printf("finish init\n");
 
+    init_robot_steps(&motorInfo, &sensorInfo);
+
+    global_params.calibrated_straight_angle = get_gyro_sensor_value();
+    init_ideal_angles();
     char* server_address = argv[1];
     InitBtObject(&global_params, server_address);
+    if((unsigned char) argv[2] == 0){
+        global_params.btObj.info.stadium = SMALL;
+    }
+    else{
+        global_params.btObj.info.stadium = BIG;
+    }
+
     //Connect to the server
     int connect_status = ConnectBtServer(&global_params);
     //Connected
     if(connect_status == 0){
-        ReadServerMsg(&global_params, 9);
-        if(GetMessageType(&global_params) == MSG_START){
-            printf("Receive start message!\n");
-            InitGameInfo(&global_params,(unsigned char) argv[2]);
+        while (true) {
+            update_all_sensor(&sensorInfo, &motorInfo);
+            run_robot(&sensorInfo, &motorInfo);
         }
 
-        if(global_params.btObj.info.role == BEGINNER){
-            doBeginner();
-        }
-        else{
-            doFinisher();
-        }
-        close(global_params.btObj.socket);
-        sleep(5);
     } else {
         fprintf (stderr, "Failed to connect to server...\n");
         sleep (2);
         exit (EXIT_FAILURE);
     }
+
     close(global_params.btObj.socket);
     return 0;
 }
