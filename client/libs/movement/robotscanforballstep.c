@@ -106,6 +106,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 global_current_step_pt->robot_turn_left_degree = 30;
                 global_params.robot_state = ROBOT_TURN_LEFT;
                 robotscanforball_current_step = 0;
+                robotscanforball_min_dis = 20000;
                 robotturnleft_init_step(motorInfo, sensorInfo);
                 break;
             case 4:
