@@ -2,15 +2,15 @@
 // Created by parallels on 1/20/17.
 //
 
-#include "../header/robotturnleftstep.h"
+#include "../header/robotturnlefttoidealanglestep.h"
 #include "../header/std_include.h"
 
 // call this function in the update all function in the loop
-void robotturnleft_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+void robotturnlefttoidealangle_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_TURN_LEFT) {
-        printf("update: %f\n", (float)fabsf(fabsf(sensorInfo->diffGyro) - global_params.robot_steps[global_params.current_step].robot_turn_left_degree));
-        if((float)fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_left_degree) - 5.0f){
+        printf("update: %f\n", (float)fabsf(fabsf(sensorInfo->diffGyro) - global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle));
+        if((float)fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle) - 5.0f){
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
@@ -23,9 +23,9 @@ void robotturnleft_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 
 
 // call this function in the run motor function of the loop
-void robotturnleft_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+void robotturnlefttoidealangle_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     if(global_params.robot_state == ROBOT_TURN_LEFT) {
-        printf("running: %d\n", TURN_TIME);
+        //printf("running: %d\n", TURN_TIME);
         set_tacho_speed_sp(motorInfo->leftMotor, -60);
         set_tacho_speed_sp(motorInfo->rightMotor, 60);
         set_tacho_time_sp(motorInfo->leftMotor, TURN_TIME);
@@ -40,10 +40,21 @@ void robotturnleft_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     }
 }
 
+
+
 // this function is called whenever the state is entered to ensure starting parameter of a state is always in the
 // right form. Implement this function if you think at the start of this step sensor and motor need to be in a specific
 // state
-void robotturnleft_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+void robotturnlefttoidealangle_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
+    update_sensor_value(sensorInfo);
+    // calculate ideal angle and fix
+    float target_angle = sensorInfo->currentGyro - global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle;
+
+    global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle = fabsf(sensorInfo->currentGyro - get_ideal_angle(target_angle));
+    printf("%f", global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle);
     global_params.robot_state = ROBOT_TURN_LEFT;
 }
+
+
+

@@ -122,6 +122,7 @@ int main( void ) {
     init_robot_steps(&motorInfo, &sensorInfo);
 
     global_params.calibrated_straight_angle = get_gyro_sensor_value();
+    init_ideal_angles();
 
     while (true) {
         update_all_sensor(&sensorInfo, &motorInfo);

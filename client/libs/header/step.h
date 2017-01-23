@@ -34,6 +34,13 @@ typedef struct {
     float robot_run_timed_time_to_run; // time to run in second
     int robot_run_timed_speed;
 
+    // robotturnlefttoidealangle
+    float robot_turn_left_to_ideal_angle;
+
+    // robotturnrighttoidealangle
+    float robot_turn_right_to_ideal_angle;
+
+
 } step;
 
 

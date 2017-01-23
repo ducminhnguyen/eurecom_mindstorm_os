@@ -12,9 +12,12 @@
 // Calculate condition to change ROBOT_STATE and ROBOT step
 // Update the ROBOT_STATE and the step
 
+#define DIS_ERROR_THRES 2.0f // in centimeter
+#define DISTANCE_TO_STOP 7.0f
 
 static float robotscanforball_min_dis = 20000;
 static float robotscanforball_min_angle = 0;
+static float robotscanforball_max_angle = 0;
 static float robotscanforball_initial_gyro = 0;
 static uint8_t robotscanforball_current_step = 0;
 static step * global_current_step_pt = 0;
@@ -24,9 +27,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     //update_sensor_value(sensorInfo);
 
     // check for the obstacle
-    if (sensorInfo->currentDistance <= 9.0) {
-        global_params.robot_state = ROBOT_COMPLETE_STEP;
-        robotscanforball_current_step = 4;
+    if (global_params.robot_state == ROBOT_COMPLETE_STEP && robotscanforball_current_step == 4) {
         return;
     }
     //printf("sensor gyro %f, us %f\n", sensorInfo->currentGyro, sensorInfo->currentDistance);
@@ -37,9 +38,15 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         robotturnright_update(motorInfo, sensorInfo);
         printf("Distance %f, %f, %f\n", sensorInfo->currentDistance, robotscanforball_min_dis, robotscanforball_min_angle);
         // check for distance
-        if (sensorInfo->currentDistance < robotscanforball_min_dis) {
-            robotscanforball_min_dis = sensorInfo->currentDistance;
-            robotscanforball_min_angle = sensorInfo->currentGyro;
+        if (fabsf(sensorInfo->currentDistance - robotscanforball_min_dis) > DIS_ERROR_THRES) {
+            if (sensorInfo->currentDistance < robotscanforball_min_dis ) {
+                robotscanforball_min_dis = sensorInfo->currentDistance;
+                robotscanforball_min_angle = sensorInfo->currentGyro;
+                robotscanforball_max_angle = robotscanforball_min_angle;
+            }
+        }
+        else {
+            robotscanforball_max_angle = sensorInfo->currentGyro;
         }
     
     } 
@@ -67,10 +74,11 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 global_params.robot_state = ROBOT_TURN_LEFT;
                 robotturnleft_init_step(motorInfo, sensorInfo);
                 robotscanforball_current_step = 2; 
-                if (robotscanforball_min_dis < 30.0) {
+                if (robotscanforball_min_dis < 25.0f) {
+                    float angle = (robotscanforball_min_angle + robotscanforball_max_angle)/2;
                     ball_found = 1;
                     global_current_step_pt->robot_turn_left_degree = 
-                        fabsf(robotscanforball_min_angle - sensorInfo->currentGyro);
+                        fabsf(angle - sensorInfo->currentGyro);
                 }
                 else {
                     global_current_step_pt->robot_turn_left_degree = 
@@ -81,15 +89,15 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
             case 2: // after finding ball direction, move to it
                 if (ball_found == 1) {
                     robotscanforball_current_step = 4;
-                    global_current_step_pt->robot_run_straight_until_wall_distance_to_stop = 10.0; // stop before hit the ball 6 cm
-                    motorInfo->speed = 120;
+                    global_current_step_pt->robot_run_straight_until_wall_distance_to_stop = DISTANCE_TO_STOP; // stop before hit the ball 6 cm
+                    motorInfo->speed = 100;
                     robotrunstraightuntilwall_init_step(motorInfo, sensorInfo);
                 }
                 else { // if not, move forward a little bit
                     robotscanforball_current_step = 3;
-                    global_current_step_pt->robot_run_timed_time_to_run = 500;
+                    global_current_step_pt->robot_run_timed_time_to_run = 700;
 
-                    global_current_step_pt->robot_run_timed_speed = 400;
+                    global_current_step_pt->robot_run_timed_speed = 120;
                     robotruntimed_init_step(motorInfo, sensorInfo);
                 }
                 global_params.robot_state = ROBOT_RUN_STRAIGHT;
@@ -135,6 +143,9 @@ void robotscanforball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 // right form. Implement this function if you think at the start of this step sensor and motor need to be in a specific
 // state
 void robotscanforball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
+    
+    printf("Init Scanning for ball\n");
+
     set_sensor_initial_values(sensorInfo);
     robotscanforball_initial_gyro = sensorInfo->initialGyro;
     robotscanforball_min_dis = 20000;
