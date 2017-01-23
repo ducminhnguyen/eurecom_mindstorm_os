@@ -8,6 +8,7 @@ static float begin_time;
 
 void robotruntimed_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     float current_time = get_current_time_ms();
+    printf("%f, %f\n", begin_time, current_time);
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_RUN_STRAIGHT || global_params.robot_state == ROBOT_RUN_BACKWARD) {
         //printf("%f\n", ((double)(current_time - begin_time)) / CLOCKS_PER_SEC);
