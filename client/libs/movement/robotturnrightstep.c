@@ -5,6 +5,10 @@
 #include "../header/robotturnrightstep.h"
 #include "../header/std_include.h"
 
+#ifndef GYRO_ERROR
+#define GYRO_ERROR 3.0f
+#endif
+
 static float turn_angle;
 static bool robotturnright_running = FALSE;
 
@@ -13,7 +17,7 @@ void robotturnright_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_TURN_RIGHT) {
         //if((float)fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_left_degree) - 5.0f){
-        if((float)fabsf(sensorInfo->diffGyro) >= (turn_angle - 5.0f) ){
+        if((float)fabsf(sensorInfo->diffGyro) >= (turn_angle - GYRO_ERROR) ){
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {

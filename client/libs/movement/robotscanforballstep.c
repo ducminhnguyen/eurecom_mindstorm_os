@@ -68,11 +68,11 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                 global_params.robot_state = ROBOT_TURN_RIGHT;
 
                 robotturnright_init_step(motorInfo, sensorInfo);
+                global_current_step_pt->robot_turn_right_degree = 90;
                 robotscanforball_current_step = 1;
                 break;
             case 1: // change turn state
                 global_params.robot_state = ROBOT_TURN_LEFT;
-                robotturnleft_init_step(motorInfo, sensorInfo);
                 robotscanforball_current_step = 2; 
                 if (robotscanforball_min_dis < 20.0f) {
                     float angle = (robotscanforball_min_angle + robotscanforball_max_angle)/2;
@@ -84,6 +84,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                     global_current_step_pt->robot_turn_left_degree = 
                         fabsf(sensorInfo->currentGyro - robotscanforball_initial_gyro);
                 }
+                robotturnleft_init_step(motorInfo, sensorInfo);
                 printf("turn left degree: %f\n", global_current_step_pt->robot_turn_left_degree);
                 break;
             case 2: // after finding ball direction, move to it
@@ -148,7 +149,7 @@ void robotscanforball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     printf("Init Scanning for ball\n");
 
     set_sensor_initial_values(sensorInfo);
-    robotscanforball_initial_gyro = sensorInfo->initialGyro;
+    robotscanforball_initial_gyro = global_params.ideal_target_angle;
     robotscanforball_min_dis = 20000;
     robotscanforball_min_angle = 0;
     robotscanforball_current_step = 0;
@@ -156,7 +157,6 @@ void robotscanforball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     global_current_step_pt = &global_params.robot_steps[global_params.current_step];
 
     global_current_step_pt->robot_turn_left_degree = 55;
-    global_current_step_pt->robot_turn_right_degree = 90;
 
     global_params.robot_state = ROBOT_TURN_LEFT;
     robotturnleft_init_step(motorInfo, sensorInfo);
