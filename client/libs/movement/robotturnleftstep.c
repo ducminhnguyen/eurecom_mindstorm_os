@@ -48,7 +48,7 @@ void robotturnleft_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 void robotturnleft_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
     global_params.ideal_target_angle -= global_params.robot_steps[global_params.current_step].robot_turn_left_degree;
-    printf("Ideal angle, current angle: %f, %f", global_params.ideal_target_angle, sensorInfo->initialGyro);
+    printf("Turnning left: ideal angle, current angle: %f, %f", global_params.ideal_target_angle, sensorInfo->initialGyro);
     turn_angle = fabsf(global_params.ideal_target_angle - sensorInfo->initialGyro);
     global_params.robot_state = ROBOT_TURN_LEFT;
 }
