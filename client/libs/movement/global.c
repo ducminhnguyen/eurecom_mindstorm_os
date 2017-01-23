@@ -71,3 +71,60 @@ void init_ideal_angles() {
     global_params.ideal_right_angle = global_params.calibrated_straight_angle + 90;
     global_params.ideal_behind_angle = global_params.calibrated_straight_angle - 180;
 }
+
+
+int get_min_position_array(float* arr, int size) {
+    int position = 0;
+    float min_val = arr[0];
+    for (int i = 1; i < size ; ++i) {
+        if (arr[i] < min_val) {
+            min_val = arr[i];
+            position = i;
+        }
+    }
+    return position;
+}
+
+float angle_diff_normalized(float pivot_angle, float target_angle) {
+    float diff_with_ideal_straight = (pivot_angle - target_angle) / 360.0f;
+    float normalize_angle = (diff_with_ideal_straight - ((int)diff_with_ideal_straight)) * 360.0f;
+    if (normalize_angle < 0) {
+        if (fabsf(normalize_angle) > fabsf(normalize_angle + 360)) {
+            return normalize_angle + 360;
+        } else {
+            return normalize_angle;
+        }
+    } else if (normalize_angle > 0) {
+        if (fabsf(normalize_angle) > fabsf(normalize_angle - 360)) {
+            return normalize_angle - 360;
+        } else {
+            return normalize_angle;
+        }
+    } else {
+        return normalize_angle;
+    }
+}
+
+float get_ideal_angle(float target_angle) {
+    float arr[4], absarr[4];
+    arr[0] = angle_diff_normalized(global_params.ideal_straight_angle, target_angle);
+    absarr[0] = fabsf(arr[0]);
+    arr[1] = angle_diff_normalized(global_params.ideal_left_angle, target_angle);
+    absarr[1] = fabsf(arr[1]);
+    arr[2] = angle_diff_normalized(global_params.ideal_right_angle, target_angle);
+    absarr[2] = fabsf(arr[2]);
+    arr[3] = angle_diff_normalized(global_params.ideal_behind_angle, target_angle);
+    absarr[3] = fabsf(arr[3]);
+
+    int position = get_min_position_array(absarr, 4);
+
+    if (position == 0) {
+        return target_angle + arr[0];
+    } else if (position == 1) {
+        return target_angle + arr[1];
+    } else if (position == 2) {
+        return target_angle + arr[2];
+    } else {
+        return target_angle + arr[3];
+    }
+}

@@ -78,4 +78,6 @@ int update_robot_position(global_parameters *global_param, MotorInfo* motorInfo,
 
 void init_ideal_angles();
 
+float get_ideal_angle(float target_angle);
+
 #endif //OS_ROBOT_PROJECT_FALL2016_GLOBAL_H

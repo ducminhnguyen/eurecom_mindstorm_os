@@ -9,7 +9,7 @@
 void robotturnrighttoidealangle_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     if (global_params.robot_state == ROBOT_TURN_RIGHT) {
-        if (fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_right_degree) - 5.0f) {
+        if (fabsf(sensorInfo->diffGyro) >= (global_params.robot_steps[global_params.current_step].robot_turn_right_to_ideal_angle) - 5.0f) {
             global_params.robot_state = ROBOT_STOP_RUNNING;
         }
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
@@ -43,5 +43,11 @@ void robotturnrighttoidealangle_run_motor(MotorInfo *motorInfo, SensorInfo *sens
 // state
 void robotturnrighttoidealangle_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
+    update_sensor_value(sensorInfo);
+    // calculate ideal angle and fix
+    float target_angle = sensorInfo->currentGyro + global_params.robot_steps[global_params.current_step].robot_turn_right_to_ideal_angle;
+
+    global_params.robot_steps[global_params.current_step].robot_turn_right_to_ideal_angle = fabsf(sensorInfo->currentGyro - get_ideal_angle(target_angle));
+
     global_params.robot_state = ROBOT_TURN_RIGHT;
 }
