@@ -65,7 +65,7 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].update_all = &robotgrabball_update;
     ++cur_num;
 
-    stepArr[cur_num].init_step = &robotturnlefttoidealangle_init_step_init_step;
+    stepArr[cur_num].init_step = &robotturnlefttoidealangle_init_step;
     stepArr[cur_num].run_motor = &robotturnlefttoidealangle_run_motor;
     stepArr[cur_num].update_all = &robotturnlefttoidealangle_update;
     stepArr[cur_num].robot_turn_left_to_ideal_angle = 180;
@@ -77,7 +77,7 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].robot_run_straight_until_wall_distance_to_stop = 10.0f;
     ++cur_num;
 
-    stepArr[cur_num].init_step = &robotturnlefttoidealangle_init_step_init_step;
+    stepArr[cur_num].init_step = &robotturnlefttoidealangle_init_step;
     stepArr[cur_num].run_motor = &robotturnlefttoidealangle_run_motor;
     stepArr[cur_num].update_all = &robotturnlefttoidealangle_update;
     stepArr[cur_num].robot_turn_left_to_ideal_angle = 90;
