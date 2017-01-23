@@ -70,6 +70,7 @@ void init_ideal_angles() {
     global_params.ideal_left_angle = global_params.calibrated_straight_angle - 90;
     global_params.ideal_right_angle = global_params.calibrated_straight_angle + 90;
     global_params.ideal_behind_angle = global_params.calibrated_straight_angle - 180;
+    //global_params.ideal_target_angle = global_params.calibrated_straight_angle;
 }
 
 
