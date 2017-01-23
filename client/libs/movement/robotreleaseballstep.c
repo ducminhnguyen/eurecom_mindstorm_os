@@ -51,11 +51,11 @@ void robotreleaseball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         if (sensorInfo->diffGyro < 0) {
             set_tacho_speed_sp(motorInfo->rightMotor, (run_speed + 10*abs(sensorInfo->diffGyro)));
             set_tacho_speed_sp(motorInfo->leftMotor, run_speed);
-            printf("Left tilt: %f \n", sensorInfo->diffGyro);
+            //printf("Left tilt: %f \n", sensorInfo->diffGyro);
         } else if (sensorInfo->diffGyro > 0) {
             set_tacho_speed_sp(motorInfo->rightMotor, run_speed);
             set_tacho_speed_sp(motorInfo->leftMotor, (run_speed + 10*abs(sensorInfo->diffGyro)));
-            printf("Right tilt: %f \n", sensorInfo->diffGyro);
+            //printf("Right tilt: %f \n", sensorInfo->diffGyro);
         } else {
             set_tacho_speed_sp(motorInfo->leftMotor, run_speed);
             set_tacho_speed_sp(motorInfo->rightMotor, run_speed);

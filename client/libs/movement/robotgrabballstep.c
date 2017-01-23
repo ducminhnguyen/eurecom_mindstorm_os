@@ -13,7 +13,7 @@ static double begin_time;
 void robotgrabball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
     double current_time = get_current_time_ms();
-    printf("%f, %f", begin_time, current_time);
+    //printf("%f, %f", begin_time, current_time);
     if (global_params.robot_state == ROBOT_OPEN_GRABBER) {
         if (((current_time - begin_time)) > (GRABBER_TIME)) {
             begin_time = current_time;

@@ -17,7 +17,7 @@ void robotrunstraightuntilwall_update(MotorInfo *motorInfo, SensorInfo *sensorIn
         // move to next step();
         // movetonextstep(&global_params, motorInfo, sensorInfo);
         // for individual step testing comment this
-        printf("Complete");
+        //printf("Complete");
         global_params.robot_state = ROBOT_COMPLETE_STEP;
     }
 }
