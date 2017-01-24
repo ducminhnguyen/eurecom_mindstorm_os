@@ -66,9 +66,9 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         switch (robotscanforball_current_step) {
             case 0: // change from turn left to right
                 global_params.robot_state = ROBOT_TURN_RIGHT;
+                global_current_step_pt->robot_turn_right_degree = 90;
 
                 robotturnright_init_step(motorInfo, sensorInfo);
-                global_current_step_pt->robot_turn_right_degree = 90;
                 robotscanforball_current_step = 1;
                 break;
             case 1: // change turn state
