@@ -59,7 +59,7 @@ void robotturnlefttoidealangle_init_step(MotorInfo *motorInfo, SensorInfo *senso
         global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle -= 360;
     }
 
-    global_params.ideal_target_angle = robot_turn_left_to_ideal_angle;
+    global_params.ideal_target_angle = global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle;
 
     printf("Turning to ideal\n");
 
