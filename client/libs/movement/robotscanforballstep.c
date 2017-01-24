@@ -92,7 +92,7 @@ void robotscanforball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
                     robotscanforball_current_step = 4;
                     global_current_step_pt->robot_run_straight_until_wall_distance_to_stop = DISTANCE_TO_STOP; // stop before hit the ball 6 cm
                     motorInfo->speed = 100;
-                    global_current_step_pt->robot_run_timed_speed = 120;
+                    global_current_step_pt->robot_run_timed_speed = motorInfo->speed;
                     robotrunstraightuntilwall_init_step(motorInfo, sensorInfo);
                 }
                 else { // if not, move forward a little bit
