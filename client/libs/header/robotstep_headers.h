@@ -6,6 +6,8 @@
 #include "robotrunstraightuntilwallstep.h"
 #include "robotruntimedstep.h"
 #include "robotscanforballstep.h"
+#include "robotsendballmsgstep.h"
+#include "robotsendnextmsgstep.h"
 #include "robotturnaroundstep.h"
 #include "robotturnleftstep.h"
 #include "robotturnlefttoidealanglestep.h"
