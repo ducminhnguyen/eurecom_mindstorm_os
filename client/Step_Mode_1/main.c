@@ -90,7 +90,7 @@ void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.robot_steps[global_params.current_step].init_step(motorInfo, sensorInfo);
 }
 
-int main( void ) {
+int main( int argc, char **argv  ) {
 
 #ifndef __ARM_ARCH_4T__
     /* Disable auto-detection of the brick (you have to set the correct address below) */
@@ -141,7 +141,7 @@ int main( void ) {
     if(connect_status == 0){
         printf("Server connected.\n");
         while (true) {
-            ReadServerMsg(&global_params, 58)
+            ReadServerMsg(&global_params, 58);
             unsigned char msg_type = GetMessageType(&global_params);
             if(msg_type != MSG_START){
                 continue;
