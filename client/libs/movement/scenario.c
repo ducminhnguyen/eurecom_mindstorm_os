@@ -187,10 +187,10 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].update_all = &robotreleaseball_update;
     ++cur_num;
 
-    stepArr[cur_num].init_step = &robotturnlefttoidealangle_init_step;
-    stepArr[cur_num].run_motor = &robotturnlefttoidealangle_run_motor;
-    stepArr[cur_num].update_all = &robotturnlefttoidealangle_update;
-    stepArr[cur_num].robot_turn_left_to_ideal_angle = 180;
+    stepArr[cur_num].init_step = &robotturnleft_init_step;
+    stepArr[cur_num].run_motor = &robotturnleft_run_motor;
+    stepArr[cur_num].update_all = &robotturnleft_update;
+    stepArr[cur_num].robot_turn_left_degree = 180;
     ++cur_num;
 
     stepArr[cur_num].init_step = &robotrunstraightuntilwall_init_step;
