@@ -105,16 +105,16 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].update_all = &robotgrabball_update;
     ++cur_num;
 
-    stepArr[cur_num].init_step = &robotturnleft_init_step;
-    stepArr[cur_num].run_motor = &robotturnleft_run_motor;
-    stepArr[cur_num].update_all = &robotturnleft_update;
-    stepArr[cur_num].robot_turn_left_degree = 180;
+    stepArr[cur_num].init_step = &robotturnlefttoidealangle_init_step;
+    stepArr[cur_num].run_motor = &robotturnlefttoidealangle_run_motor;
+    stepArr[cur_num].update_all = &robotturnlefttoidealangle_update;
+    stepArr[cur_num].robot_turn_left_to_ideal_angle = 180;
     ++cur_num;
 
     stepArr[cur_num].init_step = &robotrunstraightuntilwall_init_step;
     stepArr[cur_num].run_motor = &robotrunstraightuntilwall_run_motor;
     stepArr[cur_num].update_all = &robotrunstraightuntilwall_update;
-    stepArr[cur_num].robot_run_straight_until_wall_distance_to_stop = 10.0f;
+    stepArr[cur_num].robot_run_straight_until_wall_distance_to_stop = 14.0f;
     stepArr[cur_num].robot_run_timed_speed = 300.0f;
     ++cur_num;
 
@@ -155,9 +155,10 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].robot_turn_right_degree = 90;
     ++cur_num;
 
-    stepArr[cur_num].init_step = &robotrunstraight_init_step;
-    stepArr[cur_num].run_motor = &robotrunstraight_run_motor;
-    stepArr[cur_num].update_all = &robotrunstraight_update;
+    stepArr[cur_num].init_step = &robotrunstraightuntilwall_init_step;
+    stepArr[cur_num].run_motor = &robotrunstraightuntilwall_run_motor;
+    stepArr[cur_num].update_all = &robotrunstraightuntilwall_update;
+    stepArr[cur_num].robot_run_straight_until_wall_distance_to_stop = 56.0f;
     ++cur_num;
 
     stepArr[cur_num].init_step = &robotreleaseball_init_step;
