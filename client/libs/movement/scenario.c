@@ -162,6 +162,13 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].robot_run_timed_speed = 300.0f;
     ++cur_num;
 
+    stepArr[cur_num].init_step = &robotruntimed_init_step;
+    stepArr[cur_num].run_motor = &robotruntimed_run_motor;
+    stepArr[cur_num].update_all = &robotruntimed_update;
+    stepArr[cur_num].robot_run_timed_time_to_run = 2500;
+    stepArr[cur_num].robot_run_timed_speed = 0;
+    ++cur_num;
+
     stepArr[cur_num].init_step = &robotreleaseball_init_step;
     stepArr[cur_num].run_motor = &robotreleaseball_run_motor;
     stepArr[cur_num].update_all = &robotreleaseball_update;
