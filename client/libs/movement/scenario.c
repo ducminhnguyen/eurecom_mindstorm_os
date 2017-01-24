@@ -158,7 +158,7 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].init_step = &robotrunstraightuntilwall_init_step;
     stepArr[cur_num].run_motor = &robotrunstraightuntilwall_run_motor;
     stepArr[cur_num].update_all = &robotrunstraightuntilwall_update;
-    stepArr[cur_num].robot_run_straight_until_wall_distance_to_stop = 56.0f;
+    stepArr[cur_num].robot_run_straight_until_wall_distance_to_stop = 52.0f;
     stepArr[cur_num].robot_run_timed_speed = 300.0f;
     ++cur_num;
 
