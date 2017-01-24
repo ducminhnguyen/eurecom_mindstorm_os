@@ -117,6 +117,11 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].run_motor = &robotgrabball_run_motor;
     stepArr[cur_num].update_all = &robotgrabball_update;
     ++cur_num;
+    
+    stepArr[cur_num].init_step = &robotsendballmsg_init_step;
+    stepArr[cur_num].run_motor = &robotsendballmsg_run_motor;
+    stepArr[cur_num].update_all = &robotsendballmsg_update;
+    ++cur_num;
 
     stepArr[cur_num].init_step = &robotturnlefttoidealangle_init_step;
     stepArr[cur_num].run_motor = &robotturnlefttoidealangle_run_motor;
@@ -149,6 +154,17 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].update_all = &robotturnleft_update;
     stepArr[cur_num].robot_turn_left_degree = 180;
     ++cur_num;
+
+    // Finish first round
+    stepArr[cur_num].init_step = &robotsendnextmsg_init_step;
+    stepArr[cur_num].run_motor = &robotsendnextmsg_run_motor;
+    stepArr[cur_num].update_all = &robotsendnextmsg_update;
+    ++cur_num;
+
+    stepArr[cur_num].init_step = &robotwaitforserver_init_step;
+    stepArr[cur_num].run_motor= &robotwaitforsever_run_motor;
+    stepArr[cur_num].update_all= &robotwaitforserver_update;
+    ++cur_num
 
     stepArr[cur_num].init_step = &robotrunstraight_init_step;
     stepArr[cur_num].run_motor = &robotrunstraight_run_motor;
@@ -187,6 +203,11 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].update_all = &robotreleaseball_update;
     ++cur_num;
 
+    stepArr[cur_num].init_step = &robotsendballmsg_init_step;
+    stepArr[cur_num].run_motor = &robotsendballmsg_run_motor;
+    stepArr[cur_num].update_all = &robotsendballmsg_update;
+    ++cur_num;
+
     stepArr[cur_num].init_step = &robotturnleft_init_step;
     stepArr[cur_num].run_motor = &robotturnleft_run_motor;
     stepArr[cur_num].update_all = &robotturnleft_update;
@@ -218,6 +239,16 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].update_all = &robotturnright_update;
     stepArr[cur_num].robot_turn_right_degree = 180;
     ++cur_num;
+
+    stepArr[cur_num].init_step = &robotsendnextmsg_init_step;
+    stepArr[cur_num].run_motor = &robotsendnextmsg_run_motor;
+    stepArr[cur_num].update_all = &robotsendnextmsg_update;
+    ++cur_num;
+
+    stepArr[cur_num].init_step = &robotwaitforserver_init_step;
+    stepArr[cur_num].run_motor= &robotwaitforsever_run_motor;
+    stepArr[cur_num].update_all= &robotwaitforserver_update;
+    ++cur_num
 //    stepArr[4].init_step = &robotrunstraight_init_step;
 //    stepArr[4].run_motor = &robotrunstraight_run_motor;
 //    stepArr[4].update_all = &robotrunstraight_update;
