@@ -105,7 +105,6 @@ void ToDestination(global_parameters *glo_param){
  * Send the current position of the robot to the server
  */
 void SendRobotPosition(global_parameters *glo_param){
-    printf("Sending Robot's position");
     unsigned char special = 0xFF;
     *((uint16_t *)  glo_param->btObj.msg) = glo_param->btObj.msgId++;
     glo_param->btObj.msg[2] = TEAM_ID;
@@ -115,6 +114,8 @@ void SendRobotPosition(global_parameters *glo_param){
     glo_param->btObj.msg[6] = 0x00;
     glo_param->btObj.msg[7] = glo_param->btObj.pos.y;
     glo_param->btObj.msg[8] = 0x00;
+    printf("Sending Robot's position: %02X%02X,%02X%02X \n",
+                       global_params.btObj.msg[6], global_params.btObj.msg[5], global_params.btObj.msg[8], global_params.btObj.msg[7]);
     write(glo_param->btObj.socket, glo_param->btObj.msg, 9);
 }
 
@@ -123,7 +124,6 @@ void SendRobotPosition(global_parameters *glo_param){
  * @param act : the act of grab or release ball. 0->release; 1->grab
  */
 void SendBallMessage(global_parameters *glo_param){
-    printf("Sending Ball's position");
     *((uint16_t *) glo_param->btObj.msg) = glo_param->btObj.msgId++;
     glo_param->btObj.msg[2] = TEAM_ID;
     glo_param->btObj.msg[3] = glo_param->btObj.info.ally;
@@ -138,6 +138,8 @@ void SendBallMessage(global_parameters *glo_param){
     glo_param->btObj.msg[7] = 0x00;
     glo_param->btObj.msg[8] = glo_param->btObj.pos.y;
     glo_param->btObj.msg[9] = 0x00;
+    printf("Sending Ball's position: %02X%02X,%02X%02X \n",
+                       global_params.btObj.msg[7], global_params.btObj.msg[6], global_params.btObj.msg[9], global_params.btObj.msg[8]);
     write(glo_param->btObj.socket,  glo_param->btObj.msg, 10);
 }
 
