@@ -41,6 +41,7 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].update_all = &robotrunstraight_update;
     stepArr[cur_num].robot_run_straight_color_threshold = 30;
     cur_num = cur_num + 1;
+    
 //    stepArr[cur_num].init_step = &robotrunstraightuntilwall_init_step;
 //    stepArr[cur_num].run_motor = &robotrunstraightuntilwall_run_motor;
 //    stepArr[cur_num].update_all = &robotrunstraightuntilwall_update;
@@ -59,6 +60,40 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].update_all = &robotturnleft_update;
     stepArr[cur_num].robot_turn_left_degree = 90.0f;
     ++cur_num;
+
+    //for testing
+
+    // stepArr[cur_num].init_step = &robotturnleft_init_step;
+    // stepArr[cur_num].run_motor = &robotturnleft_run_motor;
+    // stepArr[cur_num].update_all = &robotturnleft_update;
+    // stepArr[cur_num].robot_turn_left_degree = 30.0f;
+    // ++cur_num;
+
+    // stepArr[cur_num].init_step = &robotturnleft_init_step;
+    // stepArr[cur_num].run_motor = &robotturnleft_run_motor;
+    // stepArr[cur_num].update_all = &robotturnleft_update;
+    // stepArr[cur_num].robot_turn_left_degree = 60.0f;
+    // ++cur_num;
+
+    // stepArr[cur_num].init_step = &robotturnright_init_step;
+    // stepArr[cur_num].run_motor = &robotturnright_run_motor;
+    // stepArr[cur_num].update_all = &robotturnright_update;
+    // stepArr[cur_num].robot_turn_right_degree = 30.0f;
+    // ++cur_num;
+
+    // stepArr[cur_num].init_step = &robotturnright_init_step;
+    // stepArr[cur_num].run_motor = &robotturnright_run_motor;
+    // stepArr[cur_num].update_all = &robotturnright_update;
+    // stepArr[cur_num].robot_turn_right_degree = 90.0f;
+    // ++cur_num;
+
+    // stepArr[cur_num].init_step = &robotturnright_init_step;
+    // stepArr[cur_num].run_motor = &robotturnright_run_motor;
+    // stepArr[cur_num].update_all = &robotturnright_update;
+    // stepArr[cur_num].robot_turn_right_degree = 60.0f;
+    // ++cur_num;
+
+    // end for test
 
     stepArr[cur_num].init_step = &robotscanforball_init_step;
     stepArr[cur_num].run_motor = &robotscanforball_run_motor;
