@@ -21,7 +21,7 @@ void robotreleaseball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         }
     }
     else if (global_params.robot_state == ROBOT_RUN_BACKWARD) {
-        if (((double)(current_time - begin_time)) > 0.7f) {
+        if (((double)(current_time - begin_time)) > 1.0f) {
             global_params.robot_state = ROBOT_CLOSE_GRABBER;
             begin_time = current_time;
         }
@@ -98,7 +98,7 @@ void robotreleaseball_init_step(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     set_sensor_initial_values(sensorInfo);
     begin_time = get_current_time_ms() / 1000.0f;
     global_params.robot_state = ROBOT_OPEN_GRABBER;
-    motorInfo->speed = 200;
+    motorInfo->speed = 250;
     global_params.robot_steps[global_params.current_step].robot_run_timed_time_to_run = 1000.0f;
     global_params.robot_steps[global_params.current_step].robot_run_timed_speed = 200.0f;
 }
