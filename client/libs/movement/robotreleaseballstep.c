@@ -21,7 +21,7 @@ void robotreleaseball_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
         }
     }
     else if (global_params.robot_state == ROBOT_RUN_BACKWARD) {
-        if (((double)(current_time - begin_time)) > 1.0f) {
+        if (((double)(current_time - begin_time)) > 1.5f) {
             global_params.robot_state = ROBOT_CLOSE_GRABBER;
             begin_time = current_time;
         }
