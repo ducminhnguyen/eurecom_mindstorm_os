@@ -22,13 +22,13 @@ void robotwaitforserver_update(MotorInfo *motorInfo, SensorInfo *sensorInfo){
                 close(global_params.btObj.socket);
                 global_params.robot_state = ROBOT_FINISH_PROGRAM;
             case MSG_NEXT:
-                printf("Received Next message");
+                printf("Received Next message.\n");
                 global_params.robot_state = ROBOT_COMPLETE_STEP;
             case MSG_BALL:
                 printf("Receive message ball position at %02X%02X,%02X%02X \n",
                        global_params.btObj.msg[7], global_params.btObj.msg[6], global_params.btObj.msg[9], global_params.btObj.msg[8]);
             default:
-                printf("Ignore message %d\b", msg_type);
+                printf("Ignore message %d\b\n", msg_type);
         }
     }
 }

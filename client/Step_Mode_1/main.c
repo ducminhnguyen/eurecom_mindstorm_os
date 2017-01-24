@@ -90,7 +90,7 @@ void init_robot_steps(MotorInfo* motorInfo, SensorInfo* sensorInfo) {
     global_params.robot_steps[global_params.current_step].init_step(motorInfo, sensorInfo);
 }
 
-int main( void ) {
+int main( int argc, char **argv  ) {
 
 #ifndef __ARM_ARCH_4T__
     /* Disable auto-detection of the brick (you have to set the correct address below) */
@@ -126,14 +126,52 @@ int main( void ) {
     global_params.calibrated_straight_angle = get_gyro_sensor_value();
     init_ideal_angles();
     //scenario_test_init(&motorInfo, &sensorInfo);
+    char* server_address = argv[1];
+    InitBtObject(&global_params, server_address);
+    if((unsigned char) argv[2] == 0){
+        global_params.btObj.info.stadium = SMALL;
+    }
+    else{
+        global_params.btObj.info.stadium = BIG;
+    }
 
+    //Connect to the server
+    int connect_status = ConnectBtServer(&global_params);
+    //Connected
+    if(connect_status == 0){
+        printf("Server connected.\n");
+        while (true) {
+            ReadServerMsg(&global_params, 58);
+            unsigned char msg_type = GetMessageType(&global_params);
+            if(msg_type != MSG_START){
+                continue;
+            }
+            else{
+                break;
+            }
+        }
+        printf("Receive START message! Initializing robot...\n");
+        InitGameInfo(&global_params);
+        scenario_small_stadium_beginner_init(&motorInfo, &sensorInfo);
+        while(true){
+            update_all_sensor(&sensorInfo, &motorInfo);
+            run_robot(&sensorInfo, &motorInfo);
+        }
 
-    scenario_small_stadium_beginner_init(&motorInfo, &sensorInfo);
+    } else {
+        fprintf (stderr, "Failed to connect to server...\n");
+        sleep (2);
+        exit (EXIT_FAILURE);
+    }
+
+    close(global_params.btObj.socket);
+
+   
     //init_robot_steps(&motorInfo, &sensorInfo);
     //scenario_small_stadium_beginner_init(&motorInfo, &sensorInfo)
-    while (true) {
-        update_all_sensor(&sensorInfo, &motorInfo);
-        run_robot(&sensorInfo, &motorInfo);
-    }
+    //while (true) {
+    //    update_all_sensor(&sensorInfo, &motorInfo);
+    //    run_robot(&sensorInfo, &motorInfo);
+    //}
 }
 
