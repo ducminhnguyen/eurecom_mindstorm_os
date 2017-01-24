@@ -140,7 +140,7 @@ int main(int argc, char **argv ) {
     int connect_status = ConnectBtServer(&global_params);
     //Connected
     if(connect_status == 0){
-        fprintf("Server connected.\n");
+        printf("Server connected.\n");
         while (true) {
             update_all_sensor(&sensorInfo, &motorInfo);
             run_robot(&sensorInfo, &motorInfo);

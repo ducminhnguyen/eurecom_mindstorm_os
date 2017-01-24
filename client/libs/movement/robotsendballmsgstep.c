@@ -5,7 +5,7 @@
 #include "../header/motorControl.h"
 #include "../header/global.h"
 #include "../header/std_include.h"
-#include "../header/robotwaitforserverstep.h"
+#include "../header/robotsendballmsgstep.h"
 #include "../header/bluetooth.h"
 
 void robotsendballmsg_update(MotorInfo *motorInfo, SensorInfo *sensorInfo){
