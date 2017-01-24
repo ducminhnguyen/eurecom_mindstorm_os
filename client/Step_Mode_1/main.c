@@ -153,12 +153,12 @@ int main( int argc, char **argv  ) {
         printf("Receive START message! Initializing robot...\n");
         InitGameInfo(&global_params);
         //if(global_params.btObj.info.stadium == SMALL){
-            //if(global_params.btObj.info.role == BEGINNER){
+            if(global_params.btObj.info.role == BEGINNER){
                 scenario_small_stadium_beginner_init(&motorInfo, &sensorInfo);
-            //}
-            //else{
-                //scenario_small_stadium_finisher_init(&motorInfo, &sensorInfo);
-            //}
+            }
+            else{
+                scenario_small_stadium_finisher_init(&motorInfo, &sensorInfo);
+            }
         //}
         //TODO: Large stadium
         while(true){
