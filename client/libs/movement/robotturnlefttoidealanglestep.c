@@ -8,7 +8,7 @@
 // call this function in the update all function in the loop
 void robotturnlefttoidealangle_update(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
     update_sensor_value(sensorInfo);
-    float adjust = (global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle > 0)? -5.0f:5.0f;
+    float adjust = (global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle > 0)? -3.0f:3.0f;
     if (global_params.robot_state == ROBOT_TURN_LEFT) {
         //printf("update: %f\n", (float)fabsf(fabsf(sensorInfo->diffGyro) - global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle));
         if (sensorInfo->currentGyro < global_params.robot_steps[global_params.current_step].robot_turn_left_to_ideal_angle + adjust){
