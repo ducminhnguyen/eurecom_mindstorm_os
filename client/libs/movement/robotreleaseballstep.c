@@ -72,7 +72,7 @@ void robotreleaseball_run_motor(MotorInfo *motorInfo, SensorInfo *sensorInfo) {
 
         set_tacho_speed_sp(motorInfo->graberMotor, GRABBER_SPEED);
         set_tacho_time_sp(motorInfo->graberMotor, GRABBER_TIME);
-        set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_FOREVER);
+        set_tacho_command_inx(motorInfo->graberMotor, TACHO_RUN_TIMED);
         
     } else if (global_params.robot_state == ROBOT_STOP_RUNNING) {
         set_tacho_speed_sp(motorInfo->leftMotor, 0);
