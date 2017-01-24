@@ -164,7 +164,7 @@ void scenario_small_stadium_beginner_init(MotorInfo* motorInfo, SensorInfo* sens
     stepArr[cur_num].init_step = &robotwaitforserver_init_step;
     stepArr[cur_num].run_motor= &robotwaitforsever_run_motor;
     stepArr[cur_num].update_all= &robotwaitforserver_update;
-    ++cur_num
+    ++cur_num;
 
     stepArr[cur_num].init_step = &robotrunstraight_init_step;
     stepArr[cur_num].run_motor = &robotrunstraight_run_motor;
