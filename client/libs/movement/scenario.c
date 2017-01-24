@@ -303,10 +303,16 @@ void scenario_small_stadium_finisher_init(MotorInfo* motorInfo, SensorInfo *sens
     stepArr[cur_num].update_all= &robotwaitforserver_update;
     ++cur_num;
 
-    stepArr[cur_num].init_step = &robotrunstraightuntilwall_init_step;
-    stepArr[cur_num].run_motor = &robotrunstraightuntilwall_run_motor;
-    stepArr[cur_num].update_all = &robotrunstraightuntilwall_update;
-    stepArr[cur_num].robot_run_straight_until_wall_distance_to_stop = 87.0f;
+    // stepArr[cur_num].init_step = &robotrunstraightuntilwall_init_step;
+    // stepArr[cur_num].run_motor = &robotrunstraightuntilwall_run_motor;
+    // stepArr[cur_num].update_all = &robotrunstraightuntilwall_update;
+    // stepArr[cur_num].robot_run_straight_until_wall_distance_to_stop = 87.0f;
+    // cur_num = cur_num + 1;
+
+    stepArr[cur_num].init_step = &robotrunstraight_init_step;
+    stepArr[cur_num].run_motor = &robotrunstraight_run_motor;
+    stepArr[cur_num].update_all = &robotrunstraight_update;
+    stepArr[cur_num].robot_run_straight_color_threshold = 30;
     cur_num = cur_num + 1;
 
     stepArr[cur_num].init_step = &robotruntimed_init_step;
