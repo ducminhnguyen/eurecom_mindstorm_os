@@ -49,5 +49,7 @@ void robotturnrighttoidealangle_init_step(MotorInfo *motorInfo, SensorInfo *sens
 
     global_params.robot_steps[global_params.current_step].robot_turn_right_to_ideal_angle = fabsf(sensorInfo->currentGyro - get_ideal_angle(target_angle));
 
+    global_params.ideal_target_angle += global_params.robot_steps[global_params.current_step].robot_turn_right_to_ideal_angle;
+
     global_params.robot_state = ROBOT_TURN_RIGHT;
 }
