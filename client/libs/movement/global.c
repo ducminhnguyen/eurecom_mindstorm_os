@@ -7,7 +7,9 @@
 #include <math.h>
 #include "../header/bluetooth.h"
 
+#ifndef PI
 #define PI 3.14159265
+#endif
 
 int movetonextstep(global_parameters *global_param, MotorInfo* motorInfo, SensorInfo *sensorInfo) {
     if (global_param->run_style == LOOP) {
@@ -28,16 +30,16 @@ int movetonextstep(global_parameters *global_param, MotorInfo* motorInfo, Sensor
 
 
 int update_robot_position(global_parameters *global_param, MotorInfo* motorInfo, SensorInfo* sensorInfo) {
-    static time_t previous_updated_time = 0;
+    static double previous_updated_time = 0.0;
     static float previous_us_value = -1.0;
-    time_t current_time = time(NULL);
+    double current_time = get_current_time_ms();
 
-    if (global_param->robot_state == ROBOT_RUN_STRAIGHT) {
+    if (global_param->robot_state == ROBOT_RUN_STRAIGHT || global_param->robot_state == ROBOT_RUN_BACKWARD) {
         // update position based-on gyro and ultra sonic sensor
         if (previous_us_value > 0) { // not the first time to check when run straight
             float d_x, d_y, d_d;
             d_d = sensorInfo->currentDistance - previous_us_value; // difference in us distance
-            if (d_d > 1.0) { // in case sensor get right value
+            if (fabsf(d_d) > 1.0) { // in case sensor get right value
                 d_x = cos(PI * ((sensorInfo->currentGyro - global_param->robot_direction_x) / 180.0)) * d_d;
                 d_y = cos(PI * ((sensorInfo->currentGyro - global_param->robot_direction_y) / 180.0)) * d_d;
 
@@ -56,8 +58,9 @@ int update_robot_position(global_parameters *global_param, MotorInfo* motorInfo,
     if (current_time - previous_updated_time >= 2) {
         /* code */
         // send bluetooth position to server
-        global_param->btObj.pos.x = global_param->robot_position_x;
-        global_param->btObj.pos.y = global_param->robot_position_y;
+        global_param->btObj.pos.x = (int)global_param->robot_position_x;
+        global_param->btObj.pos.y = (int)global_param->robot_position_y;
+        printf("Bluetooth position: (%d, %d)\n", global_param->btObj.pos.x, global_param->btObj.pos.y);
         SendRobotPosition(global_param);
         previous_updated_time = current_time;
     }
